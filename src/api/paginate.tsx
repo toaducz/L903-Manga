@@ -93,7 +93,7 @@ export type Author = {
   }>
 }
 
-export type dataRespone<T> = {
+export type DataResponse<T> = {
   result: string
   response: string
   data: T[]

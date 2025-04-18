@@ -5,17 +5,21 @@ export async function request<T, P = any>(
   url?: string,
   headers: HeaderType = {}
 ): Promise<T | null> {
-  let params = ''
-  if (method === 'POST') {
-    // Bạn không dùng POST nên bỏ qua
-  } else if (method === 'GET') {
-    if (payload) {
-      params = `?${new URLSearchParams(payload as any).toString()}`
-    }
+  const searchParams = new URLSearchParams()
+
+  if (method === 'GET' && payload) {
+    Object.entries(payload as any).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach(val => searchParams.append(key, val))
+      } else {
+        searchParams.append(key, value)
+      }
+    })
   }
 
-  // ✅ Chuyển hướng request tới API route của bạn
-  const proxyUrl = `/api/proxy?endpoint=${encodeURIComponent(endpoint)}${params}`
+  searchParams.set('endpoint', endpoint)
+
+  const proxyUrl = `/api/proxy?${searchParams.toString()}`
 
   const response = await fetch(proxyUrl, {
     headers: {

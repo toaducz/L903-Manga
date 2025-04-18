@@ -1,33 +1,30 @@
-export const translateText = async (text: string): Promise<string> => {
+import { convertToVietnameseTime } from './format'
+
+export async function translateText(text: string): Promise<string> {
   try {
-    // Kiểm tra text hợp lệ
-    if (!text || typeof text !== 'string' || text.trim() === '') {
-      throw new Error('Văn bản cần dịch không hợp lệ')
+    const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|vi`)
+    const data = await res.json()
+
+    if (data.responseStatus !== 200) {
+      const errorMessage: string = data.responseDetails || 'Unknown error'
+
+      // Kiểm tra lỗi quota từ MyMemory
+      if (errorMessage.includes('YOU USED ALL AVAILABLE FREE TRANSLATIONS FOR TODAY')) {
+        const regex = /NEXT AVAILABLE IN\s+(.*?)\s+VISIT/i
+        const match = errorMessage.match(regex)
+        const remainingTime = match ? match[1] : 'vài giờ nữa'
+        throw new Error(`Không thể dịch được, xin vui lòng thử lại sau ${convertToVietnameseTime(remainingTime)}`)
+      }
+
+      throw new Error(`Lỗi dịch: ${errorMessage}`)
     }
 
-    const response = await fetch('/api/translate', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        q: text.trim(), // Loại bỏ khoảng trắng thừa
-        source: 'en',
-        target: 'vi',
-        format: 'text'
-      })
-    })
-
-    const data = await response.json()
-    console.log('Next.js API response:', data)
-
-    if (response.ok && data && data.translatedText) {
-      return data.translatedText
+    return data.responseData.translatedText
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(`Lỗi khi dịch: ${error.message}`)
     } else {
-      throw new Error(data.error || 'Dịch thất bại')
+      throw new Error('Lỗi không xác định khi dịch.')
     }
-  } catch (error) {
-    console.error('Error while translating:', error)
-    return 'Không thể dịch văn bản'
   }
 }

@@ -17,9 +17,9 @@ export enum PublicationDemographic {
 // Xếp hạng nội dung
 export enum ContentRating {
   safe = 'Phù hợp với mọi lứa tuổi',
-  suggestive = 'Gợi cảm nhẹ',
-  erotica = 'Khiêu dâm',
-  pornographic = 'Khiêu dâm nặng'
+  suggestive = 'Có tính gợi dục',
+  erotica = 'Ecchi',
+  pornographic = 'Nó là Porn'
 }
 
 // Ngôn ngữ gốc
