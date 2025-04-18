@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 import { removeNoteSection, splitTextIntoChunks } from '@/utils/format'
 import { contentRatingColors } from '@/utils/static'
 import { Center } from 'zmp-ui'
+import ReactMarkdown from 'react-markdown'
 
 interface MangaDetailPageProps {
   manga: Manga
@@ -113,6 +114,8 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
                 alt='Manga Cover'
                 width={300}
                 height={450}
+                placeholder='blur'
+                blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/+F9PQAI8wNPJ7eB1wAAAABJRU5ErkJggg=='
                 className='object-cover rounded-xl shadow-md w-full'
               />
               <div className='p-5'>
@@ -144,7 +147,8 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
                 <p>
                   {isTranslate
                     ? translatedDescription
-                    : attributes.description.vi || removeNoteSection(attributes.description.en) || 'Không có mô tả'}
+                    : attributes.description.vi || <ReactMarkdown>{attributes.description.en}</ReactMarkdown> ||
+                      'Không có mô tả'}
                 </p>
 
                 {isLoading && <p className='text-sm text-blue-400 italic'>Đang dịch nội dung, vui lòng chờ...</p>}
