@@ -10,11 +10,12 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.74.4",
-    "next": "15.3.0",
+    "date-fns": "^4.1.0",
+    "next": "^15.3.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-query": "^3.39.3",
-    "zmp-ui": "^1.5.5"
+    "zmp-ui": "^1.11.7"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

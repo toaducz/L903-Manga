@@ -1,4 +1,4 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -6,10 +6,10 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/img/:path*',
-        destination: '/api/image?url=:path*', // Chuyển tiếp ảnh
-      },
-    ];
-  },
-};
+        destination: '/api/image?url=:path*' // Chuyển tiếp ảnh
+      }
+    ]
+  }
+}
 
-export default nextConfig;
+export default nextConfig

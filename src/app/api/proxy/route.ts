@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
   const res = await fetch(url, {
     headers: {
       'User-Agent': 'L903-Manga',
-      'Accept': 'application/json'
+      Accept: 'application/json'
     }
   })
 

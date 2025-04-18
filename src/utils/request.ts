@@ -3,7 +3,7 @@ export async function request<T, P = any>(
   method: MethodType = 'GET',
   payload?: P,
   url?: string,
-  headers: HeaderType = {},
+  headers: HeaderType = {}
 ): Promise<T | null> {
   let params = ''
   if (method === 'POST') {
