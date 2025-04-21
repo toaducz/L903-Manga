@@ -37,7 +37,7 @@ const Pagination: React.FC<PaginationProps> = ({ total, offset, limit, onPageCha
   return (
     <div className='flex items-center justify-center mt-6 gap-2 flex-wrap'>
       <button
-        onClick={() => onPageChange(1)}
+        onClick={() => onPageChange(0)}
         disabled={currentPage === 1}
         className='px-4 py-2 bg-slate-800 text-white rounded-lg shadow-md hover:bg-slate-900 disabled:bg-slate-600 disabled:text-slate-400 disabled:shadow-none transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-slate-600'
       >
@@ -48,7 +48,7 @@ const Pagination: React.FC<PaginationProps> = ({ total, offset, limit, onPageCha
         disabled={currentPage === 1}
         className='px-4 py-2 bg-slate-800 text-white rounded-lg shadow-md hover:bg-slate-900 disabled:bg-slate-600 disabled:text-slate-400 disabled:shadow-none transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-slate-600'
       >
-        Lùi
+        Lùi lại
       </button>
 
       {pages.map((page, index) =>
@@ -76,7 +76,7 @@ const Pagination: React.FC<PaginationProps> = ({ total, offset, limit, onPageCha
         disabled={currentPage === totalPages}
         className='px-4 py-2 bg-slate-800 text-white rounded-lg shadow-md hover:bg-slate-900 disabled:bg-slate-600 disabled:text-slate-400 disabled:shadow-none transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-slate-600'
       >
-        Tiến
+        Tiếp theo
       </button>
       <button
         onClick={() => onPageChange(lastOffset)}

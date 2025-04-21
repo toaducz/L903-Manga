@@ -31,19 +31,21 @@ const MangaItems: React.FC<MangaCardProps> = ({ manga }) => {
     >
       <div className='relative w-full h-120'>
         {isLoading && <div className='absolute inset-0 bg-slate-700 animate-pulse rounded-2xl' />}
-        <Image
-          width={300}
-          height={700}
-          src={proxyImageUrl}
-          alt={title || 'title'}
-          className={`object-cover transition-transform duration-300 group-hover:scale-105 ${
-            isLoading ? 'opacity-0' : 'opacity-100'
-          }`}
-          placeholder='blur'
-          blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/+F9PQAI8wNPJ7eB1wAAAABJRU5ErkJggg=='
-          onLoadingComplete={() => setIsLoading(false)}
-          onError={() => setIsLoading(false)}
-        />
+        <div className='relative w-[300px] h-[450px]'>
+          <Image
+            src={proxyImageUrl}
+            alt={title || 'title'}
+            fill
+            sizes='(max-width: 768px) 100vw, 300px'
+            className={`object-cover rounded transition-transform duration-300 group-hover:scale-105 ${
+              isLoading ? 'opacity-0' : 'opacity-100'
+            }`}
+            placeholder='blur'
+            blurDataURL='data:image/png;base64,...'
+            onLoad={() => setIsLoading(false)}
+            onError={() => setIsLoading(false)}
+          />
+        </div>
       </div>
       <div className='absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/70 to-transparent p-4'>
         <h3 className='text-base font-semibold text-white line-clamp-2' title={title}>

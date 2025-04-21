@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getMangaById } from '@/api/Manga/getMangaById'
 import MangaDetailPage from '@/page/manga-detail-page'
 import Loading from '@/component/Loading'
+import Error from '@/component/error'
 
 export default function MangaDetailPageWrapper() {
   const params = useParams()
@@ -13,7 +14,7 @@ export default function MangaDetailPageWrapper() {
 
   const [isVisible, setIsVisible] = useState(false)
 
-  const { data: manga, isFetching, isSuccess } = useQuery(getMangaById({ id }))
+  const { data: manga, isFetching, isSuccess, isError } = useQuery(getMangaById({ id }))
 
   useEffect(() => {
     if (isSuccess) {
@@ -25,6 +26,8 @@ export default function MangaDetailPageWrapper() {
   }, [isSuccess])
 
   if (isFetching) return <Loading />
+
+  if (isError) return <Error />
 
   if (!manga?.data) {
     return <p className='text-center text-red-500 mt-8'>Không tìm thấy manga</p>

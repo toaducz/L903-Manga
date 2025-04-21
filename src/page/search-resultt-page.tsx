@@ -7,6 +7,7 @@ import MangaItems from '@/component/manga-items'
 import Pagination from '@/component/pagination'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useMemo } from 'react'
+import Error from '@/component/error'
 
 interface SearchProps {
   title: string
@@ -23,10 +24,14 @@ export default function SearchResultPage({ title }: SearchProps) {
     params.set('offset', newOffset.toString())
     router.push(`?${params.toString()}`)
   }
-  const { data: result, isLoading } = useQuery(searchManga({ title: title, offset: offset, limit: limit }))
+  const { data: result, isLoading, isError } = useQuery(searchManga({ title: title, offset: offset, limit: limit }))
 
   if (isLoading) {
     return <Loading />
+  }
+
+  if (isError) {
+    return <Error />
   }
 
   if (!result?.data) {

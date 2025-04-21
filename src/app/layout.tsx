@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import '@/css/globals.css'
 import QueryProvider from '@/app/provider'
 import Navbar from '@/component/navbar'
+import ScrollToTop from '@/component/scroll-to-top'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -30,6 +31,7 @@ export default function RootLayout({
         <QueryProvider>
           <Navbar />
           <main className='min-h-screen'>{children}</main>
+          <ScrollToTop />
         </QueryProvider>
       </body>
     </html>

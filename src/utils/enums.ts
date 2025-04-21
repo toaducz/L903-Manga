@@ -31,3 +31,14 @@ export enum OriginalLanguage {
   zh_hk = 'Tiếng Trung (Phồn thể)',
   vi = 'Tiếng Việt'
 }
+
+export const getLanguageName = (lang: string) => {
+  switch (lang) {
+    case 'vi':
+      return 'Tiếng Việt'
+    case 'en':
+      return 'Tiếng Anh'
+    default:
+      return lang.toUpperCase()
+  }
+}

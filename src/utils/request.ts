@@ -4,7 +4,7 @@ export async function request<T, P = any>(
   payload?: P,
   url?: string,
   headers: HeaderType = {}
-): Promise<T | null> {
+): Promise<T> {
   const searchParams = new URLSearchParams()
 
   if (method === 'GET' && payload) {
@@ -29,10 +29,15 @@ export async function request<T, P = any>(
     }
   })
 
+  if (!response.ok) {
+    const errorBody = await response.text()
+    throw new Error(`Request failed: ${response.status} - ${errorBody}`)
+  }
+
   try {
     return (await response.json()) as T
   } catch (error) {
     console.error('Failed to parse response', error)
-    return null
+    throw new Error('Invalid JSON response')
   }
 }

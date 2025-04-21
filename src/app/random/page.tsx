@@ -6,13 +6,14 @@ import { getRandom } from '@/api/Manga/getRandom'
 import MangaDetailPage from '@/page/manga-detail-page'
 import Loading from '@/component/Loading'
 import { useSearchParams } from 'next/navigation'
+import Error from '@/component/error'
 
 export default function MangaRandomPageWrapper() {
   const searchParams = useSearchParams()
   const timestamp = searchParams.get('t')
 
   const [isVisible, setIsVisible] = useState(false)
-  const { data: manga, isFetching, isSuccess } = useQuery(getRandom({ random: timestamp! }))
+  const { data: manga, isFetching, isSuccess, isError } = useQuery(getRandom({ random: timestamp! }))
 
   useEffect(() => {
     if (isSuccess) {
@@ -24,6 +25,8 @@ export default function MangaRandomPageWrapper() {
   }, [isSuccess])
 
   if (isFetching) return <Loading />
+
+  if (isError) return <Error />
 
   if (!manga?.data) {
     return <p className='text-center text-red-500 mt-8'>Không tìm thấy manga</p>

@@ -7,6 +7,7 @@ import MangaItems from '@/component/manga-items'
 import Pagination from '@/component/pagination'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useMemo } from 'react'
+import Error from '@/component/error'
 
 interface MangaByTagPageProps {
   id: string
@@ -23,10 +24,14 @@ export default function MangaByTagPage({ id }: MangaByTagPageProps) {
     params.set('offset', newOffset.toString())
     router.push(`?${params.toString()}`)
   }
-  const { data: top, isLoading } = useQuery(getTopMangaByTagId({ id: id, offset: offset, limit: limit }))
+  const { data: top, isLoading, isError } = useQuery(getTopMangaByTagId({ id: id, offset: offset, limit: limit }))
 
   if (isLoading) {
     return <Loading />
+  }
+
+  if (isError) {
+    return <Error />
   }
 
   // if (isSuccess) {
@@ -40,8 +45,6 @@ export default function MangaByTagPage({ id }: MangaByTagPageProps) {
         {top?.data?.slice(0, top.data.length).map((manga, index) => <MangaItems key={index} manga={manga} />)}
       </div>
       <div>
-        {/* Danh sách manga render ở đây */}
-
         <Pagination
           total={top?.total || 0}
           offset={offset}

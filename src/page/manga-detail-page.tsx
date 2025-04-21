@@ -6,10 +6,13 @@ import { MangaStatus, OriginalLanguage, ContentRating } from '@/utils/enums' // 
 import { getAuthorById } from '@/api/Author/getAuthorById'
 import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
-import { removeNoteSection, splitTextIntoChunks } from '@/utils/format'
+import { splitTextIntoChunks } from '@/utils/format'
 import { contentRatingColors } from '@/utils/static'
 import { Center } from 'zmp-ui'
 import ReactMarkdown from 'react-markdown'
+import MangaChaptersList from '@/component/manga-chapter-list'
+import Loading from '@/component/Loading'
+import Error from '@/component/error'
 
 interface MangaDetailPageProps {
   manga: Manga
@@ -25,15 +28,14 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
   const coverArtFileName = coverArt?.attributes?.fileName
   const coverImageUrl = coverArtFileName ? `https://uploads.mangadex.org/covers/${manga.id}/${coverArtFileName}` : ''
   const proxyImageUrl = `/api/image?url=${encodeURIComponent(coverImageUrl)}`
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoadings, setIsLoading] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
 
   const authorId = manga.relationships.find(item => item.type === 'author')?.id
-  const { data: author } = useQuery(getAuthorById({ id: authorId! }))
+  const { data: author, isLoading, isError } = useQuery(getAuthorById({ id: authorId! }))
 
   // console.log(manga)
 
-  // // const des = removeNoteSection(attributes.description.en)
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true)
@@ -93,6 +95,14 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
 
   const rating = manga.attributes.contentRating as keyof typeof ContentRating
 
+  if (isLoading) {
+    return <Loading />
+  }
+
+  if (isError) {
+    return <Error />
+  }
+
   return (
     <div className='relative'>
       {/* Background Layer */}
@@ -103,9 +113,9 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
 
       {/* Content Layer */}
       <div
-        className={`py-15 relative z-20 transition-all duration-500 ease-in-out transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-30 translate-y-2'}`}
+        className={`pt-15 relative z-20 transition-all duration-500 ease-in-out transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-30 translate-y-2'}`}
       >
-        <div className='max-w-6xl mx-auto p-6 md:p-12'>
+        <div className='max-w-6xl mx-auto p-6 md:px-12 pt-12 pb-8'>
           <div className='flex flex-col md:flex-row items-start gap-10 bg-white/10 backdrop-blur-md rounded-2xl shadow-xl p-6'>
             {/* Cover Image */}
             <div className='w-full md:w-[300px] flex-shrink-0'>
@@ -144,18 +154,20 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
 
               {/* Mô tả + Trạng thái dịch */}
               <div className='space-y-2 text-gray-100 text-base leading-relaxed'>
-                <p>
-                  {isTranslate
-                    ? translatedDescription
-                    : attributes.description.vi || <ReactMarkdown>{attributes.description.en}</ReactMarkdown> ||
-                      'Không có mô tả'}
-                </p>
+                <div>
+                  {isTranslate ? (
+                    <ReactMarkdown>{translatedDescription}</ReactMarkdown>
+                  ) : (
+                    attributes.description.vi || <ReactMarkdown>{attributes.description.en}</ReactMarkdown> ||
+                    'Không có mô tả'
+                  )}
+                </div>
 
-                {isLoading && <p className='text-sm text-blue-400 italic'>Đang dịch nội dung, vui lòng chờ...</p>}
+                {isLoadings && <p className='text-sm text-blue-400 italic'>Đang dịch nội dung, vui lòng chờ...</p>}
 
                 <div className='flex items-center gap-2 py-2'>
                   <span
-                    onClick={() => handleTranslate(removeNoteSection(attributes.description.en))}
+                    onClick={() => handleTranslate(attributes.description.en)}
                     className='text-sm cursor-pointer underline font-bold hover:underline hover:font-bold hover:text-gray-300'
                   >
                     {isTranslate ? 'Hiện nội dung gốc' : 'Dịch nội dung sang tiếng Việt'}
@@ -165,7 +177,7 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
                 {!isVietnameseAvailable ? (
                   <p className='text-red-500 font-medium'>Truyện hiện tại chưa có Tiếng Việt</p>
                 ) : (
-                  <p className='text-green-500 font-medium'>Truyện đã có bản dịch Tiếng Việt</p>
+                  <p className='text-green-500 font-medium'>Truyện có bản dịch Tiếng Việt</p>
                 )}
               </div>
 
@@ -221,6 +233,10 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
           </div>
         </div>
       </div>
+      <div className='px-10 pb-3'>
+        <span className='font-bold text-2xl capitalize'>Danh sách chương</span>
+      </div>
+      <MangaChaptersList mangaId={manga.id} />
     </div>
   )
 }
