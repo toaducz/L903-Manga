@@ -1,4 +1,8 @@
-export async function request<T, P = any>(
+type MethodType = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
+
+type HeaderType = Record<string, string>
+
+export async function request<T, P extends Record<string, unknown> = Record<string, unknown>>(
   endpoint: string,
   method: MethodType = 'GET',
   payload?: P,
@@ -8,11 +12,11 @@ export async function request<T, P = any>(
   const searchParams = new URLSearchParams()
 
   if (method === 'GET' && payload) {
-    Object.entries(payload as any).forEach(([key, value]) => {
+    Object.entries(payload).forEach(([key, value]) => {
       if (Array.isArray(value)) {
-        value.forEach(val => searchParams.append(key, val))
+        value.forEach(val => searchParams.append(key, String(val)))
       } else {
-        searchParams.append(key, value)
+        searchParams.append(key, String(value))
       }
     })
   }
@@ -25,8 +29,8 @@ export async function request<T, P = any>(
     headers: {
       'Content-Type': 'application/json',
       accept: '*/*',
-      ...headers
-    }
+      ...headers,
+    },
   })
 
   if (!response.ok) {

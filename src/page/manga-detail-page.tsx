@@ -74,7 +74,7 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
 
         let errorMessage = ''
         if (error instanceof Error) {
-          errorMessage = error.message
+          errorMessage = (error as Error).message
         }
 
         if (errorMessage.includes('MYMEMORY WARNING')) {
