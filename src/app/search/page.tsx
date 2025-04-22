@@ -1,16 +1,27 @@
 // app/search/page.tsx
-import { notFound } from 'next/navigation'
-import SearchResultPage from '@/page/search-resultt-page'
+'use client'
 
-export default function SearchPage({
-  searchParams,
-}: {
-  searchParams?: Record<string, string | string[] | undefined>
-}) {
-  const query = searchParams?.q?.toString().trim()
+import { Suspense } from 'react'
+import { notFound } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
+import SearchResultPage from '@/page/search-resultt-page'
+import Loading from '@/component/Loading'
+
+// Bọc phần tử cần sử dụng useSearchParams() bằng Suspense
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<Loading/>}>
+      <SearchPageContent />
+    </Suspense>
+  )
+}
+
+function SearchPageContent() {
+  const searchParams = useSearchParams()
+  const query = searchParams?.get('q')?.trim()
 
   if (!query) {
-    notFound()
+    notFound() 
   }
 
   return <SearchResultPage title={query} />

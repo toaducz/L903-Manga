@@ -1,18 +1,26 @@
 'use client'
 
+import { Suspense, useState } from 'react'
 import { useParams, useSearchParams } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 import { getChapterImages } from '@/api/Manga/getChapterImages'
 import Loading from '@/component/Loading'
 import Image from 'next/image'
-import { useState } from 'react'
 import Error from '@/component/error'
 import MangaChaptersList from '@/component/manga-chapter-list'
 import ScrollToBottomButton from '@/component/scroll-to-bottom'
 import { getChaptersByMangaId } from '@/api/Manga/getChapter'
 import ChapterNavButton from '@/component/chapter-navigation'
 
-const ChapterReaderPage = () => {
+export default function ChapterReaderPage() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <ReaderContent />
+    </Suspense>
+  )
+}
+
+function ReaderContent() {
   const params = useParams()
   const searchParams = useSearchParams()
   const [showChapters, setShowChapters] = useState(false)
@@ -40,8 +48,6 @@ const ChapterReaderPage = () => {
       offset: offset
     })
   )
-
-  // console.log(chaptersData)
 
   const getPreviousAndNextChapter = () => {
     if (!chaptersData?.data || !chapterId) return { prevChapter: null, nextChapter: null }
@@ -185,8 +191,6 @@ const ChapterReaderPage = () => {
     </div>
   )
 }
-
-export default ChapterReaderPage
 
 const ImageWithLoading = ({ src, alt }: { src: string; alt: string }) => {
   const [isLoaded, setIsLoaded] = useState(false)

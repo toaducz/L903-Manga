@@ -26,6 +26,7 @@ export default function SearchResultPage({ title }: SearchProps) {
   }
   const { data: result, isLoading, isError } = useQuery(searchManga({ title: title, offset: offset, limit: limit }))
 
+  console.log(result?.data)
   if (isLoading) {
     return <Loading />
   }
@@ -34,9 +35,12 @@ export default function SearchResultPage({ title }: SearchProps) {
     return <Error />
   }
 
-  if (!result?.data) {
+  if (result?.data.length === 0) {
+    const mess = "Kết quả tìm kiếm cho:" + title + " là không có"
     return (
-      <Error message='Không tìm thấy!' />
+      <div>
+        <Error message = {mess} />
+      </div>
     )
   }
 

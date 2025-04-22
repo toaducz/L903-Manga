@@ -1,7 +1,7 @@
 'use client'
 
+import { Suspense, useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { getMangaById } from '@/api/Manga/getMangaById'
 import MangaDetailPage from '@/page/manga-detail-page'
@@ -9,6 +9,14 @@ import Loading from '@/component/Loading'
 import Error from '@/component/error'
 
 export default function MangaDetailPageWrapper() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <MangaDetailContent />
+    </Suspense>
+  )
+}
+
+function MangaDetailContent() {
   const params = useParams()
   const id = params.id as string
 
