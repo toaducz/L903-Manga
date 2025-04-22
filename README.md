@@ -28,7 +28,6 @@
 
 ## 📂 Cấu trúc thư mục
 
-```bash
 .
 ├── api/                # Gọi API từ MangaDex (qua proxy)
 ├── components/         # Các component tái sử dụng
@@ -38,9 +37,10 @@
 ├── styles/             # Cấu hình Tailwind
 └── ...
 
+```bash
 
 # Clone repo
-git clone https://github.com/your-username/L903-Manga.git
+git clone https://github.com/toanducz/L903-Manga.git
 
 # Cài dependencies
 cd L903-Manga
