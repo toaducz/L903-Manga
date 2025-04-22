@@ -35,7 +35,9 @@ export default function SearchResultPage({ title }: SearchProps) {
   }
 
   if (!result?.data) {
-    return <div>méo có gì</div>
+    return (
+      <Error message='Không tìm thấy!' />
+    )
   }
 
   return (
