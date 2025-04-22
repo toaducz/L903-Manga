@@ -27,6 +27,7 @@
 ![demo_3](./src/assets/image/demo3.png) <!-- [image] -->
 
 ## 📂 Cấu trúc thư mục
+
 ```bash
 .
 ├── api/                # Gọi API từ MangaDex (qua proxy)
@@ -36,6 +37,8 @@
 ├── public/             # Ảnh & asset tĩnh
 ├── styles/             # Cấu hình Tailwind
 └── ...
+
+```
 
 ```bash
 
