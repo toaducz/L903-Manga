@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📚 L903-Manga
 
-## Getting Started
+**L903-Manga** sử dụng dữ liệu từ [MangaDex API](https://api.mangadex.org) với giao diện hiện đại và mượt mà.
 
-First, run the development server:
+## 🚀 Tính năng nổi bật
+
+- 🔍 Tìm kiếm và xem chi tiết manga
+- 📑 Danh sách chương có thể lọc theo ngôn ngữ (ưu tiên tiếng Việt, fallback sang tiếng Anh)
+- ⏩ Chuyển chương liền mạch, giữ nguyên vị trí offset
+- 🌐 Hỗ trợ đa ngôn ngữ (dựa theo chapter)
+- 🧠 Sử dụng React Query để caching & quản lý dữ liệu
+- ⚙️ Kết nối với MangaDex thông qua proxy API nội bộ để tránh CORS
+
+## 🛠️ Công nghệ sử dụng
+
+- [Next.js](https://nextjs.org/)
+- [React](https://reactjs.org/)
+- [React Query](https://tanstack.com/query/v4)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [MangaDex API](https://api.mangadex.org)
+
+
+![demo_1](./src/assets/image/demo1.png) <!-- [image] -->
+
+![demo_2](./src/assets/image/demo2.png) <!-- [image] -->
+
+![demo_3](./src/assets/image/demo3.png) <!-- [image] -->
+
+## 📂 Cấu trúc thư mục
 
 ```bash
+.
+├── api/                # Gọi API từ MangaDex (qua proxy)
+├── components/         # Các component tái sử dụng
+├── pages/              # Các route chính: index, manga detail, reader
+├── utils/              # Các hàm tiện ích
+├── public/             # Ảnh & asset tĩnh
+├── styles/             # Cấu hình Tailwind
+└── ...
+
+
+# Clone repo
+git clone https://github.com/your-username/L903-Manga.git
+
+# Cài dependencies
+cd L903-Manga
+npm install
+
+# Chạy development
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
