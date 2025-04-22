@@ -13,6 +13,8 @@ import ReactMarkdown from 'react-markdown'
 import MangaChaptersList from '@/component/manga-chapter-list'
 import Loading from '@/component/Loading'
 import Error from '@/component/error'
+import { getChaptersByMangaId } from '@/api/Manga/getChapter'
+import { getLanguageName } from '@/utils/enums'
 
 interface MangaDetailPageProps {
   manga: Manga
@@ -23,6 +25,7 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
   const [isTranslate, setIsTranslate] = useState(false) // Quản lý trạng thái dịch
   const [translatedDescription, setTranslatedDescription] = useState<string>('') // Văn bản đã dịch
   const attributes = manga.attributes
+  const [lang, setLang] = useState('en')
   const isVietnameseAvailable = attributes.availableTranslatedLanguages.includes('vi')
   const coverArt = manga.relationships.find(rel => rel.type === 'cover_art')
   const coverArtFileName = coverArt?.attributes?.fileName
@@ -30,10 +33,12 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
   const proxyImageUrl = `/api/image?url=${encodeURIComponent(coverImageUrl)}`
   const [isLoadings, setIsLoading] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
-
   const authorId = manga.relationships.find(item => item.type === 'author')?.id
   const { data: author, isLoading, isError } = useQuery(getAuthorById({ id: authorId! }))
 
+  const { data: chapter } = useQuery(getChaptersByMangaId({ id: manga.id, lang: [lang] }))
+
+  const firstChapterId = chapter?.data[0].id ?? ''
   // console.log(manga)
 
   useEffect(() => {
@@ -42,6 +47,12 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
     }, 1)
     return () => clearTimeout(timer)
   }, [])
+
+  useEffect(() => {
+    if (attributes.availableTranslatedLanguages.includes('vi')) {
+      setLang('vi')
+    }
+  }, [attributes.availableTranslatedLanguages])
 
   const handleTranslate = async (text: string) => {
     if (!isTranslate && !translatedDescription) {
@@ -222,7 +233,14 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
               </div>
 
               <div className='pt-6 flex flex-wrap gap-4'>
-                <button className='px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition'>
+                <button
+                  className='px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition'
+                  onClick={() => {
+                    router.push(
+                      `/reader/${firstChapterId}?mangaId=${manga.id}&lang=${getLanguageName(lang)}&langFilter=${lang}&langValue=${lang}&chapterId=${firstChapterId}`
+                    )
+                  }}
+                >
                   Đọc Truyện
                 </button>
                 <button className='px-5 py-2 border-2 border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition'>
@@ -236,7 +254,7 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
       <div className='px-10 pb-3'>
         <span className='font-bold text-2xl capitalize'>Danh sách chương</span>
       </div>
-      <MangaChaptersList mangaId={manga.id} />
+      <MangaChaptersList mangaId={manga.id} langValue={lang} langFilterValue={[lang]} />
     </div>
   )
 }

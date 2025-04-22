@@ -2,7 +2,7 @@ import { queryOptions } from '@tanstack/react-query'
 import { request } from '@/utils/request'
 import { DataResponse } from '../paginate'
 
-export interface Chapter {
+export type Chapter = {
   id: string
   type: 'chapter'
   attributes: {
@@ -18,13 +18,46 @@ export interface Chapter {
     pages: number
     version: number
   }
-  relationships: Relationship[]
+  relationships: ChapterRelationship[]
 }
 
-export interface Relationship {
-  id: string
-  type: 'scanlation_group' | 'manga' | 'user'
-}
+type ChapterRelationship =
+  | {
+      id: string
+      type: 'scanlation_group'
+      attributes: {
+        name: string
+        altNames: string[]
+        locked: boolean
+        website: string | null
+        ircServer: string | null
+        ircChannel: string | null
+        discord: string | null
+        contactEmail: string | null
+        description: string | null
+        twitter: string | null
+        mangaUpdates: string | null
+        focusedLanguages: string[]
+        official: boolean
+        verified: boolean
+        inactive: boolean
+        publishDelay: string | null
+        exLicensed: boolean
+        createdAt: string
+        updatedAt: string
+        version: number
+      }
+    }
+  | {
+      id: string
+      type: 'manga'
+      attributes?: undefined
+    }
+  | {
+      id: string
+      type: 'user'
+      attributes?: undefined
+    }
 
 interface GetChaptersByMangaIdParams {
   id: string
@@ -48,7 +81,8 @@ export const getChaptersByMangaId = ({
         limit,
         offset,
         'translatedLanguage[]': lang,
-        'order[chapter]': order
+        'order[chapter]': order,
+        'includes[]': 'scanlation_group'
       })
   })
 }

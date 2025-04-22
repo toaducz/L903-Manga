@@ -52,21 +52,21 @@ export default function Navbar() {
             href='/popular'
             className='relative text-white hover:text-slate-300 transition-colors duration-200 group'
           >
-            Popular
+            Phổ biến
             <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-slate-300 transition-all duration-300 group-hover:w-full'></span>
           </Link>
           <Link
             href='/authors'
             className='relative text-white hover:text-slate-300 transition-colors duration-200 group'
           >
-            Authors
+            Tác giả
             <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-slate-300 transition-all duration-300 group-hover:w-full'></span>
           </Link>
           <Link
             href='/genres'
             className='relative text-white hover:text-slate-300 transition-colors duration-200 group'
           >
-            Genres
+            Thể loại
             <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-slate-300 transition-all duration-300 group-hover:w-full'></span>
           </Link>
           <a

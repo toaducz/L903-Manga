@@ -119,23 +119,26 @@ const MangaChaptersList: React.FC<MangaChaptersListProps> = ({
         </select>
       </div>
 
-      {chapter?.data.map(chapter => (
+      {chapter?.data.map(item => (
         <div
-          key={chapter.id}
+          key={item.id}
           className={`p-3 rounded-md hover:bg-slate-600 transition cursor-pointer
-      ${chapter.id === chapterId ? 'bg-green-700' : 'bg-slate-800'}`}
+      ${item.id === chapterId ? 'bg-green-700' : 'bg-slate-800'}`}
           onClick={() =>
             router.push(
-              `/reader/${chapter.id}?mangaId=${mangaId}&offset=${offset}&chapterId=${chapter.id}&number=${chapter.attributes.chapter}&lang=${getLanguageName(chapter.attributes.translatedLanguage)}&langFilter=${chapter.attributes.translatedLanguage}&langValue=${lang}&order=${sortOrder}`
+              `/reader/${item.id}?mangaId=${mangaId}&offset=${offset}&chapterId=${item.id}&number=${item.attributes.chapter}&lang=${getLanguageName(item.attributes.translatedLanguage)}&langFilter=${item.attributes.translatedLanguage}&langValue=${lang}&order=${sortOrder}&chapter=${chapter.data}`
             )
           }
         >
           <p className='text-white'>
-            <strong>Chapter {chapter.attributes.chapter ?? 'N/A'}</strong>{' '}
-            {chapter.attributes.title && `- ${chapter.attributes.title}`}
+            <strong>Chapter {item.attributes.chapter ?? 'N/A'}</strong>{' '}
+            {item.attributes.title && `- ${item.attributes.title}`}
           </p>
-          <p className='text-sm text-white'>Volume: {chapter.attributes.volume}</p>
-          <p className='text-sm text-white'>Ngôn ngữ: {getLanguageName(chapter.attributes.translatedLanguage)}</p>
+          <p className='text-sm text-white'>Volume: {item.attributes.volume}</p>
+          <p className='text-sm text-white'>Ngôn ngữ: {getLanguageName(item.attributes.translatedLanguage)}</p>
+          <p className='text-sm text-white'>
+            Nhóm dịch: {item.relationships.find(r => r.type === 'scanlation_group')?.attributes?.name ?? 'Không rõ'}
+          </p>
         </div>
       ))}
 

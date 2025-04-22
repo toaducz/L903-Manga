@@ -4,6 +4,7 @@ import '@/css/globals.css'
 import QueryProvider from '@/app/provider'
 import Navbar from '@/component/navbar'
 import ScrollToTop from '@/component/scroll-to-top'
+import Footer from '@/component/footer'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -32,6 +33,7 @@ export default function RootLayout({
           <Navbar />
           <main className='min-h-screen'>{children}</main>
           <ScrollToTop />
+          <Footer />
         </QueryProvider>
       </body>
     </html>
