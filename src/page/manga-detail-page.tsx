@@ -25,8 +25,8 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
   const [isTranslate, setIsTranslate] = useState(false) // Quản lý trạng thái dịch
   const [translatedDescription, setTranslatedDescription] = useState<string>('') // Văn bản đã dịch
   const attributes = manga.attributes
-  const [lang, setLang] = useState('en')
   const isVietnameseAvailable = attributes.availableTranslatedLanguages.includes('vi')
+  const lang = attributes.availableTranslatedLanguages.includes('vi') ? 'vi' : 'en'
   const coverArt = manga.relationships.find(rel => rel.type === 'cover_art')
   const coverArtFileName = coverArt?.attributes?.fileName
   const coverImageUrl = coverArtFileName ? `https://uploads.mangadex.org/covers/${manga.id}/${coverArtFileName}` : ''
@@ -48,11 +48,7 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
     return () => clearTimeout(timer)
   }, [])
 
-  useEffect(() => {
-    if (attributes.availableTranslatedLanguages.includes('vi')) {
-      setLang('vi')
-    }
-  }, [attributes.availableTranslatedLanguages])
+ 
 
   const handleTranslate = async (text: string) => {
     if (!isTranslate && !translatedDescription) {

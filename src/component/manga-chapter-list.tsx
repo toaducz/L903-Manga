@@ -28,6 +28,9 @@ const MangaChaptersList: React.FC<MangaChaptersListProps> = ({
   order
 }) => {
   const searchParams = useSearchParams()
+  // useEffect(() => {
+  //   console.log(langFilterValue)
+  // },[])
   const router = useRouter()
   const limit = 20
   const offset = useMemo(() => {
@@ -69,7 +72,7 @@ const MangaChaptersList: React.FC<MangaChaptersListProps> = ({
     setSortOrder(event.target.value)
   }
 
-  console.log(chapter?.data)
+  // console.log(chapter?.data)
 
   useEffect(() => {
     const timer = setTimeout(() => {
