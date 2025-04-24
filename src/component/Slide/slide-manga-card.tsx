@@ -25,7 +25,7 @@ const SlideMangaCard: React.FC<Props> = ({ id, publicationDemographic }) => {
     isError
   } = useQuery(getTopMangaByTagId({ id: id, offset: 0, limit: 10, publicationDemographic: publicationDemographic }))
 
-  console.log('newManga', newManga)
+  // console.log('newManga', newManga)
 
   if (isLoading) {
     return <Loading />

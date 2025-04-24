@@ -47,9 +47,8 @@ const SlideMangaCardFullWidth: React.FC<Props> = ({ id }) => {
       >
         {newManga?.data.map(manga => {
           const attr = manga.attributes
-          const title = attr.title.en ?? attr.altTitles.find(t => t.en)?.en
+          const title =  attr.altTitles.find(t => t.vi)?.vi ?? attr.title.en ?? attr.altTitles.find(t => t.en)?.en
           const altTitle =
-            attr.altTitles.find(t => t.vi)?.vi ||
             attr.altTitles.find(t => t.en)?.en ||
             attr.altTitles.find(t => t.ja)?.ja
           const year = attr.year || 'Không rõ'

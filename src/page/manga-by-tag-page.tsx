@@ -33,7 +33,7 @@ export default function MangaByTagPage({ id, publicationDemographic }: MangaByTa
     getTopMangaByTagId({ id: id, publicationDemographic: publicationDemographic, offset: offset, limit: limit })
   )
 
-  console.log(top)
+  console.log("top", top)
 
   if (isLoading) {
     return <Loading />

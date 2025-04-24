@@ -9,9 +9,14 @@ interface MangaCardProps {
 }
 
 const MangaItems: React.FC<MangaCardProps> = ({ manga }) => {
+  // console.log(manga)
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(true)
-  const title = manga.attributes.title.en
+  const altTitle =
+            manga.attributes.altTitles.find(t => t.vi)?.vi ||
+            manga.attributes.altTitles.find(t => t.en)?.en ||
+            manga.attributes.altTitles.find(t => t.ja)?.ja
+  const title = manga.attributes.altTitles.find(t => t.vi)?.vi ?? manga.attributes.title.en  ?? altTitle
   const coverArt = manga.relationships.find(rel => rel.type === 'cover_art')
   const coverArtFileName = coverArt?.attributes?.fileName
   const coverImageUrl = coverArtFileName ? `https://uploads.mangadex.org/covers/${manga.id}/${coverArtFileName}` : ''
