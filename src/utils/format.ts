@@ -40,3 +40,13 @@ export function convertToVietnameseTime(englishTime: string): string {
     .replace(/SECONDS?/i, 'giây')
     .toLowerCase()
 }
+
+export const formatDate = (dateString: string) => {
+  const date = new Date(dateString)
+  return new Intl.DateTimeFormat('vi-VN', {
+    dateStyle: 'short',
+    timeStyle: 'short',
+    timeZone: 'Asia/Ho_Chi_Minh'
+  }).format(date)
+}
+

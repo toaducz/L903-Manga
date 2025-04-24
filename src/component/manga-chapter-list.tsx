@@ -8,6 +8,7 @@ import Pagination from './pagination'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Error from './error'
 import { getLanguageName } from '@/utils/enums'
+import { formatDate } from '@/utils/format'
 
 interface MangaChaptersListProps {
   mangaId: string
@@ -68,7 +69,7 @@ const MangaChaptersList: React.FC<MangaChaptersListProps> = ({
     setSortOrder(event.target.value)
   }
 
-  // console.log(chapter?.data)
+  console.log(chapter?.data)
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -95,9 +96,8 @@ const MangaChaptersList: React.FC<MangaChaptersListProps> = ({
 
   return (
     <div
-      className={`space-y-2 pb-8 px-8 transition-all duration-500 ease-in-out transform ${
-        isVisible ? 'opacity-100 translate-x-0' : 'opacity-30 translate-x-4'
-      }`}
+      className={`space-y-2 pb-8 px-8 transition-all duration-500 ease-in-out transform ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-30 translate-x-4'
+        }`}
     >
       <div className='flex justify-end mb-4 space-x-3'>
         <select
@@ -130,10 +130,15 @@ const MangaChaptersList: React.FC<MangaChaptersListProps> = ({
             )
           }
         >
-          <p className='text-white'>
-            <strong>Chapter {item.attributes.chapter ?? 'N/A'}</strong>{' '}
-            {item.attributes.title && `- ${item.attributes.title}`}
-          </p>
+          <div className="flex justify-between items-center">
+            <p className="text-white">
+              <strong>Chapter {item.attributes.chapter ?? 'N/A'}</strong>{' '}
+              {item.attributes.title && `- ${item.attributes.title}`}
+            </p>
+            <span className="italic text-sm text-gray-300">
+              {formatDate(item.attributes.updatedAt)}
+            </span>
+          </div>
           <p className='text-sm text-white'>Volume: {item.attributes.volume}</p>
           <p className='text-sm text-white'>Ngôn ngữ: {getLanguageName(item.attributes.translatedLanguage)}</p>
           <p className='text-sm text-white'>

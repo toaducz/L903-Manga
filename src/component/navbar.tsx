@@ -83,7 +83,7 @@ export default function Navbar() {
         <form onSubmit={handleSearch} className='flex items-center space-x-2'>
           <input
             type='text'
-            placeholder='Tìm Manga...'
+            placeholder='Tìm theo tên truyện'
             className='px-4 py-2 rounded-lg bg-slate-800 text-white border border-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-600 placeholder-slate-400 text-sm transition-all duration-200'
             value={search}
             onChange={e => setSearch(e.target.value)}

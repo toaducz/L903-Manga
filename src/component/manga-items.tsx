@@ -37,9 +37,8 @@ const MangaItems: React.FC<MangaCardProps> = ({ manga }) => {
             alt={title || 'title'}
             fill
             sizes='(max-width: 768px) 100vw, 300px'
-            className={`object-cover rounded transition-transform duration-300 group-hover:scale-105 ${
-              isLoading ? 'opacity-0' : 'opacity-100'
-            }`}
+            className={`object-cover rounded transition-transform duration-300 group-hover:scale-105 ${isLoading ? 'opacity-0' : 'opacity-100'
+              }`}
             placeholder='blur'
             blurDataURL='data:image/png;base64,...'
             onLoad={() => setIsLoading(false)}
@@ -47,8 +46,10 @@ const MangaItems: React.FC<MangaCardProps> = ({ manga }) => {
           />
         </div>
       </div>
-      <div className='absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/70 to-transparent p-4'>
-        <h3 className='text-base font-semibold text-white line-clamp-2' title={title}>
+      <div className='absolute -bottom-3 left-0 right-0 bg-gradient-to-t from-slate-900/70 to-transparent p-4 text-shadow-stroke'>
+        <h3 className='text-base font-semibold text-white line-clamp-2' title={title} style={{
+          textShadow: '1px 2px 8px black, -1px -2px 8px black'
+        }}>
           {title}
         </h3>
       </div>
