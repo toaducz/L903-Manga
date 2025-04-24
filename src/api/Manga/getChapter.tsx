@@ -24,7 +24,7 @@ export type Chapter = {
 type ChapterRelationship =
   | {
       id: string
-      type: 'scanlation_group'
+      type: string
       attributes: {
         name: string
         altNames: string[]
@@ -59,12 +59,73 @@ type ChapterRelationship =
       attributes?: undefined
     }
 
+export type NewChapter = {
+  id: string
+  type: 'chapter'
+  attributes: {
+    volume: string | null
+    chapter: string | null
+    title: string | null
+    translatedLanguage: string
+    externalUrl: string | null
+    publishAt: string
+    readableAt: string
+    createdAt: string
+    updatedAt: string
+    pages: number
+    version: number
+  }
+  relationships: Array<
+    | {
+        id: string
+        type: 'scanlation_group' | 'user'
+      }
+    | {
+        id: string
+        type: 'manga'
+        attributes: {
+          title: Record<string, string>
+          altTitles: Array<Record<string, string>>
+          description: Record<string, string>
+          isLocked: boolean
+          links: Record<string, string>
+          originalLanguage: string
+          lastVolume: string
+          lastChapter: string
+          publicationDemographic: string
+          status: string
+          year: number
+          contentRating: string
+          tags: Array<{
+            id: string
+            type: 'tag'
+            attributes: {
+              name: Record<string, string>
+              description: Record<string, string>
+              group: string
+              version: number
+            }
+            relationships: unknown[]
+          }>
+          state: string
+          chapterNumbersResetOnNewVolume: boolean
+          createdAt: string
+          updatedAt: string
+          version: number
+          availableTranslatedLanguages: string[]
+          latestUploadedChapter: string
+        }
+      }
+  >
+}
+
 interface GetChaptersByMangaIdParams {
   id: string
   offset?: number
   limit?: number
   order?: string
   lang?: string[]
+  include?: string
 }
 
 export const getChaptersByMangaId = ({
@@ -72,17 +133,35 @@ export const getChaptersByMangaId = ({
   offset = 0,
   limit = 20,
   order = 'asc',
-  lang = ['vi', 'en']
+  lang = ['vi', 'en'],
+  include = 'scanlation_group'
 }: GetChaptersByMangaIdParams) => {
   return queryOptions({
     queryKey: ['chapters-by-manga-id', id, offset, order, lang],
     queryFn: () =>
       request<DataResponse<Chapter>>(`/manga/${id}/feed`, 'GET', {
-        limit,
-        offset,
+        limit: limit,
+        offset: offset,
         'translatedLanguage[]': lang,
         'order[chapter]': order,
-        'includes[]': 'scanlation_group'
+        'includes[]': include
       })
   })
 }
+
+interface NewChapterParams {
+  offset?: number
+  limit?: number
+}
+
+export const getChapters = ({ offset, limit }: NewChapterParams) => ({
+  queryKey: ['get-chapters-new', offset, limit],
+  queryFn: () =>
+    request<DataResponse<NewChapter>>(`/chapter`, 'GET', {
+      limit,
+      offset,
+      'translatedLanguage[]': ['vi'],
+      'order[publishAt]': 'desc',
+      'includes[]': 'manga'
+    })
+})

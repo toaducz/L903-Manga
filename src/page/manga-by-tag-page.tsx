@@ -10,10 +10,11 @@ import { useMemo } from 'react'
 import Error from '@/component/error'
 
 interface MangaByTagPageProps {
-  id: string
+  id?: string
+  publicationDemographic?: string
 }
 
-export default function MangaByTagPage({ id }: MangaByTagPageProps) {
+export default function MangaByTagPage({ id, publicationDemographic }: MangaByTagPageProps) {
   const searchParams = useSearchParams()
   const router = useRouter()
 
@@ -24,7 +25,15 @@ export default function MangaByTagPage({ id }: MangaByTagPageProps) {
     params.set('offset', newOffset.toString())
     router.push(`?${params.toString()}`)
   }
-  const { data: top, isLoading, isError } = useQuery(getTopMangaByTagId({ id: id, offset: offset, limit: limit }))
+  const {
+    data: top,
+    isLoading,
+    isError
+  } = useQuery(
+    getTopMangaByTagId({ id: id, publicationDemographic: publicationDemographic, offset: offset, limit: limit })
+  )
+
+  console.log(top)
 
   if (isLoading) {
     return <Loading />
