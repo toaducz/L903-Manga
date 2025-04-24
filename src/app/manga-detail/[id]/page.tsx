@@ -38,9 +38,7 @@ function MangaDetailContent() {
   if (isError) return <Error />
 
   if (!manga?.data) {
-    return (
-      <Error message='Không tìm thấy truyện' />
-    )
+    return <Error message='Không tìm thấy truyện' />
   }
 
   return (

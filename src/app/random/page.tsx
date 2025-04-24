@@ -14,9 +14,7 @@ function RandomPageContent() {
 
   const [isVisible, setIsVisible] = useState(false)
 
-  const { data: manga, isFetching, isSuccess, isError } = useQuery(
-    getRandom({ random: timestamp! })
-  )
+  const { data: manga, isFetching, isSuccess, isError } = useQuery(getRandom({ random: timestamp! }))
 
   useEffect(() => {
     if (isSuccess) {

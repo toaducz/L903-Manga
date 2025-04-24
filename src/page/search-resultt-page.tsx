@@ -36,10 +36,10 @@ export default function SearchResultPage({ title }: SearchProps) {
   }
 
   if (result?.data.length === 0) {
-    const mess = "Kết quả tìm kiếm cho:" + title + " là không có"
+    const mess = 'Kết quả tìm kiếm cho:' + title + ' là không có'
     return (
       <div>
-        <Error message = {mess} />
+        <Error message={mess} />
       </div>
     )
   }

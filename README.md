@@ -19,7 +19,6 @@
 - [Tailwind CSS](https://tailwindcss.com/)
 - [MangaDex API](https://api.mangadex.org)
 
-
 ![demo_1](./src/assets/image/demo1.png) <!-- [image] -->
 
 ![demo_2](./src/assets/image/demo2.png) <!-- [image] -->
@@ -52,3 +51,4 @@ npm install
 # Chạy development
 npm run dev
 
+```

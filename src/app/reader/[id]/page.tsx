@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, useState } from 'react'
+import { Suspense, useState, useEffect } from 'react'
 import { useParams, useSearchParams } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 import { getChapterImages } from '@/api/Manga/getChapterImages'
@@ -44,10 +44,14 @@ function ReaderContent() {
     getChaptersByMangaId({
       id: mangaId,
       lang: Array.isArray(langFilterValue) ? langFilterValue : [langFilterValue],
-      order: 'asc',
+      order: order,
       offset: offset
     })
   )
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [id])
 
   const getPreviousAndNextChapter = () => {
     if (!chaptersData?.data || !chapterId) return { prevChapter: null, nextChapter: null }

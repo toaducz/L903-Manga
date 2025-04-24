@@ -48,8 +48,6 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
     return () => clearTimeout(timer)
   }, [])
 
- 
-
   const handleTranslate = async (text: string) => {
     if (!isTranslate && !translatedDescription) {
       setIsLoading(true)

@@ -10,7 +10,7 @@ import Loading from '@/component/Loading'
 // Bọc phần tử cần sử dụng useSearchParams() bằng Suspense
 export default function SearchPage() {
   return (
-    <Suspense fallback={<Loading/>}>
+    <Suspense fallback={<Loading />}>
       <SearchPageContent />
     </Suspense>
   )
@@ -21,7 +21,7 @@ function SearchPageContent() {
   const query = searchParams?.get('q')?.trim()
 
   if (!query) {
-    notFound() 
+    notFound()
   }
 
   return <SearchResultPage title={query} />

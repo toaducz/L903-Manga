@@ -99,9 +99,16 @@ const MangaChaptersList: React.FC<MangaChaptersListProps> = ({
 
   return (
     <div
-      className={`space-y-2 pb-8 px-8 transition-all duration-500 ease-in-out transform ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-30 translate-x-4'
-        }`}
+      className={`space-y-2 pb-8 px-8 transition-all duration-500 ease-in-out transform ${
+        isVisible ? 'opacity-100 translate-x-0' : 'opacity-30 translate-x-4'
+      }`}
     >
+      <Pagination
+        total={chapter?.total || 0}
+        offset={offset}
+        limit={limit}
+        onPageChange={newOffset => setOffset(newOffset)}
+      />
       <div className='flex justify-end mb-4 space-x-3'>
         <select
           value={sortOrder}
@@ -133,14 +140,12 @@ const MangaChaptersList: React.FC<MangaChaptersListProps> = ({
             )
           }
         >
-          <div className="flex justify-between items-center">
-            <p className="text-white">
+          <div className='flex justify-between items-center'>
+            <p className='text-white'>
               <strong>Chapter {item.attributes.chapter ?? 'N/A'}</strong>{' '}
               {item.attributes.title && `- ${item.attributes.title}`}
             </p>
-            <span className="italic text-sm text-gray-300">
-              {formatDate(item.attributes.updatedAt)}
-            </span>
+            <span className='italic text-sm text-gray-300'>{formatDate(item.attributes.updatedAt)}</span>
           </div>
           <p className='text-sm text-white'>Volume: {item.attributes.volume}</p>
           <p className='text-sm text-white'>Ngôn ngữ: {getLanguageName(item.attributes.translatedLanguage)}</p>

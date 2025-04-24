@@ -67,8 +67,17 @@ const ChapterNavButton = ({
 
   // Kiểm tra điều kiện vô hiệu hóa nút
   const isDisabled =
-    (direction === 'next' && (!chapter || !hasMoreChapters || Number(offset) >= total)) ||
-    (direction === 'prev' && (!chapter || !hasMoreChapters || Number(offset) <= 0))
+    (direction === 'next' && (!hasMoreChapters || Number(offset) >= total)) ||
+    (direction === 'prev' && (!hasMoreChapters || Number(offset) < 0))
+
+  // const isNextDisabled = !hasMoreChapters || Number(offset) >= total
+  // const isPrevDisabled = Number(offset) <= 0
+
+  // console.log('Offset:', offset)
+  // // console.log('Total Chapters:', total);
+  // console.log('Has More Chapters:', hasMoreChapters)
+  // console.log('Is Next Disabled:', isNextDisabled)
+  // console.log('Is Prev Disabled:', isPrevDisabled)
 
   const handleClick = async () => {
     if (!chapter) {
@@ -113,7 +122,7 @@ const ChapterNavButton = ({
 
           if (chaptersData?.data?.length) {
             const selectedChapter =
-              order === 'asc' ? chaptersData.data[0] : chaptersData.data[chaptersData.data.length - 1]
+              order === 'asc' ? chaptersData.data[chaptersData.data.length - 1] : chaptersData.data[0]
             router.push(
               `/reader/${selectedChapter.id}?mangaId=${mangaId}&offset=${newOffset}&chapterId=${selectedChapter.id}&number=${selectedChapter.attributes.chapter}&lang=${getLanguageName(selectedChapter.attributes.translatedLanguage)}&langFilter=${langFilterValue}&langValue=${langValue}&order=${order}`,
               { scroll: false }

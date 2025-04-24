@@ -29,8 +29,8 @@ export async function request<T, P extends Record<string, unknown> = Record<stri
     headers: {
       'Content-Type': 'application/json',
       accept: '*/*',
-      ...headers,
-    },
+      ...headers
+    }
   })
 
   if (!response.ok) {

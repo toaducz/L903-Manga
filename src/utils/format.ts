@@ -49,4 +49,3 @@ export const formatDate = (dateString: string) => {
     timeZone: 'Asia/Ho_Chi_Minh'
   }).format(date)
 }
-
