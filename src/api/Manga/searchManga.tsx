@@ -30,12 +30,13 @@ export const getNewManga = ({ offset = 0, limit = 10 }: CommonRequest) => {
     queryKey: ['get-new-manga', offset],
     queryFn: () =>
       request<DataResponse<Manga>>(`manga/`, 'GET', {
-        'order[followedCount]': 'desc',
+        // 'order[updatedAt]': 'desc',
         limit: limit,
-        'availableTranslatedLanguage[]': 'en',
+        'availableTranslatedLanguage[]': ['vi'],
         'includes[]': 'cover_art',
         offset: offset,
-        'order[latestUploadedChapter]': 'desc'
+        'order[latestUploadedChapter]': 'desc',
+        'order[year]': 'desc'
       })
     // staleTime: 60 * 60
   })
