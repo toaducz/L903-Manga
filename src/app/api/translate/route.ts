@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
 
     // Xây dựng URL với encodeURIComponent
     const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(q)}&langpair=${encodeURIComponent(source)}|${encodeURIComponent(target)}`
-    console.log('MyMemory URL:', url) // Log để debug
+    // console.log('MyMemory URL:', url) // Log để debug
 
     const response = await fetch(url, {
       method: 'GET'

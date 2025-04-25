@@ -14,7 +14,7 @@ export default function TagMultiSelect({ setTag, selectedTags }: TagMultiSelectP
   const [selected, setSelected] = useState<string[]>([])
   const [isOpen, setIsOpen] = useState(false) // Trạng thái ẩn/hiện
 
-  console.log('selected', selected)
+  // console.log('selected', selected)
 
   useEffect(() => {
     setSelected(selectedTags)

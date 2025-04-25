@@ -19,12 +19,14 @@ export const getTopMangaByTagId = ({
     queryKey: ['get-top-manga-by-tag-id', id, offset, publicationDemographic],
     queryFn: () => {
       const params: Record<string, string | number | string[]> = {
-        'order[followedCount]': 'desc',
+        // 'order[followedCount]': 'desc',
         limit: limit,
         'availableTranslatedLanguage[]': 'en',
         'includes[]': 'cover_art',
         offset: offset,
-        'publicationDemographic[]': [publicationDemographic]
+        'publicationDemographic[]': [publicationDemographic],
+        'order[latestUploadedChapter]': 'desc',
+        'order[year]': 'desc'
       }
 
       // Chỉ thêm includedTags[] nếu id có giá trị

@@ -42,7 +42,7 @@ export default function MangaTabs() {
             exit={{ opacity: 0, y: -20 }} // Trạng thái khi biến mất
             transition={{ duration: 0.3, ease: 'easeInOut' }} // Thời gian và easing
           >
-            <MangaByTagPage publicationDemographic={activeTab} pagination={false} />
+            <MangaByTagPage publicationDemographic={activeTab} pagination={true} />
           </motion.div>
         </AnimatePresence>
       </div>

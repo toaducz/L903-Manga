@@ -26,7 +26,7 @@ export default function SearchResultPage({ title }: SearchProps) {
   }
   const { data: result, isLoading, isError } = useQuery(searchManga({ title: title, offset: offset, limit: limit }))
 
-  console.log(result?.data)
+  // console.log(result?.data)
   if (isLoading) {
     return <Loading />
   }
