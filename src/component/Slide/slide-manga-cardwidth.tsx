@@ -69,7 +69,7 @@ const SlideMangaCardFullWidth: React.FC<Props> = ({ id }) => {
           return (
             <SwiperSlide key={manga.id}>
               <div
-                className='relative flex flex-col md:flex-row items-center mb:bg-slate-800 md:items-start w-full max-h-[28rem] text-white px-6 py-8 gap-6 overflow-hidden cursor-pointer'
+                className='relative group cursor-pointer transition-transform duration-300 hover:scale-103 hover:shadow-lg flex flex-col md:flex-row items-center mb:bg-slate-800 md:items-start w-full max-h-[28rem] text-white px-6 py-8 gap-6 overflow-hidden cursor-pointer'
                 onClick={handleClick}
               >
                 {/* Background blurred image */}
