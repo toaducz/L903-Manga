@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Pagination, Navigation } from 'swiper/modules'
 import { contentRatingColors } from '@/utils/static'
@@ -21,7 +21,7 @@ interface Props {
 
 const SlideMangaCardFullWidth: React.FC<Props> = ({ id }) => {
   const router = useRouter()
-
+  const [isLoaded, setIsLoaded] = useState(false)
   const { data: newManga, isLoading, isError } = useQuery(getNewManga({ limit: 100 }))
 
   console.log(id)
@@ -88,13 +88,19 @@ const SlideMangaCardFullWidth: React.FC<Props> = ({ id }) => {
                   <div className='absolute inset-0 -z-10 bg-slate-800'></div>
                 )}
                 {/* Left Content */}
-                <div className='w-full md:w-[300px] h-[25rem] relative flex-shrink-0'>
+                <div className={`w-full md:w-[300px] h-[25rem] relative flex-shrink-0 `}>
+                  {!isLoaded && (
+                    <div className='absolute inset-0 flex items-center justify-center bg-gray-900 animate-pulse rounded shadow-lg'>
+                      <Loading />
+                    </div>
+                  )}
                   <Image
                     src={coverImageUrl}
                     alt={title}
+                    onLoad={() => setIsLoaded(false)}
                     fill
                     sizes='(max-height: 40vh)'
-                    className='object-cover rounded-xl shadow-md'
+                    className={`object-cover rounded-xl shadow-md ${isLoaded ? 'opacity-0' : 'opacity-100'}`}
                   />
                 </div>
 
