@@ -51,7 +51,7 @@ const SlideMangaCard: React.FC<Props> = ({ id, publicationDemographic }) => {
         slidesPerView={'auto'}
         spaceBetween={16}
         navigation
-        pagination={{ clickable: true }}
+        // pagination={{ clickable: true }}
         className='pb-4 pt-25'
         autoplay={{ delay: 5000, disableOnInteraction: false }}
       >
