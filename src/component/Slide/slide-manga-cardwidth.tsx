@@ -43,7 +43,7 @@ const SlideMangaCardFullWidth: React.FC<Props> = ({ id }) => {
         loop
         // navigation
         autoplay={{ delay: 3500 }}
-        pagination={{ clickable: true }}
+        // pagination={{ clickable: true }}
       >
         {newManga?.data.map(manga => {
           const attr = manga.attributes
