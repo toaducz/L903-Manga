@@ -5,8 +5,8 @@ import { useParams } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 import { getMangaById } from '@/api/Manga/getMangaById'
 import MangaDetailPage from '@/page/manga-detail-page'
-import Loading from '@/component/Loading'
-import Error from '@/component/error'
+import Loading from '@/component/status/Loading'
+import Error from '@/component/status/error'
 
 export default function MangaDetailPageWrapper() {
   return (

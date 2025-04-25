@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useState } from 'react'
 import AuthorDetailPage from '@/page/author-detail-page'
 import { Author } from '@/api/paginate'
-import Loading from '@/component/Loading'
+import Loading from '@/component/status/Loading'
 
 export default function AuthorDetailPageWrapper() {
   return (

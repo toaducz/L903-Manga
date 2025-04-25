@@ -10,9 +10,9 @@ import { splitTextIntoChunks } from '@/utils/format'
 import { contentRatingColors } from '@/utils/static'
 import { Center } from 'zmp-ui'
 import ReactMarkdown from 'react-markdown'
-import MangaChaptersList from '@/component/manga-chapter-list'
-import Loading from '@/component/Loading'
-import Error from '@/component/error'
+import MangaChaptersList from '@/component/manga/manga-chapter-list'
+import Loading from '@/component/status/Loading'
+import Error from '@/component/status/error'
 import { getChaptersByMangaId } from '@/api/Manga/getChapter'
 import { getLanguageName } from '@/utils/enums'
 
@@ -37,9 +37,8 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
   const { data: author, isLoading, isError } = useQuery(getAuthorById({ id: authorId! }))
 
   const { data: chapter } = useQuery(getChaptersByMangaId({ id: manga.id, lang: [lang] }))
-
-  const firstChapterId = chapter?.data[0].id ?? ''
-  // console.log(manga)
+  // console.log(chapter)
+  const firstChapterId = chapter?.data.length !== 0 ? chapter?.data[0].id : ''
 
   useEffect(() => {
     const timer = setTimeout(() => {

@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import '@/css/globals.css'
 import QueryProvider from '@/app/provider'
 import Navbar from '@/component/navbar'
-import ScrollToTop from '@/component/scroll-to-top'
+import ScrollToTop from '@/component/scroll/scroll-to-top'
 import Footer from '@/component/footer'
 
 const geistSans = Geist({

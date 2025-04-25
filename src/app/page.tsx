@@ -2,15 +2,21 @@
 
 import Navbar from '@/component/navbar'
 import { RecoilRoot } from 'recoil'
-import MangaByTagPage from '@/page/manga-by-tag-page'
+// import MangaByTagPage from '@/page/manga-by-tag-page'
 import { Suspense } from 'react'
-import Loading from '@/component/Loading'
+import Loading from '@/component/status/Loading'
 import SlideMangaCard from '@/component/Slide/slide-manga-card'
 import SlideMangaCardFullWidth from '@/component/Slide/slide-manga-cardwidth'
+import MangaTabs from '@/component/manga-tabs'
 
 export default function Home() {
   // const thiller = '07251805-a27e-4d59-b488-f0bfbec15168'
   const oneshot = '0234a31e-a729-4e28-9d6a-3f87c4966b9e'
+  const action = '391b0423-d847-456f-aff0-8b0cfc03066b'
+  const romance = '423e2eae-a7a2-4a8b-ac03-a8351462d71d'
+  const comedy = '4d32cc48-9f00-4cca-9b5a-a839f0764984'
+  const sol = 'e5301a23-ebd9-49dd-a0cb-2add944c7fe9'
+  const SchoolLife = 'caaa44eb-cd40-4177-b930-79d3ef2afe87'
 
   return (
     <RecoilRoot>
@@ -20,24 +26,26 @@ export default function Home() {
         <div className='pt-25'>
           <SlideMangaCardFullWidth id={''} />
         </div>
-        <MangaByTagPage publicationDemographic={'shounen'} pagination={false} />
-        <div className='pt-5 flex flex-col items-center justify-center p-4'>
-          <h2 className='text-2xl font-semibold text-gray-100 mb-6'>Seinen</h2>
-        </div>
-        <div className=' flex py-15 items-center px-9'>
-          <SlideMangaCard publicationDemographic={'seinen'} />
+        <div className='pt-10'>
+          <MangaTabs />
         </div>
         <div className='pt-5 flex flex-col items-center justify-center p-4'>
-          <h2 className='text-2xl font-semibold text-gray-100 mb-6'>Shoujo</h2>
+          <h2 className='text-2xl font-semibold text-gray-100'>Rom-com học đường</h2>
         </div>
-        <div className=' flex py-15 items-center px-9'>
-          <SlideMangaCard publicationDemographic={'shoujo'} />
+        <div className='  py-15 items-center px-9'>
+          <SlideMangaCard id={[romance, comedy, sol, SchoolLife]} />
         </div>
         <div className='pt-5 flex flex-col items-center justify-center p-4'>
-          <h2 className='text-2xl font-semibold text-gray-100 mb-6'>Oneshot</h2>
+          <h2 className='text-2xl font-semibold text-gray-100'>Hành động</h2>
         </div>
-        <div className=' flex py-5 items-center px-9 pb-10'>
-          <SlideMangaCard id={oneshot} />
+        <div className='  py-15 items-center px-9'>
+          <SlideMangaCard id={[action]} />
+        </div>
+        <div className='pt-5 flex flex-col items-center justify-center p-4'>
+          <h2 className='text-2xl font-semibold text-gray-100 '>Oneshot</h2>
+        </div>
+        <div className='  py-5 items-center px-9 pb-10'>
+          <SlideMangaCard id={[oneshot]} />
         </div>
       </Suspense>
     </RecoilRoot>

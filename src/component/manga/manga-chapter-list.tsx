@@ -3,10 +3,10 @@
 import { useQuery } from '@tanstack/react-query'
 import { getChaptersByMangaId } from '@/api/Manga/getChapter'
 import React, { useMemo, useEffect, useState } from 'react'
-import Loading from './Loading'
-import Pagination from './pagination'
+import Loading from '../status/Loading'
+import Pagination from '../pagination'
 import { useSearchParams, useRouter } from 'next/navigation'
-import Error from './error'
+import Error from '../status/error'
 import { getLanguageName } from '@/utils/enums'
 import { formatDate } from '@/utils/format'
 
@@ -94,7 +94,7 @@ const MangaChaptersList: React.FC<MangaChaptersListProps> = ({
   }
 
   if (chapter.total === 0) {
-    return <Error message='Đã bảo là không có Tiếng Việt mà' />
+    return <Error message='Truyện này khả năng khó đọc' />
   }
 
   return (
@@ -142,7 +142,7 @@ const MangaChaptersList: React.FC<MangaChaptersListProps> = ({
         >
           <div className='flex justify-between items-center'>
             <p className='text-white'>
-              <strong>Chapter {item.attributes.chapter ?? 'N/A'}</strong>{' '}
+              <strong>Chapter {item.attributes.chapter ?? 'Oneshot'}</strong>{' '}
               {item.attributes.title && `- ${item.attributes.title}`}
             </p>
             <span className='italic text-sm text-gray-300'>{formatDate(item.attributes.updatedAt)}</span>

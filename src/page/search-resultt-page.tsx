@@ -1,13 +1,13 @@
 'use client'
 
 import { searchManga } from '@/api/Manga/searchManga'
-import Loading from '@/component/Loading'
+import Loading from '@/component/status/Loading'
 import { useQuery } from '@tanstack/react-query'
-import MangaItems from '@/component/manga-items'
+import MangaItems from '@/component/manga/manga-items'
 import Pagination from '@/component/pagination'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useMemo } from 'react'
-import Error from '@/component/error'
+import Error from '@/component/status/error'
 
 interface SearchProps {
   title: string

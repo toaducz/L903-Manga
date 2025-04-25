@@ -9,6 +9,7 @@ export default function Navbar() {
   const router = useRouter()
   const [search, setSearch] = useState('')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const id = ''
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -16,6 +17,12 @@ export default function Navbar() {
       router.push(`/search?q=${encodeURIComponent(search.trim())}`)
       setSearch('')
     }
+  }
+
+  const handleMangaPageClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    router.push(`/manga-page/${id}`)
+    if (isMenuOpen) setIsMenuOpen(false)
   }
 
   const handleRandomClick = (e: React.MouseEvent) => {
@@ -63,7 +70,8 @@ export default function Navbar() {
             <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-slate-300 transition-all duration-300 group-hover:w-full'></span>
           </Link>
           <Link
-            href='/genres'
+            href={`/manga-page`}
+            onClick={handleMangaPageClick}
             className='relative text-white hover:text-slate-300 transition-colors duration-200 group'
           >
             Thể loại

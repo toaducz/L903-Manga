@@ -3,14 +3,14 @@ import { Manga, DataResponse } from '../paginate'
 import { queryOptions } from '@tanstack/react-query'
 
 type TopMangaByTagIdRequest = {
-  id?: string
+  id?: string[]
   offset: number
   limit: number
   publicationDemographic?: string
 }
 
 export const getTopMangaByTagId = ({
-  id = '',
+  id = [],
   offset,
   limit,
   publicationDemographic = 'none'
@@ -27,16 +27,13 @@ export const getTopMangaByTagId = ({
         'publicationDemographic[]': [publicationDemographic]
       }
 
-      if (id) {
-        params['includedTags[]'] = id
-      }
-
       // Chỉ thêm includedTags[] nếu id có giá trị
       if (id) {
         params['includedTags[]'] = id
       }
 
       return request<DataResponse<Manga>>('manga/', 'GET', params)
-    }
+    },
+    staleTime: 60 * 60 * 100
   })
 }
