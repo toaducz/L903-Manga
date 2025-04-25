@@ -48,7 +48,7 @@ const SlideMangaCard: React.FC<Props> = ({ id, publicationDemographic }) => {
     >
       {newManga?.data.map(manga => (
         <SwiperSlide key={manga.id} style={{ width: '300px' }}>
-          <MangaItems manga={manga} />
+          <MangaItems manga={manga} isResponsive={false} />
         </SwiperSlide>
       ))}
     </Swiper>

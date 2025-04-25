@@ -20,23 +20,23 @@ export default function Home() {
         <div className='pt-25'>
           <SlideMangaCardFullWidth id={''} />
         </div>
-        <MangaByTagPage publicationDemographic={'shounen'} />
-        <div className='pt-15 flex flex-col items-center justify-center p-4'>
+        <MangaByTagPage publicationDemographic={'shounen'} pagination={false} />
+        <div className='pt-5 flex flex-col items-center justify-center p-4'>
           <h2 className='text-2xl font-semibold text-gray-100 mb-6'>Seinen</h2>
         </div>
-        <div className='py-15'>
+        <div className=' flex py-15 items-center px-9'>
           <SlideMangaCard publicationDemographic={'seinen'} />
         </div>
-        <div className='pt-15 flex flex-col items-center justify-center p-4'>
+        <div className='pt-5 flex flex-col items-center justify-center p-4'>
           <h2 className='text-2xl font-semibold text-gray-100 mb-6'>Shoujo</h2>
         </div>
-        <div className='py-15'>
+        <div className=' flex py-15 items-center px-9'>
           <SlideMangaCard publicationDemographic={'shoujo'} />
         </div>
-        <div className='pt-15 flex flex-col items-center justify-center p-4'>
+        <div className='pt-5 flex flex-col items-center justify-center p-4'>
           <h2 className='text-2xl font-semibold text-gray-100 mb-6'>Oneshot</h2>
         </div>
-        <div className='py-15'>
+        <div className=' flex py-5 items-center px-9 pb-10'>
           <SlideMangaCard id={oneshot} />
         </div>
       </Suspense>

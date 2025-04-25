@@ -47,10 +47,8 @@ const SlideMangaCardFullWidth: React.FC<Props> = ({ id }) => {
       >
         {newManga?.data.map(manga => {
           const attr = manga.attributes
-          const title =  attr.altTitles.find(t => t.vi)?.vi ?? attr.title.en ?? attr.altTitles.find(t => t.en)?.en
-          const altTitle =
-            attr.altTitles.find(t => t.en)?.en ||
-            attr.altTitles.find(t => t.ja)?.ja
+          const title = attr.altTitles.find(t => t.vi)?.vi ?? attr.title.en ?? attr.altTitles.find(t => t.en)?.en
+          const altTitle = attr.altTitles.find(t => t.en)?.en || attr.altTitles.find(t => t.ja)?.ja
           const year = attr.year || 'Không rõ'
           const status = MangaStatus[attr.status as keyof typeof MangaStatus] || 'Không rõ'
           const originalLang = OriginalLanguage[attr.originalLanguage as keyof typeof OriginalLanguage] || 'Không rõ'
@@ -71,12 +69,18 @@ const SlideMangaCardFullWidth: React.FC<Props> = ({ id }) => {
           return (
             <SwiperSlide key={manga.id}>
               <div
-                className='flex flex-col md:flex-row items-center md:items-start w-full h-[50vh] bg-slate-900 text-white px-6 py-8 gap-6 overflow-hidden'
+                className='flex flex-col md:flex-row items-center md:items-start w-full max-h-[28rem] bg-slate-900 text-white px-6 py-8 gap-6 overflow-hidden'
                 onClick={handleClick}
               >
                 {/* Left Content */}
-                <div className='w-full md:w-[300px] h-[400px] relative flex-shrink-0'>
-                  <Image src={coverImageUrl} alt={title} fill className='object-cover rounded-xl shadow-md' />
+                <div className='w-full md:w-[300px] h-[25rem] relative flex-shrink-0'>
+                  <Image
+                    src={coverImageUrl}
+                    alt={title}
+                    fill
+                    sizes='(max-height: 40vh)'
+                    className='object-cover rounded-xl shadow-md'
+                  />
                 </div>
                 <div className='flex-1 space-y-3 max-w-xl'>
                   <h2 className='text-3xl font-bold'>{title}</h2>

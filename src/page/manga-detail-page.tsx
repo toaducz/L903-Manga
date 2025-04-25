@@ -149,7 +149,9 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
             {/* Manga Details */}
             <div className='flex-1 space-y-6'>
               <div>
-                <h1 className='text-4xl font-bold text-white mb-2'>{attributes.altTitles.find(item => item.vi)?.vi ?? attributes.title.en}</h1>
+                <h1 className='text-4xl font-bold text-white mb-2'>
+                  {attributes.altTitles.find(item => item.vi)?.vi ?? attributes.title.en}
+                </h1>
                 {attributes.altTitles.find(item => item.vi)?.vi ? (
                   <p className='text-gray-400 italic text-lg'>{attributes.altTitles.find(item => item.en)?.en}</p>
                 ) : (
