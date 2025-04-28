@@ -41,6 +41,8 @@ function MangaDetailContent() {
     return <Error message='Không tìm thấy truyện' />
   }
 
+  // if(isSuccess) console.log(manga?.data)
+
   return (
     <div
       className={`transition-all duration-500 ease-in-out transform ${

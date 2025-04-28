@@ -55,7 +55,7 @@ export default function AdvancedSearchPage() {
   // }
 
   if (isSuccess) {
-    console.log(result)
+    // console.log(result)
   }
 
   // Xử lý tìm kiếm

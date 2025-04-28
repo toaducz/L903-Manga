@@ -27,6 +27,8 @@ const MangaItems: React.FC<MangaCardProps> = ({ manga, isResponsive = true }) =>
     }
   }
 
+  console.log(manga)
+
   return (
     <div
       className={`bg-slate-800 rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer group overflow-hidden ${isResponsive ? 'flex sm:block' : ''}`}

@@ -35,7 +35,7 @@ function MangaPageContent() {
 
   useEffect(() => {
     setSelectedTags(ids)
-    console.log('id', ids)
+    // console.log('id', ids)
   }, [ids])
 
   useEffect(() => {
