@@ -11,6 +11,7 @@ import MangaChaptersList from '@/component/manga/manga-chapter-list'
 import ScrollToBottomButton from '@/component/scroll/scroll-to-bottom'
 import { getChaptersByMangaId } from '@/api/Manga/getChapter'
 import ChapterNavButton from '@/component/chapter-navigation'
+import { useRouter } from 'next/navigation'
 
 export default function ChapterReaderPage() {
   return (
@@ -21,6 +22,7 @@ export default function ChapterReaderPage() {
 }
 
 function ReaderContent() {
+  const router = useRouter()
   const params = useParams()
   const searchParams = useSearchParams()
   const [showChapters, setShowChapters] = useState(false)
@@ -69,6 +71,12 @@ function ReaderContent() {
 
   const { prevChapter, nextChapter } = getPreviousAndNextChapter()
 
+  const handleClick = (id: string) => {
+    if (id) {
+      router.push(`/manga-detail/${id.trim()}`)
+    }
+  }
+
   if (isLoading) return <Loading />
   if (!chaptersData?.data?.length) return <Error message='Không tìm thấy chapter!' />
   if (data?.chapter?.data?.length === 0) {
@@ -111,7 +119,14 @@ function ReaderContent() {
           CHAPTER {number} {lang}
         </span>
       </div>
-
+      <div className=' flex items-center justify-center pt-5'>
+        <button
+          onClick={() => handleClick(mangaId)}
+          className='flex items-center gap-2 px-6 p-3 text-white font-semibold bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg shadow-md hover:from-blue-700 hover:to-blue-900 hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
+        >
+          Quay lại trang chi tiết
+        </button>
+      </div>
       <div className='flex justify-center gap-4 my-6'>
         <ChapterNavButton
           chapter={prevChapter}
@@ -172,7 +187,7 @@ function ReaderContent() {
         />
       </div>
 
-      <div className='flex justify-center my-6 pb-10'>
+      <div className='flex justify-center my-6 pb-3'>
         <button
           onClick={() => setShowChapters(prev => !prev)}
           className='flex items-center gap-2 px-6 p-3 text-white font-semibold bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg shadow-md hover:from-blue-700 hover:to-blue-900 hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
@@ -190,6 +205,14 @@ function ReaderContent() {
           order={order}
         />
       )}
+      <div className=' flex items-center justify-center pb-10'>
+        <button
+          onClick={() => handleClick(mangaId)}
+          className='flex items-center gap-2 px-6 p-3 text-white font-semibold bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg shadow-md hover:from-blue-700 hover:to-blue-900 hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
+        >
+          Quay lại trang chi tiết
+        </button>
+      </div>
 
       <ScrollToBottomButton />
     </div>

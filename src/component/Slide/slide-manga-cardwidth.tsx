@@ -43,7 +43,7 @@ const SlideMangaCardFullWidth: React.FC<Props> = ({ id }) => {
         loop
         // navigation
         autoplay={{ delay: 3500 }}
-      // pagination={{ clickable: true }}
+        // pagination={{ clickable: true }}
       >
         {newManga?.data.map(manga => {
           const attr = manga.attributes
@@ -56,8 +56,8 @@ const SlideMangaCardFullWidth: React.FC<Props> = ({ id }) => {
           const coverArt = manga.relationships.find(rel => rel.type === 'cover_art')
           const coverImageUrl = coverArt?.attributes?.fileName
             ? `/api/image?url=${encodeURIComponent(
-              `https://uploads.mangadex.org/covers/${manga.id}/${coverArt.attributes.fileName}`
-            )}`
+                `https://uploads.mangadex.org/covers/${manga.id}/${coverArt.attributes.fileName}`
+              )}`
             : '/no-image.jpg'
           const tags = attr.tags.map(tag => tag.attributes.name.en)
           const handleClick = () => {
@@ -136,7 +136,6 @@ const SlideMangaCardFullWidth: React.FC<Props> = ({ id }) => {
                 </div>
               </div>
             </SwiperSlide>
-
           )
         })}
       </Swiper>
