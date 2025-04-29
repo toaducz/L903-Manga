@@ -15,23 +15,23 @@ type ReadingItem = {
   updatedAt: number
 }
 
-export const getReadingHistory = (): ReadingItem[] => {
-  if (typeof window === 'undefined') return []
-
-  const current = localStorage.getItem('reading_history')
-  if (!current) return []
-
-  try {
-    return JSON.parse(current)
-  } catch {
-    return []
-  }
-}
-
 export default function ReadingHistoryPage() {
   const [history, setHistory] = useState<ReadingItem[]>([])
 
   useEffect(() => {
+    const getReadingHistory = (): ReadingItem[] => {
+      if (typeof window === 'undefined') return []
+
+      const current = localStorage.getItem('reading_history')
+      if (!current) return []
+
+      try {
+        return JSON.parse(current)
+      } catch {
+        return []
+      }
+    }
+
     const data = getReadingHistory()
     setHistory(data)
   }, [])
