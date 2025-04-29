@@ -17,6 +17,7 @@ export default function AdvancedSearchPage() {
   const [followedCount, setFollowedCount] = useState<string>('desc')
   const [latestUploadedChapter, setLatestUploadedChapter] = useState<string>('desc')
   const [publicationDemographic, setPublicationDemographic] = useState<string>('none')
+  const [contentRating, setContentRating] = useState<string[]>(['safe', 'suggestive', 'erotica'])
   const [offset, setOffset] = useState(0)
   const limit = 20
 
@@ -34,7 +35,8 @@ export default function AdvancedSearchPage() {
       publicationDemographic,
       followedCount,
       latestUploadedChapter,
-      year
+      year,
+      contentRating
     })
   )
 
@@ -144,6 +146,20 @@ export default function AdvancedSearchPage() {
             >
               <option value='desc'>Mới nhất</option>
               <option value='asc'>Cũ nhất</option>
+            </select>
+          </div>
+
+          {/* content rating */}
+          <div>
+            <label className='block text-sm font-medium text-white mb-1'>Quỷ</label>
+            <select
+              value={contentRating.join(',')} // biến array thành string
+              onChange={e => setContentRating(e.target.value.split(','))} // tách string lại thành array
+              className='w-full px-4 py-2 rounded-lg bg-slate-800 text-white border border-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-600 text-sm transition-all duration-200'
+            >
+              <option value='safe,suggestive,erotica'>Bình thường</option>
+              <option value='safe,suggestive,erotica,pornographic'>Bao gồm Quỷ</option>
+              <option value='pornographic'>Thuần Quỷ</option>
             </select>
           </div>
         </div>

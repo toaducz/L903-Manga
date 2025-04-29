@@ -11,6 +11,7 @@ type GetMangaByFilterSearchRequest = {
   followedCount?: string
   latestUploadedChapter?: string
   year?: string
+  contentRating?: string[]
 }
 
 export const GetMangaByFilterSearch = ({
@@ -21,7 +22,8 @@ export const GetMangaByFilterSearch = ({
   title = '',
   followedCount = 'desc',
   latestUploadedChapter = 'desc',
-  year = 'desc'
+  year = 'desc',
+  contentRating = ['safe', 'suggestive', 'erotica']
 }: GetMangaByFilterSearchRequest) => {
   return queryOptions({
     queryKey: [
@@ -32,7 +34,8 @@ export const GetMangaByFilterSearch = ({
       title,
       followedCount,
       latestUploadedChapter,
-      year
+      year,
+      contentRating
     ],
     queryFn: () => {
       const params: Record<string, string | number | string[]> = {
@@ -57,6 +60,10 @@ export const GetMangaByFilterSearch = ({
 
       if (followedCount) {
         params['order[followedCount]'] = followedCount
+      }
+
+      if (contentRating) {
+        params['contentRating[]'] = contentRating
       }
 
       return request<DataResponse<Manga>>('manga/', 'GET', params)

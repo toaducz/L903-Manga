@@ -82,6 +82,10 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
     }
   }
 
+  // useEffect(() => {
+  //   console.log(activeTab)
+  // },[activeTab])
+
   const rating = manga.attributes.contentRating as keyof typeof ContentRating
 
   if (isLoading) {

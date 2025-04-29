@@ -8,10 +8,11 @@ type MangaByIdRequest = {
 
 export const getMangaById = ({ id }: MangaByIdRequest) => {
   return queryOptions({
-    queryKey: ['get-manga-by-id'],
+    queryKey: ['get-manga-by-id', id],
     queryFn: () =>
       request<Detail<Manga>>(`manga/${id}`, 'GET', {
-        'includes[]': 'cover_art'
+        'includes[]': 'cover_art',
+        'contentRating[]': 'safe'
       })
   })
 }

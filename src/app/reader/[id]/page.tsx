@@ -12,6 +12,9 @@ import ScrollToBottomButton from '@/component/scroll/scroll-to-bottom'
 import { getChaptersByMangaId } from '@/api/Manga/getChapter'
 import ChapterNavButton from '@/component/chapter-navigation'
 import { useRouter } from 'next/navigation'
+import { saveReadingHistory } from '@/utils/localStorage'
+import { Chapter } from '@/api/Manga/getChapter'
+import { getMangaById } from '@/api/Manga/getMangaById'
 
 export default function ChapterReaderPage() {
   return (
@@ -36,11 +39,18 @@ function ReaderContent() {
   const langValue = searchParams.get('langValue') ?? 'all'
   const order = searchParams.get('order') ?? 'asc'
 
-  const { data, isLoading, error } = useQuery({
+  const {
+    data: images,
+    isLoading,
+    error,
+    isSuccess
+  } = useQuery({
     queryKey: ['chapter-images', id, offset],
     queryFn: () => getChapterImages(id),
     enabled: !!id
   })
+
+  // console.log(images)
 
   const { data: chaptersData } = useQuery(
     getChaptersByMangaId({
@@ -51,9 +61,22 @@ function ReaderContent() {
     })
   )
 
+  const { data: manga } = useQuery(getMangaById({ id: mangaId }))
+
+  const title =
+    manga?.data.attributes.altTitles.find(t => t.vi)?.vi ??
+    manga?.data.attributes.altTitles.find(t => t.en)?.en ??
+    manga?.data.attributes.altTitles.find(t => t.ja)?.ja
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [id])
+
+  useEffect(() => {
+    if (mangaId && chapterId && chaptersData?.data?.length && title) {
+      saveReadingHistory(mangaId, chapterId, chaptersData?.data as Chapter[], title, number, lang)
+    }
+  }, [mangaId, chapterId, chaptersData, title, number, lang])
 
   const getPreviousAndNextChapter = () => {
     if (!chaptersData?.data || !chapterId) return { prevChapter: null, nextChapter: null }
@@ -78,8 +101,8 @@ function ReaderContent() {
   }
 
   if (isLoading) return <Loading />
-  if (!chaptersData?.data?.length) return <Error message='Không tìm thấy chapter!' />
-  if (data?.chapter?.data?.length === 0) {
+  if (!chaptersData?.data?.length && isSuccess) return <Error message='Không tìm thấy chapter!' />
+  if (images?.chapter?.data?.length === 0) {
     return (
       <div className='flex flex-col items-center justify-center space-y-0.5 pt-15'>
         <div className='flex justify-center gap-4 my-6'>
@@ -153,10 +176,10 @@ function ReaderContent() {
       </div>
 
       <div className='flex flex-col items-center gap-6 px-4 pb-8 pt-10'>
-        {data.chapter.data.map((filename: string, index: number) => (
+        {images.chapter.data.map((filename: string, index: number) => (
           <ImageWithLoading
             key={index}
-            src={`${data.baseUrl}/data/${data.chapter.hash}/${filename}`}
+            src={`${images.baseUrl}/data/${images.chapter.hash}/${filename}`}
             alt={`Trang ${index + 1}`}
           />
         ))}

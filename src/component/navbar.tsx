@@ -30,6 +30,12 @@ export default function Navbar() {
     if (isMenuOpen) setIsMenuOpen(false)
   }
 
+  const handleHistorySearch = (e: React.MouseEvent) => {
+    e.preventDefault()
+    router.push(`/reading-history/`)
+    if (isMenuOpen) setIsMenuOpen(false)
+  }
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
   }
@@ -62,10 +68,11 @@ export default function Navbar() {
             <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-slate-300 transition-all duration-300 group-hover:w-full'></span>
           </Link>
           <Link
-            href='/authors'
+            href='/reading-history'
+            onClick={handleHistorySearch}
             className='relative text-white hover:text-slate-300 transition-colors duration-200 group'
           >
-            Tác giả
+            Lịch sử đọc truyện
             <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-slate-300 transition-all duration-300 group-hover:w-full'></span>
           </Link>
           <Link
@@ -151,11 +158,12 @@ export default function Navbar() {
             Phổ biến
           </Link>
           <Link
-            href='/authors'
-            className='text-white hover:text-slate-300 transition-colors duration-200'
-            onClick={toggleMenu}
+            href='/reading-history'
+            onClick={handleHistorySearch}
+            className='relative text-white hover:text-slate-300 transition-colors duration-200 group'
           >
-            Tác giả
+            Lịch sử đọc truyện
+            <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-slate-300 transition-all duration-300 group-hover:w-full'></span>
           </Link>
           <Link
             href='/filter-search'

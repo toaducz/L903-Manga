@@ -93,9 +93,9 @@ const MangaChaptersList: React.FC<MangaChaptersListProps> = ({
     return <Error message='Lỗi rồi' />
   }
 
-  if (chapter.total === 0) {
-    return <Error message='Truyện này khả năng khó đọc' />
-  }
+  // if (chapter.total === 0) {
+  //   return <Error message='Truyện này khả năng khó đọc' />
+  // }
 
   return (
     <div
@@ -129,32 +129,37 @@ const MangaChaptersList: React.FC<MangaChaptersListProps> = ({
         </select>
       </div>
 
-      {chapter?.data.map(item => (
-        <div
-          key={item.id}
-          className={`p-3 rounded-md hover:bg-slate-600 transition cursor-pointer
-      ${item.id === chapterId ? 'bg-green-700' : 'bg-slate-800'}`}
-          onClick={() =>
-            router.push(
-              `/reader/${item.id}?mangaId=${mangaId}&offset=${offset}&chapterId=${item.id}&number=${item.attributes.chapter}&lang=${getLanguageName(item.attributes.translatedLanguage)}&langFilter=${item.attributes.translatedLanguage}&langValue=${lang}&order=${sortOrder}&chapter=${chapter.data}`
-            )
-          }
-        >
-          <div className='flex justify-between items-center'>
-            <p className='text-white'>
-              <strong>Chapter {item.attributes.chapter ?? 'Oneshot'}</strong>{' '}
-              {item.attributes.title && `- ${item.attributes.title}`}
-            </p>
-            <span className='italic text-sm text-gray-300'>{formatDate(item.attributes.updatedAt)}</span>
-          </div>
-          <p className='text-sm text-white'>Volume: {item.attributes.volume}</p>
-          <p className='text-sm text-white'>Ngôn ngữ: {getLanguageName(item.attributes.translatedLanguage)}</p>
-          <p className='text-sm text-white'>
-            Nhóm dịch: {item.relationships.find(r => r.type === 'scanlation_group')?.attributes?.name ?? 'Không rõ'}
-          </p>
+      {chapter.total === 0 ? (
+        <div className='w-full h-full flex items-center justify-center py-10'>
+          <p className='text-gray-500 text-lg'>Không có tiếng Việt!</p>
         </div>
-      ))}
-
+      ) : (
+        chapter?.data.map(item => (
+          <div
+            key={item.id}
+            className={`p-3 rounded-md hover:bg-slate-600 transition cursor-pointer
+      ${item.id === chapterId ? 'bg-green-700' : 'bg-slate-800'}`}
+            onClick={() =>
+              router.push(
+                `/reader/${item.id}?mangaId=${mangaId}&offset=${offset}&chapterId=${item.id}&number=${item.attributes.chapter}&lang=${getLanguageName(item.attributes.translatedLanguage)}&langFilter=${item.attributes.translatedLanguage}&langValue=${lang}&order=${sortOrder}&chapter=${chapter.data}`
+              )
+            }
+          >
+            <div className='flex justify-between items-center'>
+              <p className='text-white'>
+                <strong>Chapter {item.attributes.chapter ?? 'Oneshot'}</strong>{' '}
+                {item.attributes.title && `- ${item.attributes.title}`}
+              </p>
+              <span className='italic text-sm text-gray-300'>{formatDate(item.attributes.updatedAt)}</span>
+            </div>
+            <p className='text-sm text-white'>Volume: {item.attributes.volume}</p>
+            <p className='text-sm text-white'>Ngôn ngữ: {getLanguageName(item.attributes.translatedLanguage)}</p>
+            <p className='text-sm text-white'>
+              Nhóm dịch: {item.relationships.find(r => r.type === 'scanlation_group')?.attributes?.name ?? 'Không rõ'}
+            </p>
+          </div>
+        ))
+      )}
       <Pagination
         total={chapter?.total || 0}
         offset={offset}

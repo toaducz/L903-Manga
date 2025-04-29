@@ -27,7 +27,7 @@ const MangaItems: React.FC<MangaCardProps> = ({ manga, isResponsive = true }) =>
     }
   }
 
-  console.log(manga)
+  // console.log(manga)
 
   return (
     <div
