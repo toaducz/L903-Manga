@@ -1,9 +1,14 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { Chapter } from '@/api/Manga/getChapter'
 import { FaBookOpen, FaTrash } from 'react-icons/fa'
+import { ImageWithLoading } from '@/component/image/image-with-loading'
+import { getCover } from '@/api/Cover/getCovers'
+import Loading from '@/component/status/Loading'
+import ScrollToBottomButton from '@/component/scroll/scroll-to-bottom'
 
 type ReadingItem = {
   mangaId: string
@@ -42,7 +47,7 @@ export default function ReadingHistoryPage() {
     setHistory([])
   }
 
-  if (history.length === 0) {
+  if (history.length === 0 && !localStorage.getItem('reading_history')) {
     return (
       <div className='min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-slate-900 to-slate-800 text-white px-6'>
         <FaBookOpen className='text-6xl mb-4 opacity-70' />
@@ -62,30 +67,13 @@ export default function ReadingHistoryPage() {
     <div className='min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-white px-6 pt-24 pb-12'>
       <div className='max-w-6xl mx-auto'>
         <h1 className='text-4xl font-bold mb-8 text-center'>Lịch sử đọc truyện</h1>
-
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
-          {history.map((item, index) => (
-            <Link
-              href={`/reader/${item.chapterId}?mangaId=${item.mangaId}&chapterId=${item.chapterId}&chapter=${item.chapter}&number=${item.number}&lang=${item.lang}`}
-              key={index}
-              className='group bg-white/10 backdrop-blur-md rounded-xl p-6 shadow-lg hover:shadow-xl hover:bg-white/20 transition-all duration-300 transform hover:scale-105'
-            >
-              <div className='space-y-3'>
-                <div className='h-13'>
-                  <h3 className='text-xl font-semibold text-white group-hover:text-blue-300 transition-colors line-clamp-2'>
-                    {item.title}
-                  </h3>
-                </div>
-                <p className='text-gray-300'>Chapter: {item.number}</p>
-                <p className='text-gray-300'>Ngôn ngữ: {item.lang.toUpperCase()}</p>
-                <p className='text-sm text-gray-400'>
-                  Đọc lần cuối: {new Date(item.updatedAt).toLocaleString('vi-VN')}
-                </p>
-              </div>
-            </Link>
-          ))}
+        <div className='scale-100'>
+          <div className='grid gap-6 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]'>
+            {history.map((item, index) => (
+              <HistoryItem item={item} key={index} />
+            ))}
+          </div>
         </div>
-
         <div className='mt-12 flex justify-center'>
           <button
             onClick={handleClearHistory}
@@ -97,6 +85,65 @@ export default function ReadingHistoryPage() {
           </button>
         </div>
       </div>
+      <ScrollToBottomButton />
     </div>
+  )
+}
+
+type HistoryItemProps = {
+  item: ReadingItem
+}
+
+function HistoryItem({ item }: HistoryItemProps) {
+  const { data: covers, isLoading } = useQuery(getCover({ id: item.mangaId, limit: 1 }))
+
+  const filename = covers?.data[0].attributes.fileName
+  const coverImageUrl = filename
+    ? `/api/image?url=${encodeURIComponent(`https://uploads.mangadex.org/covers/${item.mangaId}/${filename}`)}`
+    : '/no-image.jpg'
+
+  // console.log(coverImageUrl)
+
+  if (isLoading) {
+    ;<Loading />
+  }
+
+  return (
+    <Link
+      href={`/reader/${item.chapterId}?mangaId=${item.mangaId}&chapterId=${item.chapterId}&chapter=${encodeURIComponent(
+        JSON.stringify(item.chapter)
+      )}&number=${item.number}&lang=${item.lang}`}
+      className='
+        w-full mx-auto group bg-white/10 backdrop-blur-md shadow-lg 
+        hover:shadow-xl hover:bg-white/20 transition-all duration-300 
+        md:max-w-[300px] md:rounded-xl md:p-6 md:transform md:hover:scale-105 md:scale-100
+        flex items-center p-3 rounded-lg mb-3 
+        md:block
+      '
+    >
+      <div
+        className='
+          overflow-hidden rounded-md
+          w-24 h-24 flex-shrink-0
+          md:w-full md:h-full md:max-h-[18rem]
+        '
+      >
+        <ImageWithLoading src={coverImageUrl} alt={item.title + ' cover'} className='w-full h-full object-cover' />
+      </div>
+      <div className='ml-4 flex-1 md:ml-0 md:space-y-3 md:pt-3'>
+        <div className='md:h-13'>
+          <h3 className='font-semibold text-white group-hover:text-blue-300 transition-colors line-clamp-2 text-base md:text-xl'>
+            {item.title}
+          </h3>
+        </div>
+        <div className='text-sm text-gray-300 mt-1 md:text-base md:mt-0'>
+          <p className='text-gray-300'>Chapter: {item.number}</p>
+          <p className='text-gray-300'>Ngôn ngữ: {item.lang.toUpperCase()}</p>
+          <p className='text-gray-400 text-xs mt-1 md:text-sm'>
+            Đọc lần cuối: {new Date(item.updatedAt).toLocaleString('vi-VN')}
+          </p>
+        </div>
+      </div>
+    </Link>
   )
 }

@@ -5,7 +5,7 @@ import { useParams, useSearchParams } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 import { getChapterImages } from '@/api/Manga/getChapterImages'
 import Loading from '@/component/status/Loading'
-import Image from 'next/image'
+import { ImageWithLoading } from '@/component/image/image-with-loading'
 import Error from '@/component/status/error'
 import MangaChaptersList from '@/component/manga/manga-chapter-list'
 import ScrollToBottomButton from '@/component/scroll/scroll-to-bottom'
@@ -33,7 +33,7 @@ function ReaderContent() {
   const id = params.id as string
   const mangaId = searchParams.get('mangaId') ?? ''
   const chapterId = searchParams.get('chapterId') ?? ''
-  const number = searchParams.get('number') ?? ''
+  const number = searchParams.get('number') ?? 'Oneshot'
   const lang = searchParams.get('lang') ?? ''
   const langFilterValue = searchParams.get('langFilter') ?? ['vi', 'en']
   const langValue = searchParams.get('langValue') ?? 'all'
@@ -43,6 +43,7 @@ function ReaderContent() {
     data: images,
     isLoading,
     error,
+    isError,
     isSuccess
   } = useQuery({
     queryKey: ['chapter-images', id, offset],
@@ -135,11 +136,15 @@ function ReaderContent() {
   }
   if (error) return <Error />
 
+  if (isError) {
+    return <Error message='Có gì đó sai sai?' />
+  }
+
   return (
     <div>
       <div className='flex items-center justify-center px-4 pt-25'>
         <span className='font-bold text-4xl'>
-          CHAPTER {number} {lang}
+          CHAPTER {number} {lang ?? 'Oneshot'}
         </span>
       </div>
       <div className=' flex items-center justify-center pt-5'>
@@ -238,30 +243,6 @@ function ReaderContent() {
       </div>
 
       <ScrollToBottomButton />
-    </div>
-  )
-}
-
-const ImageWithLoading = ({ src, alt }: { src: string; alt: string }) => {
-  const [isLoaded, setIsLoaded] = useState(false)
-
-  return (
-    <div>
-      <div className='relative w-full max-w-screen-md min-h-[500px]'>
-        {!isLoaded && (
-          <div className='absolute inset-0 flex items-center justify-center bg-gray-900 animate-pulse rounded shadow-lg'>
-            <Loading />
-          </div>
-        )}
-        <Image
-          src={src}
-          alt={alt}
-          width={800}
-          height={1200}
-          onLoad={() => setIsLoaded(true)}
-          className={`rounded shadow-lg transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-        />
-      </div>
     </div>
   )
 }
