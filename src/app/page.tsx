@@ -26,7 +26,7 @@ export default function Home() {
         <div className='pt-25'>
           <SlideMangaCardFullWidth id={''} />
         </div>
-        <div className='pt-10'>
+        <div className='md:pt-10'>
           <MangaTabs />
         </div>
         <div className='pt-5 flex flex-col items-center justify-center p-4'>

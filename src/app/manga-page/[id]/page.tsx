@@ -6,7 +6,7 @@ import { getTopMangaByTagId } from '@/api/Manga/getTopMangabyTagId'
 import MangaByTagPage from '@/page/manga-by-tag-page'
 import Loading from '@/component/status/Loading'
 import Error from '@/component/status/error'
-import TagMultiSelect from '@/component/TagMultiSelect'
+import TagMultiSelect from '@/component/tag-multi-select'
 import { useParams } from 'next/navigation'
 
 function MangaPageContent() {

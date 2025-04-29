@@ -46,7 +46,7 @@ const MangaChaptersList: React.FC<MangaChaptersListProps> = ({
     router.push(`?${params.toString()}`, { scroll: false })
   }
   const [lang, setLang] = useState<string>(langValue ?? 'all')
-  const [langFilter, setLangFilter] = useState(langFilterValue ?? ['vi', 'en'])
+  const [langFilter, setLangFilter] = useState(langFilterValue ?? ['vi', 'en', 'ja'])
   const [isVisible, setIsVisible] = useState(false)
 
   const {
@@ -56,7 +56,7 @@ const MangaChaptersList: React.FC<MangaChaptersListProps> = ({
   } = useQuery(getChaptersByMangaId({ id: mangaId, limit: limit, offset: offset, order: sortOrder, lang: langFilter }))
 
   const handleLangChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selected = event.target.value as 'all' | 'vi' | 'en'
+    const selected = event.target.value as 'all' | 'vi' | 'en' | 'ja'
     setLang(selected)
 
     if (selected === 'all') {
@@ -126,12 +126,13 @@ const MangaChaptersList: React.FC<MangaChaptersListProps> = ({
           <option value='all'>Tất cả ngôn ngữ</option>
           <option value='vi'>Tiếng Việt</option>
           <option value='en'>Tiếng Anh</option>
+          <option value='ja'>Tiếng Nhật</option>
         </select>
       </div>
 
       {chapter.total === 0 ? (
         <div className='w-full h-full flex items-center justify-center py-10'>
-          <p className='text-gray-500 text-lg'>Không có tiếng Việt!</p>
+          <p className='text-gray-500 text-lg'>Không có bản dịch cho ngôn ngữ này!</p>
         </div>
       ) : (
         chapter?.data.map(item => (

@@ -40,6 +40,7 @@ const MangaItems: React.FC<MangaCardProps> = ({ manga, isResponsive = true }) =>
       >
         {isLoading && <div className='absolute inset-0 bg-slate-700 animate-pulse rounded-2xl' />}
         <Image
+          unoptimized
           src={proxyImageUrl}
           alt={title || 'title'}
           fill

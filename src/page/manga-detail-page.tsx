@@ -101,6 +101,7 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
       {/* Background Layer */}
       <div className='absolute inset-0 z-0 pointer-events-none'>
         <Image
+          unoptimized
           src={proxyImageUrl}
           alt='Blur Background'
           fill
@@ -116,6 +117,7 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
             {/* Cover Image */}
             <div className='w-full md:w-[300px] flex-shrink-0'>
               <Image
+                unoptimized
                 src={proxyImageUrl}
                 alt='Manga Cover'
                 width={300}
@@ -243,11 +245,10 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
         {/* Tabs */}
         <div className='w-full flex justify-center items-center gap-4 sm:gap-6 z-40 pointer-events-auto bg-transparent pt-1'>
           <button
-            className={`px-4 sm:px-6 py-2 rounded-lg font-medium text-sm sm:text-base transition-all duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:ring-opacity-50 pointer-events-auto ${
-              activeTab === 'chapters'
-                ? 'bg-blue-600 text-white shadow-md hover:bg-blue-700'
-                : 'bg-gray-200 text-gray-900 hover:bg-gray-300'
-            }`}
+            className={`px-4 sm:px-6 py-2 rounded-lg font-medium text-sm sm:text-base transition-all duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:ring-opacity-50 pointer-events-auto ${activeTab === 'chapters'
+              ? 'bg-blue-600 text-white shadow-md hover:bg-blue-700'
+              : 'bg-gray-200 text-gray-900 hover:bg-gray-300'
+              }`}
             onClick={() => {
               setActiveTab('chapters')
             }}
@@ -255,11 +256,10 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
             Danh sách chương
           </button>
           <button
-            className={`px-4 sm:px-6 py-2 rounded-lg font-medium text-sm sm:text-base transition-all duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:ring-opacity-50 pointer-events-auto ${
-              activeTab === 'related'
-                ? 'bg-blue-600 text-white shadow-md hover:bg-blue-700'
-                : 'bg-gray-200 text-gray-900 hover:bg-gray-300'
-            }`}
+            className={`px-4 sm:px-6 py-2 rounded-lg font-medium text-sm sm:text-base transition-all duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:ring-opacity-50 pointer-events-auto ${activeTab === 'related'
+              ? 'bg-blue-600 text-white shadow-md hover:bg-blue-700'
+              : 'bg-gray-200 text-gray-900 hover:bg-gray-300'
+              }`}
             onClick={() => {
               setActiveTab('related')
             }}

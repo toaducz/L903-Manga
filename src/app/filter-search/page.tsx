@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { GetMangaByFilterSearch } from '@/api/Manga/getMangaByFilterSearch'
-import TagMultiSelect from '@/component/TagMultiSelect'
+import TagMultiSelect from '@/component/tag-multi-select'
 // import { Manga } from '@/api/paginate';
 import MangaItems from '@/component/manga/manga-items'
 import Pagination from '@/component/pagination'
