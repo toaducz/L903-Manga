@@ -9,7 +9,7 @@ interface ErrorProps {
 const Error: React.FC<ErrorProps> = ({ message }) => {
   return (
     <div className='flex flex-col items-center justify-center min-h-screen space-y-4'>
-      <Image src={klee} alt='Error...' width={300} height={300} className='object-contain' priority />
+      <Image unoptimized src={klee} alt='Error...' width={300} height={300} className='object-contain' priority />
       <span className='text-lg font-semibold'>Có lỗi rồi người anh em!!!</span>
       {message && <span className='text-2xl font-bold text-center'>{message}</span>}
     </div>
