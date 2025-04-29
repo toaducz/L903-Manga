@@ -5,9 +5,9 @@ import QueryProvider from '@/app/provider'
 import Navbar from '@/component/navbar'
 import ScrollToTop from '@/component/scroll/scroll-to-top'
 import Footer from '@/component/footer'
-// import RouteChangeIndicator from '@/component/RouteChangeIndicator'
 
 import NProgressInit from '@/component/NProgressInit'
+import { Suspense } from 'react'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -33,8 +33,7 @@ export default function RootLayout({
     <html lang='en'>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <QueryProvider>
-          {/* <RouteChangeIndicator/> */}
-          <NProgressInit />
+          <Suspense> <NProgressInit /></Suspense>
           <Navbar />
           <main className='min-h-screen'>{children}</main>
           <ScrollToTop />
