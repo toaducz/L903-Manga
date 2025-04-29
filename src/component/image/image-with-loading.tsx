@@ -14,6 +14,7 @@ export const ImageWithLoading = ({ src, alt, className }: { src: string; alt: st
           </div>
         )}
         <Image
+          unoptimized
           src={src}
           alt={alt}
           width={800}

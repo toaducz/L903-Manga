@@ -94,7 +94,7 @@ type HistoryItemProps = {
   item: ReadingItem
 }
 
-function HistoryItem({ item }: HistoryItemProps) {
+function HistoryItem({ item }: HistoryItemProps) {  
   const { data: covers, isLoading } = useQuery(getCover({ id: item.mangaId, limit: 1 }))
 
   const filename = covers?.data[0].attributes.fileName
