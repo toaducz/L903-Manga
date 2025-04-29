@@ -47,7 +47,7 @@ export default function ReadingHistoryPage() {
     setHistory([])
   }
 
-  if (history.length === 0 && !localStorage.getItem('reading_history')) {
+  if (history.length === 0) {
     return (
       <div className='min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-slate-900 to-slate-800 text-white px-6'>
         <FaBookOpen className='text-6xl mb-4 opacity-70' />
