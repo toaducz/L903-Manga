@@ -16,7 +16,7 @@ export const getTopMangaByTagId = ({
   publicationDemographic = 'none'
 }: TopMangaByTagIdRequest) => {
   return queryOptions({
-    queryKey: ['get-top-manga-by-tag-id', id, offset, publicationDemographic],
+    queryKey: ['get-top-manga-by-tag-id', id, offset, publicationDemographic, limit],
     queryFn: () => {
       const params: Record<string, string | number | string[]> = {
         // 'order[followedCount]': 'desc',

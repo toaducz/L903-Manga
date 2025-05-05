@@ -22,7 +22,7 @@ interface Props {
 const SlideMangaCardFullWidth: React.FC<Props> = ({ id }) => {
   const router = useRouter()
   const [isLoaded, setIsLoaded] = useState(false)
-  const { data: newManga, isLoading, isError } = useQuery(getNewManga({ limit: 100 }))
+  const { data: newManga, isLoading, isError } = useQuery(getNewManga({ limit: 5 }))
 
   console.log(id)
 

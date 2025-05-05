@@ -54,6 +54,15 @@ const SlideMangaCard: React.FC<Props> = ({ id, publicationDemographic }) => {
         // pagination={{ clickable: true }}
         className='pb-4 pt-25'
         autoplay={{ delay: 5000, disableOnInteraction: false }}
+        style={{ display: 'flex', justifyContent: 'center' }}
+        // breakpoints={{
+        //   0: {
+        //     slidesPerView: 1,
+        //   },
+        //   768: {
+        //     slidesPerView: 'auto',
+        //   },
+        // }}
       >
         {newManga?.data.map(manga => (
           <SwiperSlide key={manga.id} style={{ width: '300px' }}>

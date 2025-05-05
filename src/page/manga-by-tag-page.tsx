@@ -13,13 +13,14 @@ interface MangaByTagPageProps {
   id?: string[]
   publicationDemographic?: string
   pagination?: boolean
+  limitManga?: number
 }
 
-export default function MangaByTagPage({ id, publicationDemographic, pagination = true }: MangaByTagPageProps) {
+export default function MangaByTagPage({ id, publicationDemographic, pagination = true, limitManga = 20 }: MangaByTagPageProps) {
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  const limit = 20
+  const limit = limitManga ?? 20
   const offset = useMemo(() => parseInt(searchParams.get('offset') || '0', 10), [searchParams])
   const setOffset = (newOffset: number) => {
     const params = new URLSearchParams(searchParams.toString())
@@ -43,7 +44,7 @@ export default function MangaByTagPage({ id, publicationDemographic, pagination 
   }
 
   return (
-    <div className='min-h-screen flex flex-col items-center justify-center p-4'>
+    <div className=' flex flex-col items-center justify-center p-4'>
       {/* <h2 className='text-2xl font-semibold text-gray-100 mb-6'>Top Manga Shounen</h2> */}
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 sm:gap-5 gap-3 p-3 w-full [grid-template-columns:repeat(auto-fill,minmax(120px,1fr))] sm:[grid-template-columns:repeat(auto-fill,minmax(300px,1fr))]'>
         {top?.data?.slice(0, top.data.length).map((manga, index) => (

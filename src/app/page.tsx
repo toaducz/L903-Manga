@@ -12,7 +12,7 @@ import MangaTabs from '@/component/manga-tabs'
 export default function Home() {
   // const thiller = '07251805-a27e-4d59-b488-f0bfbec15168'
   const oneshot = '0234a31e-a729-4e28-9d6a-3f87c4966b9e'
-  const action = '391b0423-d847-456f-aff0-8b0cfc03066b'
+  // const action = '391b0423-d847-456f-aff0-8b0cfc03066b'
   const romance = '423e2eae-a7a2-4a8b-ac03-a8351462d71d'
   const comedy = '4d32cc48-9f00-4cca-9b5a-a839f0764984'
   const sol = 'e5301a23-ebd9-49dd-a0cb-2add944c7fe9'
@@ -29,24 +29,38 @@ export default function Home() {
         <div className='md:pt-10'>
           <MangaTabs />
         </div>
-        <div className='pt-5 flex flex-col items-center justify-center p-4'>
-          <h2 className='text-2xl font-semibold text-gray-100'>Rom-com học đường</h2>
-        </div>
-        <div className='  py-15 items-center px-9'>
-          <SlideMangaCard id={[romance, comedy, sol, SchoolLife]} />
-        </div>
-        <div className='pt-5 flex flex-col items-center justify-center p-4'>
+
+        <div className='md:block hidden '>
+          <div className='flex flex-col'>
+            <div className='pt-5 flex flex-col items-center justify-center p-4'>
+              <h2 className='text-2xl font-semibold text-gray-100 '>Oneshot</h2>
+            </div>
+
+            <div className='w-full flex justify-center'>
+              <div className='max-w-screen-xl w-full'>
+                <SlideMangaCard id={[romance, comedy, sol, SchoolLife]} />
+              </div>
+            </div>
+          </div>
+          {/* <div className='pt-5 flex flex-col items-center justify-center p-4'>
           <h2 className='text-2xl font-semibold text-gray-100'>Hành động</h2>
         </div>
         <div className='  py-15 items-center px-9'>
           <SlideMangaCard id={[action]} />
+        </div> */}
+          <div className='flex flex-col'>
+            <div className='pt-5 flex flex-col items-center justify-center p-4'>
+              <h2 className='text-2xl font-semibold text-gray-100 '>Oneshot</h2>
+            </div>
+
+            <div className='w-full flex justify-center'>
+              <div className='max-w-screen-xl w-full'>
+                <SlideMangaCard id={[oneshot]} />
+              </div>
+            </div>
+          </div>
         </div>
-        <div className='pt-5 flex flex-col items-center justify-center p-4'>
-          <h2 className='text-2xl font-semibold text-gray-100 '>Oneshot</h2>
-        </div>
-        <div className='  py-5 items-center px-9 pb-10'>
-          <SlideMangaCard id={[oneshot]} />
-        </div>
+
       </Suspense>
     </RecoilRoot>
   )
