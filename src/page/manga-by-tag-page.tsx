@@ -16,7 +16,12 @@ interface MangaByTagPageProps {
   limitManga?: number
 }
 
-export default function MangaByTagPage({ id, publicationDemographic, pagination = true, limitManga = 20 }: MangaByTagPageProps) {
+export default function MangaByTagPage({
+  id,
+  publicationDemographic,
+  pagination = true,
+  limitManga = 20
+}: MangaByTagPageProps) {
   const searchParams = useSearchParams()
   const router = useRouter()
 

@@ -33,7 +33,10 @@ export default function RootLayout({
     <html lang='en'>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <QueryProvider>
-          <Suspense> <NProgressInit /></Suspense>
+          <Suspense>
+            {' '}
+            <NProgressInit />
+          </Suspense>
           <Navbar />
           <main className='min-h-screen'>{children}</main>
           <ScrollToTop />

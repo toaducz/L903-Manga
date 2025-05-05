@@ -36,6 +36,12 @@ export default function Navbar() {
     if (isMenuOpen) setIsMenuOpen(false)
   }
 
+  const handleRecommendation = (e: React.MouseEvent) => {
+    e.preventDefault()
+    router.push(`/recommendation`)
+    if (isMenuOpen) setIsMenuOpen(false)
+  }
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
   }
@@ -53,18 +59,19 @@ export default function Navbar() {
 
         {/* Navigation Items - Desktop */}
         <div className='hidden lg:flex items-center gap-8 text-base font-medium'>
-          <Link
+          {/* <Link
             href='/trending'
             className='relative text-white hover:text-slate-300 transition-colors duration-200 group'
           >
             Trending
             <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-slate-300 transition-all duration-300 group-hover:w-full'></span>
-          </Link>
+          </Link> */}
           <Link
-            href='/popular'
+            href='/recommendation'
+            onClick={handleRecommendation}
             className='relative text-white hover:text-slate-300 transition-colors duration-200 group'
           >
-            Phổ biến
+            Romcom gợi ý bởi L903-Manga
             <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-slate-300 transition-all duration-300 group-hover:w-full'></span>
           </Link>
           <Link
@@ -143,19 +150,19 @@ export default function Navbar() {
           </form>
 
           {/* Navigation Items - Mobile */}
-          <Link
+          {/* <Link
             href='/trending'
             className='text-white hover:text-slate-300 transition-colors duration-200'
             onClick={toggleMenu}
           >
             Trending
-          </Link>
+          </Link> */}
           <Link
-            href='/popular'
+            href='/recommendation'
             className='text-white hover:text-slate-300 transition-colors duration-200'
             onClick={toggleMenu}
           >
-            Phổ biến
+            Romcom gợi ý bởi L903-Manga
           </Link>
           <Link
             href='/reading-history'

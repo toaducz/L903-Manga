@@ -30,7 +30,7 @@ export default function Home() {
           <MangaTabs />
         </div>
 
-        <div className='md:block hidden '>
+        <div className='md:block hidden py-2'>
           <div className='flex flex-col'>
             <div className='pt-5 flex flex-col items-center justify-center p-4'>
               <h2 className='text-2xl font-semibold text-gray-100 '>Oneshot</h2>
@@ -60,7 +60,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-
       </Suspense>
     </RecoilRoot>
   )
