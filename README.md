@@ -20,6 +20,8 @@
 - [Tailwind CSS](https://tailwindcss.com/)
 - [MangaDex API](https://api.mangadex.org)
 
+(Đây là hình ảnh bản cũ)
+
 ![demo_1](./src/assets/image/demo1.png) <!-- [image] -->
 
 ![demo_2](./src/assets/image/demo2.png) <!-- [image] -->
