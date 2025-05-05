@@ -10,6 +10,7 @@
 - 🌐 Hỗ trợ đa ngôn ngữ (dựa theo chapter)
 - 🧠 Sử dụng React Query để caching & quản lý dữ liệu
 - ⚙️ Kết nối với MangaDex thông qua proxy API nội bộ để tránh CORS
+- ⚙️ Còn quá trời bug
 
 ## 🛠️ Công nghệ sử dụng
 
