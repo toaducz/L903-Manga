@@ -1,6 +1,5 @@
 'use client'
 
-import Navbar from '@/component/navbar'
 import { RecoilRoot } from 'recoil'
 // import MangaByTagPage from '@/page/manga-by-tag-page'
 import { Suspense } from 'react'
