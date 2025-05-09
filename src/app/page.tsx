@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import AutoRedirectNotice from '@/component/autoRedirectNotice'
 
 export default function LandingHomepage() {
   return (
@@ -14,6 +15,10 @@ export default function LandingHomepage() {
           Trải nghiệm L903 Manga
         </button>
       </Link>
+
+
+        {/* auto chuyển hướng  */}
+      <AutoRedirectNotice />
     </main>
   )
 }
