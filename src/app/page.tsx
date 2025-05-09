@@ -20,47 +20,49 @@ export default function Home() {
 
   return (
     <RecoilRoot>
-      <Navbar />
+      <div className="px-4 md:px-10 max-w-screen-xl mx-auto">
+        {/* <Navbar /> */}
 
-      <Suspense fallback={<Loading />}>
-        <div className='pt-25'>
-          <SlideMangaCardFullWidth id={''} />
-        </div>
-        <div className='md:pt-10'>
-          <MangaTabs />
-        </div>
+        <Suspense fallback={<Loading />}>
+          <div className='pt-25'>
+            <SlideMangaCardFullWidth id={''} />
+          </div>
+          <div className='md:pt-10'>
+            <MangaTabs />
+          </div>
 
-        <div className='md:block hidden py-2'>
-          <div className='flex flex-col'>
-            <div className='pt-5 flex flex-col items-center justify-center p-4'>
-              <h2 className='text-2xl font-semibold text-gray-100 '>Oneshot</h2>
-            </div>
+          <div className='md:block hidden py-2'>
+            <div className='flex flex-col'>
+              <div className='pt-5 flex flex-col items-center justify-center p-4'>
+                <h2 className='text-2xl font-semibold text-gray-100 '>Oneshot</h2>
+              </div>
 
-            <div className='w-full flex justify-center'>
-              <div className='max-w-screen-xl w-full'>
-                <SlideMangaCard id={[romance, comedy, sol, SchoolLife]} />
+              <div className='w-full flex justify-center'>
+                <div className='max-w-screen-xl w-full'>
+                  <SlideMangaCard id={[romance, comedy, sol, SchoolLife]} />
+                </div>
               </div>
             </div>
-          </div>
-          {/* <div className='pt-5 flex flex-col items-center justify-center p-4'>
+            {/* <div className='pt-5 flex flex-col items-center justify-center p-4'>
           <h2 className='text-2xl font-semibold text-gray-100'>Hành động</h2>
         </div>
         <div className='  py-15 items-center px-9'>
           <SlideMangaCard id={[action]} />
         </div> */}
-          <div className='flex flex-col'>
-            <div className='pt-5 flex flex-col items-center justify-center p-4'>
-              <h2 className='text-2xl font-semibold text-gray-100 '>Oneshot</h2>
-            </div>
+            <div className='flex flex-col'>
+              <div className='pt-5 flex flex-col items-center justify-center p-4'>
+                <h2 className='text-2xl font-semibold text-gray-100 '>Oneshot</h2>
+              </div>
 
-            <div className='w-full flex justify-center'>
-              <div className='max-w-screen-xl w-full'>
-                <SlideMangaCard id={[oneshot]} />
+              <div className='w-full flex justify-center'>
+                <div className='max-w-screen-xl w-full'>
+                  <SlideMangaCard id={[oneshot]} />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </Suspense>
+        </Suspense>
+      </div>
     </RecoilRoot>
   )
 }

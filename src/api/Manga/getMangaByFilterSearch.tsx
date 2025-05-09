@@ -35,7 +35,8 @@ export const GetMangaByFilterSearch = ({
       followedCount,
       latestUploadedChapter,
       year,
-      contentRating
+      contentRating,
+      'includedTags[]'
     ],
     queryFn: () => {
       const params: Record<string, string | number | string[]> = {
