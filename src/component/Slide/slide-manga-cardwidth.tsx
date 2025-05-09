@@ -77,6 +77,7 @@ const SlideMangaCardFullWidth: React.FC<Props> = ({ id }) => {
                   <div className='absolute inset-0 -z-10'>
                     <Image
                       unoptimized
+                      // priority
                       src={coverImageUrl}
                       alt={`${title}-background`}
                       fill
@@ -100,6 +101,7 @@ const SlideMangaCardFullWidth: React.FC<Props> = ({ id }) => {
                     )}
                     <Image
                       unoptimized
+                      priority
                       src={coverImageUrl}
                       alt={title}
                       onLoad={() => setIsLoaded(false)}
