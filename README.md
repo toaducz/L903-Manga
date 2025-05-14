@@ -20,7 +20,7 @@
 - [Tailwind CSS](https://tailwindcss.com/)
 - [MangaDex API](https://api.mangadex.org)
 
-(Đây là hình ảnh bản cũ)
+(Đây là hình ảnh bản cũ, tham khảo: l903-manga.vercel.app)
 
 ![demo_1](./src/assets/image/demo1.png) <!-- [image] -->
 
