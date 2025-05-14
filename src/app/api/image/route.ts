@@ -2,16 +2,33 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
   const url = req.nextUrl.searchParams.get('url')
-
-  if (!url || !url.startsWith('https://uploads.mangadex.org/')) {
-    return new NextResponse('Invalid or missing URL', { status: 400 })
+  if (!url) {
+    return new NextResponse('Missing url', { status: 400 })
   }
 
   try {
+    const parsedUrl = new URL(url)
+
+    // Cho phép domain ảnh bìa và ảnh nội dung
+    const allowedDomains = [
+      'uploads.mangadex.org',
+      'mangadex.network',
+    ]
+
+    const isAllowed = allowedDomains.some(domain =>
+      parsedUrl.hostname.endsWith(domain)
+    )
+
+    if (!isAllowed) {
+      return new NextResponse('URL not allowed', { status: 403 })
+    }
+
     const res = await fetch(url, {
       headers: {
-        'User-Agent': 'L903-Manga'
-      }
+        'User-Agent': 'L903-Manga',
+        'Referer': 'https://mangadex.org', // Để vượt qua hotlink protection
+      },
+      cache: 'no-store', // Tránh cache ảo gây lỗi ảnh
     })
 
     if (!res.ok) {
@@ -25,11 +42,12 @@ export async function GET(req: NextRequest) {
       status: 200,
       headers: {
         'Content-Type': contentType,
-        'Cache-Control': 'public, max-age=86400'
-      }
+        'Cache-Control': 'public, max-age=86400',
+        'Content-Length': buffer.byteLength.toString(),
+      },
     })
-  } catch (error) {
-    console.error(error)
-    return new NextResponse('Error fetching image', { status: 500 })
+  } catch (err) {
+    console.error('Proxy error:', err)
+    return new NextResponse('Internal server error', { status: 500 })
   }
 }

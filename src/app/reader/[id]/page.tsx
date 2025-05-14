@@ -184,7 +184,7 @@ function ReaderContent() {
         {images.chapter.data.map((filename: string, index: number) => (
           <ImageWithLoading
             key={index}
-            src={`${images.baseUrl}/data/${images.chapter.hash}/${filename}`}
+             src={`/api/image?url=${encodeURIComponent(`${images.baseUrl}/data/${images.chapter.hash}/${filename}`)}`}
             alt={`Trang ${index + 1}`}
           />
         ))}
