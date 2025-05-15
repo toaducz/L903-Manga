@@ -7,6 +7,9 @@ export default function LandingHomepage() {
       <h1 className='text-4xl md:text-6xl font-bold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 h-20'>
         L903 Manga
       </h1>
+      <h1 className='text-4xl md:text-6xl font-bold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 h-20'>
+        Mangdex vừa bị đấm bị cú siêu đau nên khả năng truyện hay bay màu rồi nhé!
+      </h1>
       <p className='text-lg md:text-xl text-gray-200 mb-10 text-center max-w-2xl font-light'>
         Chào mừng bạn đến với L903 Manga — nền tảng đọc truyện tranh hiện đại, sử dụng dữ liệu từ MangaDex.
       </p>
