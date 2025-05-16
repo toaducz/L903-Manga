@@ -15,7 +15,7 @@ export default function LandingHomepage() {
           Trải nghiệm L903 Manga
         </button>
       </Link>
-      <h1 className='text-4xl md:text-6xl font-bold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 h-40'>
+      <h1 className='pt-10 text-4xl md:text-6xl font-bold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 h-40'>
         Mangadex vừa bị đấm bị cú siêu đau nên khả năng truyện hay bay màu rồi nhé!
       </h1>
 
