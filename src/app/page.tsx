@@ -19,7 +19,7 @@ export default function LandingHomepage() {
         Mangadex vừa bị đấm bị cú siêu đau nên khả năng truyện hay bay màu rồi nhé!
       </h1>
 
-        {/* auto chuyển hướng  */}
+      {/* auto chuyển hướng  */}
       <AutoRedirectNotice />
     </main>
   )

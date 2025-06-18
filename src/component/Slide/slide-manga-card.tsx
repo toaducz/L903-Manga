@@ -75,7 +75,7 @@ const SlideMangaCard: React.FC<Props> = ({ id, publicationDemographic }) => {
           onClick={handleClick}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className='inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-blue-600 rounded-lg hover:bg-blue-200 hover:text-blue-700 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50'
+          className='inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-blue-700 text-white rounded-lg hover:bg-blue-200 hover:text-blue-700 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50'
         >
           Xem thêm
           <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>

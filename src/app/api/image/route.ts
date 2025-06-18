@@ -10,14 +10,9 @@ export async function GET(req: NextRequest) {
     const parsedUrl = new URL(url)
 
     // Cho phép domain ảnh bìa và ảnh nội dung
-    const allowedDomains = [
-      'uploads.mangadex.org',
-      'mangadex.network',
-    ]
+    const allowedDomains = ['uploads.mangadex.org', 'mangadex.network']
 
-    const isAllowed = allowedDomains.some(domain =>
-      parsedUrl.hostname.endsWith(domain)
-    )
+    const isAllowed = allowedDomains.some(domain => parsedUrl.hostname.endsWith(domain))
 
     if (!isAllowed) {
       return new NextResponse('URL not allowed', { status: 403 })
@@ -26,9 +21,9 @@ export async function GET(req: NextRequest) {
     const res = await fetch(url, {
       headers: {
         'User-Agent': 'L903-Manga',
-        'Referer': 'https://mangadex.org', // Để vượt qua hotlink protection
+        Referer: 'https://mangadex.org' // Để vượt qua hotlink protection
       },
-      cache: 'no-store', // Tránh cache ảo gây lỗi ảnh
+      cache: 'no-store' // Tránh cache ảo gây lỗi ảnh
     })
 
     if (!res.ok) {
@@ -43,8 +38,8 @@ export async function GET(req: NextRequest) {
       headers: {
         'Content-Type': contentType,
         'Cache-Control': 'public, max-age=86400',
-        'Content-Length': buffer.byteLength.toString(),
-      },
+        'Content-Length': buffer.byteLength.toString()
+      }
     })
   } catch (err) {
     console.error('Proxy error:', err)

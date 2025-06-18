@@ -13,7 +13,7 @@ export default function AutoRedirectNotice() {
     if (cancelled) return
 
     const countdown = setInterval(() => {
-      setSeconds((prev) => {
+      setSeconds(prev => {
         if (prev <= 1) {
           clearInterval(countdown)
           return 0
@@ -34,9 +34,9 @@ export default function AutoRedirectNotice() {
 
   return (
     !cancelled && (
-      <div className="mt-4 text-sm italic text-gray-400 ">
+      <div className='mt-4 text-sm italic text-gray-400 '>
         Chuyển hướng tới trang chính trong {seconds} giây...{' '}
-        <button onClick={() => setCancelled(true)} className="underline text-white ml-2 cursor-pointer">
+        <button onClick={() => setCancelled(true)} className='underline text-white ml-2 cursor-pointer'>
           Hủy
         </button>
       </div>
