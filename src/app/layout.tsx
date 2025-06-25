@@ -38,7 +38,7 @@ export default function RootLayout({
             <NProgressInit />
           </Suspense>
           <Navbar />
-          <main className='min-h-screen'>{children}</main>
+          <main className='min-h-screen bg-slate-900'>{children}</main>
           <ScrollToTop />
           <Footer />
         </QueryProvider>

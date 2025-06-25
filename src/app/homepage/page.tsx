@@ -7,7 +7,7 @@ import Loading from '@/component/status/Loading'
 import SlideMangaCard from '@/component/Slide/slide-manga-card'
 import SlideMangaCardFullWidth from '@/component/Slide/slide-manga-cardwidth'
 import MangaTabs from '@/component/manga-tabs'
-import mie from '@/assets/image/mie.jpg'
+// import mie from '@/assets/image/mie.jpg'
 
 export default function Home() {
   // const thiller = '07251805-a27e-4d59-b488-f0bfbec15168'
@@ -20,16 +20,16 @@ export default function Home() {
 
   return (
     <RecoilRoot>
-      <div className='relative'>
-        <div
-          className='absolute inset-0 bg-no-repeat bg-fixed bg-left -z-10'
+      <div className='relative bg-slate-900'>
+        {/* <div
+          className='absolute inset-0 bg-no-repeat bg-fixed bg-left -z-0'
           style={{
             backgroundImage: `url(${mie.src})`,
             backgroundSize: '20vh 40vh',
             backgroundPosition: 'left bottom',
             opacity: 0.5 // Chỉ áp dụng cho ảnh nền
           }}
-        />
+        /> */}
         {/* <div className="absolute inset-0 bg-black/50 z-0" /> */}
         <div className='relative z-10 px-4 md:px-10 max-w-screen-xl mx-auto'></div>
         <div className='px-4 md:px-10 max-w-screen-xl mx-auto'>

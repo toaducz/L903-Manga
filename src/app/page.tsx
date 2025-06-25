@@ -3,7 +3,7 @@ import AutoRedirectNotice from '@/component/autoRedirectNotice'
 
 export default function LandingHomepage() {
   return (
-    <main className='min-h-screen flex flex-col items-center justify-center bg-black text-white px-4'>
+    <main className='min-h-screen flex flex-col items-center justify-center bg-slate-900 text-white px-4'>
       <h1 className='text-4xl md:text-6xl font-bold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 h-20'>
         L903 Manga
       </h1>

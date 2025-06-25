@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 export default function Loading() {
   return (
-    <Box flex className='flex items-center justify-center min-h-screen'>
+    <Box flex className='flex items-center justify-center min-h-screen bg-slate-900'>
       <Box>
         <Image unoptimized src={Kobo} alt='Loading...' width={300} height={300} className='object-contain' priority />
       </Box>

@@ -105,7 +105,7 @@ function ReaderContent() {
   if (!chaptersData?.data?.length && isSuccess) return <Error message='Không tìm thấy chapter!' />
   if (images?.chapter?.data?.length === 0) {
     return (
-      <div className='flex flex-col items-center justify-center space-y-0.5 pt-15'>
+      <div className='flex flex-col items-center justify-center space-y-0.5 pt-15 bg-black'>
         <div className='flex justify-center gap-4 my-6'>
           <ChapterNavButton
             chapter={prevChapter}
@@ -141,13 +141,13 @@ function ReaderContent() {
   }
 
   return (
-    <div>
+    <div className='bg-slate-900'>
       <div className='flex items-center justify-center px-4 pt-25'>
-        <span className='font-bold text-4xl'>
+        <span className='font-bold text-4xl text-white'>
           CHAPTER {number} {lang ?? 'Oneshot'}
         </span>
       </div>
-      <div className=' flex items-center justify-center pt-5'>
+      <div className=' flex items-center justify-center pt-5 '>
         <button
           onClick={() => handleClick(mangaId)}
           className='flex items-center gap-2 px-6 p-3 text-white font-semibold bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg shadow-md hover:from-blue-700 hover:to-blue-900 hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
@@ -155,7 +155,7 @@ function ReaderContent() {
           Quay lại trang chi tiết
         </button>
       </div>
-      <div className='flex justify-center gap-4 my-6'>
+      <div className='flex justify-center gap-4 my-6 '>
         <ChapterNavButton
           chapter={prevChapter}
           direction='prev'
@@ -180,8 +180,8 @@ function ReaderContent() {
         />
       </div>
 
-      <div className='flex flex-col items-center gap-6 px-4 pb-8 pt-10'>
-        {images.chapter.data.map((filename: string, index: number) => (
+      <div className='flex flex-col items-center gap-6 px-4 pb-8 pt-10 '>
+        {images?.chapter?.data.map((filename: string, index: number) => (
           <ImageWithLoading
             key={index}
             src={`/api/image?url=${encodeURIComponent(`${images.baseUrl}/data/${images.chapter.hash}/${filename}`)}`}
@@ -215,7 +215,7 @@ function ReaderContent() {
         />
       </div>
 
-      <div className='flex justify-center my-6 pb-3'>
+      <div className='flex justify-center my-6 pb-3 '>
         <button
           onClick={() => setShowChapters(prev => !prev)}
           className='flex items-center gap-2 px-6 p-3 text-white font-semibold bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg shadow-md hover:from-blue-700 hover:to-blue-900 hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
@@ -233,7 +233,7 @@ function ReaderContent() {
           order={order}
         />
       )}
-      <div className=' flex items-center justify-center pb-10'>
+      <div className=' flex items-center justify-center pb-10 '>
         <button
           onClick={() => handleClick(mangaId)}
           className='flex items-center gap-2 px-6 p-3 text-white font-semibold bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg shadow-md hover:from-blue-700 hover:to-blue-900 hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'

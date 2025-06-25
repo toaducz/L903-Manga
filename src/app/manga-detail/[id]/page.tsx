@@ -45,7 +45,7 @@ function MangaDetailContent() {
 
   return (
     <div
-      className={`transition-all duration-500 ease-in-out transform ${
+      className={`transition-all duration-500 ease-in-out transform bg-black ${
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-30 translate-y-2'
       }`}
     >

@@ -45,7 +45,7 @@ export default function SearchResultPage({ title }: SearchProps) {
   }
 
   return (
-    <div className='min-h-screen flex flex-col items-center justify-center p-4'>
+    <div className='min-h-screen flex flex-col items-center justify-center p-4 bg-black'>
       <div className='pt-20'>
         <h2 className='text-2xl font-semibold text-gray-100 mb-6'>Kết quả tìm kiếm cho: {title}</h2>
       </div>
