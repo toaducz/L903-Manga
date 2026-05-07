@@ -3,12 +3,12 @@
 import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
-import { Chapter } from '@/api/Manga/getChapter'
+import { Chapter } from '@/codebase/api/manga/get-chapter'
 import { FaBookOpen, FaTrash } from 'react-icons/fa'
-import { ImageWithLoading } from '@/component/image/image-with-loading'
-import { getCover } from '@/api/Cover/getCovers'
-import Loading from '@/component/status/Loading'
-import ScrollToBottomButton from '@/component/scroll/scroll-to-bottom'
+import { ImageWithLoading } from '@/components/image/image-with-loading'
+import { getCover } from '@/codebase/api/cover/get-covers'
+import Loading from '@/components/status/Loading'
+import ScrollToBottomButton from '@/components/layout/scroll/scroll-to-bottom'
 
 type ReadingItem = {
   mangaId: string

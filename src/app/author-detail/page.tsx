@@ -1,9 +1,9 @@
 'use client'
 
 import { Suspense, useEffect, useState } from 'react'
-import AuthorDetailPage from '@/page/author-detail-page'
-import { Author } from '@/api/paginate'
-import Loading from '@/component/status/Loading'
+import AuthorDetailPage from '@/components/views/author-detail-page'
+import { Author } from '@/codebase/api/paginate'
+import Loading from '@/components/status/Loading'
 
 export default function AuthorDetailPageWrapper() {
   return (

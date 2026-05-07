@@ -1,8 +1,8 @@
 'use client'
 
 import { Suspense } from 'react'
-import RecommendationContentPage from '@/page/recommendation-page'
-import Loading from '@/component/status/Loading'
+import RecommendationContentPage from '@/components/views/recommendation-page'
+import Loading from '@/components/status/Loading'
 
 // Bọc phần tử cần sử dụng useSearchParams() bằng Suspense
 export default function SearchPage() {

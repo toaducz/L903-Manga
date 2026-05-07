@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { GetMangaByFilterSearch } from '@/api/Manga/getMangaByFilterSearch'
-import TagMultiSelect from '@/component/tag-multi-select'
-// import { Manga } from '@/api/paginate';
-import MangaItems from '@/component/manga/manga-items'
-import Pagination from '@/component/pagination'
-import Loading from '@/component/status/Loading'
-import Error from '@/component/status/error'
+import { GetMangaByFilterSearch } from '@/codebase/api/manga/get-manga-by-filter-search'
+import TagMultiSelect from '@/components/common/tag-multi-select'
+// import { Manga } from '@/codebase/api/paginate';
+import MangaItems from '@/components/manga/manga-items'
+import Pagination from '@/components/common/pagination'
+import Loading from '@/components/status/Loading'
+import Error from '@/components/status/error'
 
 export default function AdvancedSearchPage() {
   const [search, setSearch] = useState('')

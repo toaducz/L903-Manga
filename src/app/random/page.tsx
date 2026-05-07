@@ -3,10 +3,10 @@
 import { useEffect, useState, Suspense } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'next/navigation'
-import { getRandom } from '@/api/Manga/getRandom'
-import MangaDetailPage from '@/page/manga-detail-page'
-import Loading from '@/component/status/Loading'
-import Error from '@/component/status/error'
+import { getRandom } from '@/codebase/api/manga/get-random'
+import MangaDetailPage from '@/components/views/manga-detail-page'
+import Loading from '@/components/status/Loading'
+import Error from '@/components/status/error'
 
 function RandomPageContent() {
   const searchParams = useSearchParams()

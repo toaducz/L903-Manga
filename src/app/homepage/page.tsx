@@ -1,12 +1,12 @@
 'use client'
 
 import { RecoilRoot } from 'recoil'
-// import MangaByTagPage from '@/page/manga-by-tag-page'
+// import MangaByTagPage from '@/components/views/manga-by-tag-page'
 import { Suspense } from 'react'
-import Loading from '@/component/status/Loading'
-import SlideMangaCard from '@/component/Slide/slide-manga-card'
-import SlideMangaCardFullWidth from '@/component/Slide/slide-manga-cardwidth'
-import MangaTabs from '@/component/manga-tabs'
+import Loading from '@/components/status/Loading'
+import SlideMangaCard from '@/components/slide/slide-manga-card'
+import SlideMangaCardFullWidth from '@/components/slide/slide-manga-cardwidth'
+import MangaTabs from '@/components/manga/manga-tabs'
 // import mie from '@/assets/image/mie.jpg'
 
 export default function Home() {

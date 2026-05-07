@@ -1,13 +1,10 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
-import '@/css/globals.css'
+import '@/styles/globals.css'
 import QueryProvider from '@/app/provider'
-import Navbar from '@/component/navbar'
-import ScrollToTop from '@/component/scroll/scroll-to-top'
-import Footer from '@/component/footer'
-
-import NProgressInit from '@/component/NProgressInit'
+import NProgressInit from '@/components/common/NProgressInit'
 import { Suspense } from 'react'
+import ConditionalLayout from '@/components/layout/conditional-layout'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -37,10 +34,7 @@ export default function RootLayout({
             {' '}
             <NProgressInit />
           </Suspense>
-          <Navbar />
-          <main className='min-h-screen bg-slate-900'>{children}</main>
-          <ScrollToTop />
-          <Footer />
+          <ConditionalLayout>{children}</ConditionalLayout>
         </QueryProvider>
       </body>
     </html>

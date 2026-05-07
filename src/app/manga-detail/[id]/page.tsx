@@ -3,10 +3,10 @@
 import { Suspense, useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
-import { getMangaById } from '@/api/Manga/getMangaById'
-import MangaDetailPage from '@/page/manga-detail-page'
-import Loading from '@/component/status/Loading'
-import Error from '@/component/status/error'
+import { getMangaById } from '@/codebase/api/manga/get-manga-by-id'
+import MangaDetailPage from '@/components/views/manga-detail-page'
+import Loading from '@/components/status/Loading'
+import Error from '@/components/status/error'
 
 export default function MangaDetailPageWrapper() {
   return (

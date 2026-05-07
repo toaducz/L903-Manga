@@ -2,11 +2,11 @@
 
 import { useEffect, useState, Suspense } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { getTopMangaByTagId } from '@/api/Manga/getTopMangabyTagId'
-import MangaByTagPage from '@/page/manga-by-tag-page'
-import Loading from '@/component/status/Loading'
-import Error from '@/component/status/error'
-import TagMultiSelect from '@/component/tag-multi-select'
+import { getTopMangaByTagId } from '@/codebase/api/manga/get-top-manga-by-tag-id'
+import MangaByTagPage from '@/components/views/manga-by-tag-page'
+import Loading from '@/components/status/Loading'
+import Error from '@/components/status/error'
+import TagMultiSelect from '@/components/common/tag-multi-select'
 import { useParams } from 'next/navigation'
 
 function MangaPageContent() {

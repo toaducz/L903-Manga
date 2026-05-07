@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import AutoRedirectNotice from '@/component/autoRedirectNotice'
+import AutoRedirectNotice from '@/components/common/autoRedirectNotice'
 
 export default function LandingHomepage() {
   return (
