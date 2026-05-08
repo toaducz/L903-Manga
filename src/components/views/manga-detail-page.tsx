@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import { Manga } from '@/codebase/api/paginate'
 import Image from 'next/image'
+import Link from 'next/link'
 import { translateText } from '@/codebase/utils/translate'
 import { MangaStatus, OriginalLanguage, ContentRating } from '@/codebase/constants/enums'
+import { copyToClipboard } from '@/codebase/utils/copy-to-clipboard'
 import { getAuthorById } from '@/codebase/api/author/get-author-by-id'
 import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { splitTextIntoChunks } from '@/codebase/utils/format'
 import { contentRatingColors } from '@/codebase/constants/static'
-import { Center } from 'zmp-ui'
 import ReactMarkdown from 'react-markdown'
 import MangaChaptersList from '@/components/manga/manga-chapter-list'
 import Loading from '@/components/status/Loading'
@@ -16,15 +17,20 @@ import Error from '@/components/status/error'
 import { getChaptersByMangaId } from '@/codebase/api/manga/get-chapter'
 import { getLanguageName } from '@/codebase/constants/enums'
 import RelatedManga from '@/components/manga/related-manga'
+import { motion, AnimatePresence } from 'framer-motion'
+import { FiArrowLeft, FiHeart, FiShare2, FiInfo } from 'react-icons/fi'
 
 interface MangaDetailPageProps {
   manga: Manga
 }
 
+type MangaSortBy = 'chapters' | 'related'
+
 const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
   const router = useRouter()
   const [isTranslate, setIsTranslate] = useState(false)
-  const [activeTab, setActiveTab] = useState<'chapters' | 'related'>('chapters')
+  const [isExpanded, setIsExpanded] = useState(false)
+  const [activeTab, setActiveTab] = useState<MangaSortBy>('chapters')
   const [translatedDescription, setTranslatedDescription] = useState<string>('')
   const attributes = manga.attributes
   const isVietnameseAvailable = attributes.availableTranslatedLanguages.includes('vi')
@@ -33,7 +39,7 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
   const coverArtFileName = coverArt?.attributes?.fileName
   const coverImageUrl = coverArtFileName ? `https://uploads.mangadex.org/covers/${manga.id}/${coverArtFileName}` : ''
   const proxyImageUrl = `/api/image?url=${encodeURIComponent(coverImageUrl)}`
-  const [isLoadings, setIsLoading] = useState(false)
+  const [isTranslationLoading, setIsTranslationLoading] = useState(false)
   const authorId = manga.relationships.find(item => item.type === 'author')?.id
   const { data: author, isLoading, isError } = useQuery(getAuthorById({ id: authorId! }))
   const { data: chapter } = useQuery(getChaptersByMangaId({ id: manga.id, lang: [lang] }))
@@ -42,7 +48,7 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
 
   const handleTranslate = async (text: string) => {
     if (!isTranslate && !translatedDescription) {
-      setIsLoading(true)
+      setIsTranslationLoading(true)
       try {
         const chunks = splitTextIntoChunks(text)
         const translatedChunks: string[] = []
@@ -54,231 +60,325 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
         setIsTranslate(true)
       } catch (error: unknown) {
         console.error('Translation failed:', error)
-        let errorMessage = ''
-        if (error instanceof Error) {
-          errorMessage = (error as Error).message
-        }
-        if (errorMessage.includes('MYMEMORY WARNING')) {
-          const timeMatch = errorMessage.match(/IN\s+(\d+)\s+HOURS\s+(\d+)\s+MINUTES\s+(\d+)\s+SECONDS/i)
-          if (timeMatch) {
-            const hours = timeMatch[1]
-            const minutes = timeMatch[2]
-            const seconds = timeMatch[3]
-            setTranslatedDescription(
-              `Lỗi khi dịch: Không thể dịch được, xin vui lòng thử lại sau ${hours} giờ ${minutes} phút ${seconds} giây.`
-            )
-          } else {
-            setTranslatedDescription('Lỗi khi dịch: Không thể dịch được, xin vui lòng thử lại sau một thời gian.')
-          }
-        } else {
-          setTranslatedDescription('Lỗi khi dịch: Đã xảy ra lỗi không xác định. Vui lòng thử lại sau.')
-        }
+        setTranslatedDescription('Lỗi khi dịch. Vui lòng thử lại sau.')
         setIsTranslate(true)
       } finally {
-        setIsLoading(false)
+        setIsTranslationLoading(false)
       }
     } else {
       setIsTranslate(!isTranslate)
     }
   }
 
-  // useEffect(() => {
-  //   console.log(activeTab)
-  // },[activeTab])
-
   const rating = manga.attributes.contentRating as keyof typeof ContentRating
 
-  if (isLoading) {
-    return <Loading />
-  }
-
-  if (isError) {
-    return <Error />
-  }
+  if (isLoading) return <Loading />
+  if (isError) return <Error />
 
   return (
-    <div className='relative min-h-screen'>
-      {/* Background Layer */}
-      <div className='absolute inset-0 z-0 pointer-events-none'>
+    <div className='relative min-h-screen bg-background text-foreground overflow-x-hidden'>
+      {/* Floating Header Controls */}
+      <div className='fixed top-0 inset-x-0 z-[100] px-6 py-8 flex items-center justify-between pointer-events-none'>
+        <motion.button
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          onClick={() => router.push('/homepage')}
+          className='p-3 glass-card rounded-full text-white pointer-events-auto hover:bg-white/20 transition-all active:scale-90 cursor-pointer'
+        >
+          <FiArrowLeft size={24} />
+        </motion.button>
+        <div className='flex gap-3 pointer-events-auto'>
+          <div className='relative group/tooltip'>
+            <motion.button
+              disabled
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className='p-3 glass-card rounded-full text-white/40 cursor-not-allowed transition-all'
+            >
+              <FiHeart size={22} />
+            </motion.button>
+            <div className='absolute -bottom-10 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-black/80 backdrop-blur-md rounded-lg text-[10px] font-black text-white whitespace-nowrap opacity-0 group-hover/tooltip:opacity-100 transition-opacity border border-white/10 pointer-events-none'>
+              SẮP CÓ?
+            </div>
+          </div>
+
+          <div className='relative'>
+            <motion.button
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              onClick={async () => {
+                const success = await copyToClipboard(window.location.href)
+                if (success) {
+                  const toast = document.getElementById('share-toast')
+                  if (toast) {
+                    toast.style.opacity = '1'
+                    toast.style.transform = 'translateY(0)'
+                    setTimeout(() => {
+                      toast.style.opacity = '0'
+                      toast.style.transform = 'translateY(10px)'
+                    }, 2000)
+                  }
+                }
+              }}
+              className='p-3 glass-card rounded-full text-white hover:text-primary transition-all cursor-pointer active:scale-90'
+            >
+              <FiShare2 size={22} />
+            </motion.button>
+            <div
+              id='share-toast'
+              className='absolute -bottom-12 -right-1/2 -translate-x-1/2 px-4 py-2 bg-primary/20 backdrop-blur-xl border border-primary/30 rounded-xl text-[10px] font-black text-primary whitespace-nowrap opacity-0 translate-y-2 transition-all duration-300 pointer-events-none shadow-[0_0_20px_rgba(56,189,248,0.2)]'
+            >
+              ĐÃ SAO CHÉP LIÊN KẾT!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Cinematic Hero Header */}
+      <div
+        className='
+          relative 
+          h-[400px] 
+          md:h-[450px] 
+          lg:h-[350px] 
+          w-full
+          bg-background
+        '
+      >
         <Image
           unoptimized
           src={proxyImageUrl}
-          alt='Blur Background'
+          alt='Cinematic Background'
           fill
-          className='object-cover blur-lg opacity-7 pointer-events-none'
+          priority
+          className='object-cover object-top opacity-40 scale-105'
         />
-        <div className='absolute inset-0 bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a] opacity-70 pointer-events-none' />
-      </div>
 
-      {/* Content Layer */}
-      <div className='relative z-20 pt-16'>
-        <div className='max-w-6xl mx-auto p-6 md:px-12 pt-12 pb-8'>
-          <div className='flex flex-col md:flex-row items-start gap-10 bg-white/10 backdrop-blur-md rounded-2xl shadow-xl p-6'>
-            {/* Cover Image */}
-            <div className='w-full md:w-[300px] flex-shrink-0'>
+        <div className='absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-transparent' />
+        <div className='absolute inset-0 bg-gradient-to-t via-background/60 to-transparent' />
+
+        {/* Title Overlay for Mobile (if needed, but we have it below) */}
+      </div>
+      {/* <div
+        className='absolute top-[350px] left-0 right-0 h-[250px]
+                bg-gradient-to-b from-transparent to-background pointer-events-none'
+      /> */}
+      {/* Content Container */}
+      <div className='relative z-10 -mt-40 md:-mt-56 lg:-mt-64 max-w-7xl mx-auto px-4 md:px-12 pb-32'>
+        <div className='flex flex-col md:flex-row gap-10 md:gap-16'>
+          {/* Left: Poster Column */}
+          <motion.div
+            initial={{ opacity: 0, y: 60 }}
+            animate={{ opacity: 1, y: 0 }}
+            className='w-full md:w-[340px] flex-shrink-0'
+          >
+            <div className='relative aspect-[2/3] w-full rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] ring-1 ring-white/10 group'>
               <Image
                 unoptimized
                 src={proxyImageUrl}
-                alt='Manga Cover'
-                width={300}
-                height={450}
-                placeholder='blur'
-                blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/+F9PQAI8wNPJ7eB1wAAAABJRU5ErkJggg=='
-                className='object-cover rounded-xl shadow-md w-full'
+                alt={attributes.title.en}
+                fill
+                className='object-cover transition-transform duration-700 group-hover:scale-110'
               />
-              <div className='p-5'>
-                <Center intrinsic>
-                  <div>
-                    {rating && (
-                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${contentRatingColors[rating]}`}>
-                        {ContentRating[rating]}
-                      </span>
-                    )}
-                  </div>
-                </Center>
+              <div className='absolute top-4 right-4'>
+                {rating && (
+                  <span
+                    className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest ${contentRatingColors[rating]} shadow-xl border border-white/10`}
+                  >
+                    {ContentRating[rating]}
+                  </span>
+                )}
               </div>
             </div>
 
-            {/* Manga Details */}
-            <div className='flex-1 space-y-6'>
-              <div>
-                <h1 className='text-4xl font-bold text-white mb-2'>
+            {/* Quick Stats Grid */}
+            <div className='mt-8 grid grid-cols-2 gap-4'>
+              <div className='glass-card p-5 rounded-2xl text-center border-white/5'>
+                <p className='text-[10px] uppercase tracking-[0.2em] text-gray-500 mb-2 font-black'>Trạng thái</p>
+                <p className='text-sm font-black text-white uppercase'>
+                  {MangaStatus[attributes.status as keyof typeof MangaStatus]}
+                </p>
+              </div>
+              <div className='glass-card p-5 rounded-2xl text-center border-white/5'>
+                <p className='text-[10px] uppercase tracking-[0.2em] text-gray-500 mb-2 font-black'>Phát hành</p>
+                <p className='text-sm font-black text-white'>{attributes.year || 'N/A'}</p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right: Info Column */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+            className='flex-1 flex flex-col justify-end'
+          >
+            <div className='space-y-8 pt-12 md:pt-0'>
+              <div className='space-y-3'>
+                <h1 className='text-5xl md:text-7xl font-display font-black text-white leading-[1.1] tracking-tight'>
                   {attributes.altTitles.find(item => item.vi)?.vi ?? attributes.title.en}
                 </h1>
-                {attributes.altTitles.find(item => item.vi)?.vi ? (
-                  <p className='text-gray-400 italic text-lg'>{attributes.altTitles.find(item => item.en)?.en}</p>
-                ) : (
-                  <p className='text-gray-400 italic text-lg'>{attributes.altTitles.find(item => item.ja)?.ja}</p>
-                )}
+                <p className='text-2xl md:text-3xl text-primary font-bold opacity-90 tracking-tight'>
+                  {attributes.altTitles.find(item => item.en)?.en || attributes.altTitles.find(item => item.ja)?.ja}
+                </p>
               </div>
 
-              {/* Description + Translation */}
-              <div className='space-y-2 text-gray-100 text-base leading-relaxed'>
-                <div>
-                  {isTranslate ? (
-                    <ReactMarkdown>{translatedDescription}</ReactMarkdown>
-                  ) : (
-                    attributes.description.vi || <ReactMarkdown>{attributes.description.en}</ReactMarkdown> ||
-                    'Không có mô tả'
-                  )}
-                </div>
-
-                {isLoadings && <p className='text-sm text-blue-400 italic'>Đang dịch nội dung, vui lòng chờ...</p>}
-
-                <div className='flex items-center gap-2 py-2'>
-                  <span
-                    onClick={() => handleTranslate(attributes.description.en)}
-                    className='text-sm cursor-pointer underline font-bold hover:underline hover:font-bold hover:text-gray-300'
+              {/* Tags/Genres */}
+              <div className='flex flex-wrap gap-2.5'>
+                {attributes.tags.map(tag => (
+                  <Link
+                    key={tag.id}
+                    href={`/filter-search?tags=${tag.id}`}
+                    className='px-4 py-1.5 bg-zinc-900 border border-white/10 rounded-full text-[11px] font-black text-gray-300 uppercase tracking-widest hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all shadow-lg'
                   >
-                    {isTranslate ? 'Hiện nội dung gốc' : 'Dịch nội dung sang tiếng Việt'}
-                  </span>
-                </div>
-
-                {!isVietnameseAvailable ? (
-                  <p className='text-red-500 font-medium'>Truyện hiện tại chưa có Tiếng Việt</p>
-                ) : (
-                  <p className='text-green-500 font-medium'>Truyện có bản dịch Tiếng Việt</p>
-                )}
+                    {tag.attributes.name.en}
+                  </Link>
+                ))}
               </div>
 
-              {/* Genre tags */}
-              {attributes.tags?.length > 0 && (
-                <div className='flex flex-wrap gap-2 pt-4'>
-                  {attributes.tags.map(tag => (
-                    <span key={tag.id} className='bg-blue-700 text-white px-3 py-1 text-xs rounded-full'>
-                      {tag.attributes.name.en}
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              {/* Manga Info */}
-              <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-200 mt-4'>
-                <div>
-                  <span className='font-bold'>Tình trạng: </span>
-                  <span>{MangaStatus[attributes.status as keyof typeof MangaStatus] || 'Không rõ'}</span>
-                </div>
-                <div>
-                  <span className='font-bold'>Năm phát hành: </span>
-                  <span>{attributes.year || 'Không rõ'}</span>
-                </div>
-                <div>
-                  <span className='font-bold'>Tác giả: </span>
+              {/* Meta Info Row */}
+              <div className='flex flex-wrap items-center gap-x-8 gap-y-4 py-6 border-y border-white/5 text-sm font-black text-gray-400 tracking-widest uppercase'>
+                <div className='flex items-center gap-3'>
+                  <span className='w-2 h-2 rounded-full bg-primary neon-glow' />
+                  <span>Tác giả: </span>
                   <span
-                    className='text-sm cursor-pointer hover:underline hover:text-blue-300'
+                    className='text-white hover:text-primary cursor-pointer transition-colors'
                     onClick={() => {
-                      localStorage.setItem('authorDetail', JSON.stringify(author?.data))
-                      router.push('/author-detail')
+                      if (author?.data) {
+                        localStorage.setItem('authorDetail', JSON.stringify(author.data))
+                        router.push('/author-detail')
+                      }
                     }}
                   >
-                    {author?.data.attributes.name || 'Chưa rõ'}
+                    {author?.data.attributes.name || 'Không rõ'}
                   </span>
                 </div>
-                <div>
-                  <span className='font-bold'>Ngôn ngữ gốc: </span>
+                <div className='flex items-center gap-3'>
+                  <span className='w-2 h-2 rounded-full bg-green-500' />
+                  <span>{isVietnameseAvailable ? 'Tiếng Việt Sẵn Sàng' : 'Chỉ có tiếng Anh'}</span>
+                </div>
+                <div className='flex items-center gap-3'>
+                  <FiInfo className='text-primary' />
                   <span>
-                    {OriginalLanguage[attributes.originalLanguage as keyof typeof OriginalLanguage] || 'Không rõ'}
+                    {OriginalLanguage[attributes.originalLanguage as keyof typeof OriginalLanguage] ||
+                      'Nguồn gốc không rõ'}
                   </span>
+                </div>
+              </div>
+
+              {/* Description Panel */}
+              <div className='glass-card p-8 rounded-[2rem] relative overflow-hidden group border-white/5 shadow-2xl'>
+                <div className='relative z-10 space-y-6'>
+                  <div
+                    className={`prose prose-invert max-w-none text-gray-300 font-medium leading-[1.8] text-lg transition-all duration-500 ${
+                      !isExpanded ? 'line-clamp-5' : ''
+                    }`}
+                  >
+                    {isTranslate ? (
+                      <ReactMarkdown>{translatedDescription}</ReactMarkdown>
+                    ) : (
+                      attributes.description.vi || <ReactMarkdown>{attributes.description.en}</ReactMarkdown> ||
+                      'Không có mô tả cho truyện này.'
+                    )}
+                  </div>
+
+                  {isTranslationLoading && (
+                    <div className='h-1.5 w-full bg-white/5 overflow-hidden rounded-full'>
+                      <motion.div
+                        initial={{ x: '-100%' }}
+                        animate={{ x: '100%' }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
+                        className='h-full w-1/2 bg-primary neon-glow'
+                      />
+                    </div>
+                  )}
+
+                  <div className='flex flex-wrap items-center gap-6'>
+                    <button
+                      onClick={() => handleTranslate(attributes.description.en)}
+                      className='group/btn flex items-center gap-2 text-xs font-black text-primary uppercase tracking-[0.2em] hover:text-white transition-colors cursor-pointer'
+                    >
+                      <span className='w-8 h-[1px] bg-primary group-hover/btn:w-12 transition-all' />
+                      {isTranslate ? 'Xem nội dung gốc' : 'Dịch sang tiếng Việt'}
+                    </button>
+
+                    <button
+                      onClick={() => setIsExpanded(!isExpanded)}
+                      className='flex items-center gap-2 text-xs font-black text-gray-400 uppercase tracking-[0.2em] hover:text-white transition-colors cursor-pointer'
+                    >
+                      {isExpanded ? 'Thu gọn' : 'Xem thêm'}
+                    </button>
+                  </div>
                 </div>
               </div>
 
               {/* Action Buttons */}
-              <div className='pt-6 flex flex-wrap gap-4'>
+              <div className='flex flex-wrap gap-5 pt-6'>
                 <button
-                  className='px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition'
-                  onClick={() => {
+                  className='flex-1 md:flex-none px-12 py-5 bg-primary text-primary-foreground font-black rounded-2xl transition-all hover:scale-[1.03] active:scale-95 neon-glow shadow-[0_0_30px_rgba(56,189,248,0.4)] tracking-[0.1em] uppercase text-sm cursor-pointer'
+                  onClick={() =>
                     router.push(
-                      `/reader/${firstChapterId}?mangaId=${manga.id}&lang=${getLanguageName(lang)}&langFilter=${lang}&langValue=${lang}&chapterId=${firstChapterId}`
+                      `/reader/${firstChapterId}?mangaId=${manga.id}&lang=${getLanguageName(
+                        lang
+                      )}&langFilter=${lang}&langValue=${lang}&chapterId=${firstChapterId}`
                     )
-                  }}
+                  }
                 >
-                  Đọc Truyện
+                  BẮT ĐẦU ĐỌC
                 </button>
-                <button className='px-5 py-2 border-2 border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition'>
-                  Thêm vào yêu thích
+                <button
+                  disabled
+                  className='flex-1 md:flex-none px-12 py-5 disabled:opacity-50 disabled:cursor-not-allowed glass-card text-white font-black rounded-2xl border border-white/10 hover:bg-white/20 transition-all tracking-[0.1em] uppercase text-sm cursor-pointer'
+                >
+                  + THƯ VIỆN (sắp có?)
                 </button>
               </div>
             </div>
+          </motion.div>
+        </div>
+
+        {/* Navigation Tabs */}
+        <div className='mt-24 border-b border-white/5'>
+          <div className='flex gap-12'>
+            {[
+              { id: 'chapters', label: 'DANH SÁCH CHƯƠNG' },
+              { id: 'related', label: 'TRUYỆN LIÊN QUAN' }
+            ].map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as MangaSortBy)}
+                className={`pb-6 text-xs font-black tracking-[0.3em] transition-all relative cursor-pointer ${
+                  activeTab === tab.id ? 'text-primary' : 'text-gray-500 hover:text-white'
+                }`}
+              >
+                {tab.label}
+                {activeTab === tab.id && (
+                  <motion.div
+                    layoutId='activeTab'
+                    className='absolute bottom-0 left-0 right-0 h-[3px] bg-primary neon-glow'
+                  />
+                )}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Tabs */}
-        <div className='w-full flex justify-center items-center gap-4 sm:gap-6 z-40 pointer-events-auto bg-transparent pt-1'>
-          <button
-            className={`px-4 sm:px-6 py-2 rounded-lg font-medium text-sm sm:text-base transition-all duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:ring-opacity-50 pointer-events-auto ${
-              activeTab === 'chapters'
-                ? 'bg-blue-600 text-white shadow-md hover:bg-blue-700'
-                : 'bg-gray-200 text-gray-900 hover:bg-gray-300'
-            }`}
-            onClick={() => {
-              setActiveTab('chapters')
-            }}
-          >
-            Danh sách chương
-          </button>
-          <button
-            className={`px-4 sm:px-6 py-2 rounded-lg font-medium text-sm sm:text-base transition-all duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:ring-opacity-50 pointer-events-auto ${
-              activeTab === 'related'
-                ? 'bg-blue-600 text-white shadow-md hover:bg-blue-700'
-                : 'bg-gray-200 text-gray-900 hover:bg-gray-300'
-            }`}
-            onClick={() => {
-              setActiveTab('related')
-            }}
-          >
-            Manga liên quan
-          </button>
-        </div>
-
         {/* Tab Content */}
-        <div className='max-w-6xl mx-auto p-6 z-20'>
-          {activeTab === 'chapters' && (
-            <MangaChaptersList mangaId={manga.id} langValue={'vi'} langFilterValue={['vi']} />
-          )}
-          {activeTab === 'related' && (
-            <RelatedManga ids={relatedMangaIds} />
-            // <div className="text-gray-200">Nội dung manga liên quan (chưa triển khai)</div>
-          )}
+        <div className='mt-12'>
+          <AnimatePresence mode='wait'>
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+            >
+              {activeTab === 'chapters' && (
+                <MangaChaptersList mangaId={manga.id} langValue={'vi'} langFilterValue={['vi']} />
+              )}
+              {activeTab === 'related' && <RelatedManga ids={relatedMangaIds} />}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </div>

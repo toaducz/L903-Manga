@@ -4,13 +4,15 @@ import { getMangaById } from '@/codebase/api/manga/get-manga-by-id'
 import { Manga } from '@/codebase/api/paginate'
 import MangaItems from './manga-items'
 import Loading from '../status/Loading'
+import { motion, AnimatePresence } from 'framer-motion'
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 
 type RelatedMangaProps = {
   ids: string[]
 }
 
 export default function RelatedManga({ ids }: RelatedMangaProps) {
-  const pageSize = 20
+  const pageSize = 10
   const [page, setPage] = useState(0)
   const [selectedRating, setSelectedRating] = useState<'all' | 'hide-pornographic'>('hide-pornographic')
 
@@ -24,87 +26,114 @@ export default function RelatedManga({ ids }: RelatedMangaProps) {
     queries: currentIds.map(id => getMangaById({ id }))
   })
 
-  // console.log(mangaQueries)
-
   const isLoading = mangaQueries.some(query => query.isLoading)
   const isError = mangaQueries.some(query => query.isError)
 
   const mangaList = mangaQueries.filter(query => query.data).map(query => query.data!.data as Manga)
 
   const displayedManga = mangaList.filter(manga => {
-    if (!manga || !manga.attributes) return false // Nếu manga bị undefined/null thì loại bỏ, có mấy cái vì lý do gì đó không có tag :V
+    if (!manga || !manga.attributes) return false
     if (selectedRating === 'all') return true
     return manga.attributes.contentRating !== 'pornographic'
   })
 
-  // console.log(displayedManga)
-
   if (currentIds.length === 0) {
     return (
-      <div className='w-full h-full flex items-center justify-center py-10'>
-        <p className='text-gray-500 text-lg'>Không có manga liên quan</p>
+      <div className='w-full py-20 flex flex-col items-center justify-center glass-card rounded-3xl border-dashed border-white/10'>
+        <p className='text-gray-500 font-bold uppercase tracking-widest text-sm'>No related manga found</p>
       </div>
     )
   }
 
-  if (isLoading) {
-    return <Loading />
-  }
-
-  if (isError) {
-    return <div>{`Lỗi rồi :(`}</div>
-  }
-
   return (
-    <>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <>
-          <select
-            value={selectedRating}
-            onChange={e => setSelectedRating(e.target.value as 'all' | 'hide-pornographic')}
-            className='p-2 rounded-md bg-gray-800 text-white mb-4'
-          >
-            <option value='all'>Hiện tất cả</option>
-            <option value='hide-pornographic'>Ẩn 18+</option>
-          </select>
+    <div className='space-y-8'>
+      {/* Filters Bar */}
+      <div className='flex items-center justify-between'>
+        <div className='flex items-center gap-4 bg-white/5 p-1 rounded-xl border border-white/5'>
+          {[
+            { id: 'hide-pornographic', label: 'SAFE MODE' },
+            { id: 'all', label: 'SHOW ALL' }
+          ].map(r => (
+            <button
+              key={r.id}
+              onClick={() => setSelectedRating(r.id as 'all' | 'hide-pornographic')}
+              className={`px-6 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${
+                selectedRating === r.id
+                  ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20'
+                  : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              {r.label}
+            </button>
+          ))}
+        </div>
+      </div>
 
-          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 sm:gap-5 gap-3 p-3 w-full [grid-template-columns:repeat(auto-fill,minmax(120px,1fr))] sm:[grid-template-columns:repeat(auto-fill,minmax(300px,1fr))]'>
+      <AnimatePresence mode='wait'>
+        {isLoading ? (
+          <motion.div
+            key='loading'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className='min-h-[400px] flex items-center justify-center'
+          >
+            <Loading />
+          </motion.div>
+        ) : isError ? (
+          <div className='text-red-400 font-bold'>Failed to load related works.</div>
+        ) : (
+          <motion.div
+            key='grid'
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6'
+          >
             {displayedManga.length > 0 ? (
               displayedManga.map((manga, index) => (
-                <div key={index} className='min-h-[140px] sm:max-h-[450px] w-full relative overflow-visible sm:flex'>
-                  <MangaItems manga={manga} />
-                </div>
+                <motion.div
+                  key={manga.id}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: index * 0.05 }}
+                >
+                  <MangaItems manga={manga} isResponsive={false} />
+                </motion.div>
               ))
             ) : (
-              <div className='text-gray-400 text-center col-span-full'>Không có manga phù hợp</div>
+              <div className='text-gray-400 text-center col-span-full py-20'>No matches found for your filter.</div>
             )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Modern Pagination */}
+      {totalPages > 1 && (
+        <div className='flex items-center justify-center gap-8 pt-8'>
+          <button
+            onClick={() => setPage(prev => Math.max(prev - 1, 0))}
+            disabled={page === 0}
+            className='p-4 glass-card rounded-full text-white disabled:opacity-20 hover:bg-white/10 transition-all active:scale-90'
+          >
+            <FiChevronLeft size={24} />
+          </button>
+
+          <div className='flex items-center gap-4'>
+            <span className='text-[10px] font-black text-gray-500 uppercase tracking-[0.3em]'>PAGE</span>
+            <span className='text-xl font-display font-black text-white'>{page + 1}</span>
+            <span className='text-gray-700'>/</span>
+            <span className='text-xl font-display font-black text-gray-500'>{totalPages}</span>
           </div>
 
-          <div className='flex justify-center gap-4 mt-6'>
-            <button
-              onClick={() => setPage(prev => Math.max(prev - 1, 0))}
-              disabled={page === 0}
-              className='px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-50'
-            >
-              Previous
-            </button>
-
-            <span className='text-white flex items-center'>
-              Trang {page + 1} / {totalPages}
-            </span>
-
-            <button
-              onClick={() => setPage(prev => Math.min(prev + 1, totalPages - 1))}
-              disabled={page >= totalPages - 1}
-              className='px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-50'
-            >
-              Next
-            </button>
-          </div>
-        </>
+          <button
+            onClick={() => setPage(prev => Math.min(prev + 1, totalPages - 1))}
+            disabled={page >= totalPages - 1}
+            className='p-4 glass-card rounded-full text-white disabled:opacity-20 hover:bg-white/10 transition-all active:scale-90'
+          >
+            <FiChevronRight size={24} />
+          </button>
+        </div>
       )}
-    </>
+    </div>
   )
 }

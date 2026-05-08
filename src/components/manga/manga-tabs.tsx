@@ -16,33 +16,35 @@ export default function MangaTabs() {
   return (
     <div className='w-full'>
       {/* Tabs header */}
-      <div className='flex justify-center items-center gap-4 pt-5'>
-        {demographics.map(demo => (
-          <button
-            key={demo.key}
-            onClick={() => setActiveTab(demo.key)}
-            className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 ${
-              activeTab === demo.key
-                ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:shadow-md border border-gray-300'
-            }`}
-          >
-            {demo.label}
-          </button>
-        ))}
+      <div className='flex justify-center items-center gap-4 py-2'>
+        <div className='bg-white/5 p-1.5 rounded-2xl border border-white/10 backdrop-blur-md flex gap-2'>
+          {demographics.map(demo => (
+            <button
+              key={demo.key}
+              onClick={() => setActiveTab(demo.key)}
+              className={`px-8 py-3 rounded-xl text-xs font-black uppercase tracking-[0.2em] transition-all duration-500 cursor-pointer ${
+                activeTab === demo.key
+                  ? 'bg-primary text-primary-foreground shadow-[0_0_20px_rgba(56,189,248,0.4)]'
+                  : 'text-gray-400 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              {demo.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Tabs content with Framer Motion */}
-      <div className='mt-6 flex justify-center items-center'>
+      <div className='mt-8'>
         <AnimatePresence mode='wait'>
           <motion.div
-            key={activeTab} // Key để trigger animation khi activeTab thay đổi
-            initial={{ opacity: 0, y: 20 }} // Trạng thái ban đầu
-            animate={{ opacity: 1, y: 0 }} // Trạng thái khi xuất hiện
-            exit={{ opacity: 0, y: -20 }} // Trạng thái khi biến mất
-            transition={{ duration: 0.3, ease: 'easeInOut' }} // Thời gian và easing
+            key={activeTab}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -30 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           >
-            <MangaByTagPage limitManga={5} publicationDemographic={activeTab} pagination={true} />
+            <MangaByTagPage limitManga={12} publicationDemographic={activeTab} pagination={true} />
           </motion.div>
         </AnimatePresence>
       </div>

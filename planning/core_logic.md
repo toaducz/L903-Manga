@@ -16,9 +16,15 @@ Located in `src/codebase/store/`, global state is managed using Recoil.
 
 ## Utility Logic
 Located in `src/codebase/utils/`, this contains pure functions and helpers.
-- **Formatting**: Date formatting, string manipulation, etc.
+- **Formatting**: Date formatting, string manipulation, and currency.
 - **Validation**: Input validation, schema checks.
 - **Manga Specific**: Logic for calculating reading progress, handling image loading, or parsing manga metadata.
+- **Translate**: Dynamic translation service using MyMemory API.
+- **Clipboard**: `copy-to-clipboard` utility for sharing functionality.
+
+## Data Persistence & State Transitions
+- **localStorage Handlers**: Used for persisting lightweight state like `readingHistory`.
+- **Cross-page Data Passing**: The author detail mechanism uses `localStorage` (key: `authorDetail`) to pass complex author objects between the Manga Detail and Author Detail pages, bypassing redundant API calls.
 
 ## Middleware
 The `src/middleware.ts` currently implements a strict redirection policy:

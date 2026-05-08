@@ -49,12 +49,10 @@ export default function SearchResultPage({ title }: SearchProps) {
       <div className='pt-20'>
         <h2 className='text-2xl font-semibold text-gray-100 mb-6'>Kết quả tìm kiếm cho: {title}</h2>
       </div>
-      <div className='flex justify-center items-center '>
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 sm:gap-5 gap-3 p-3 w-full [grid-template-columns:repeat(auto-fill,minmax(120px,1fr))] sm:[grid-template-columns:repeat(auto-fill,minmax(300px,1fr))]'>
-          {result?.data?.slice(0, result.data.length).map((manga, index) => (
-            <div key={index} className='min-h-[140px] sm:max-h-[450px] w-full relative overflow-visible sm:flex  '>
-              <MangaItems manga={manga} />
-            </div>
+      <div className='w-full max-w-screen-2xl mx-auto'>
+        <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6 w-full p-4'>
+          {result?.data?.map((manga, index) => (
+            <MangaItems key={index} manga={manga} isResponsive={false} />
           ))}
         </div>
       </div>

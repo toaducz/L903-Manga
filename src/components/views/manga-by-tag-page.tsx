@@ -49,17 +49,14 @@ export default function MangaByTagPage({
   }
 
   return (
-    <div className=' flex flex-col items-center justify-center p-4'>
-      {/* <h2 className='text-2xl font-semibold text-gray-100 mb-6'>Top Manga Shounen</h2> */}
-      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 sm:gap-5 gap-3 p-3 w-full [grid-template-columns:repeat(auto-fill,minmax(120px,1fr))] sm:[grid-template-columns:repeat(auto-fill,minmax(300px,1fr))]'>
-        {top?.data?.slice(0, top.data.length).map((manga, index) => (
-          <div key={index} className='min-h-[140px] sm:max-h-[450px] w-full relative overflow-visible sm:flex  '>
-            <MangaItems manga={manga} />
-          </div>
+    <div className='flex flex-col items-center justify-center p-4 w-full'>
+      <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6 w-full max-w-screen-2xl'>
+        {top?.data?.map((manga, index) => (
+          <MangaItems key={index} manga={manga} isResponsive={false} />
         ))}
       </div>
       {pagination && (
-        <div>
+        <div className='w-full'>
           <Pagination
             total={top?.total || 0}
             offset={offset}

@@ -34,56 +34,60 @@ const Pagination: React.FC<PaginationProps> = ({ total, offset, limit, onPageCha
 
   const pages = getPaginationPages(currentPage, totalPages)
 
+  if (totalPages <= 1) return null
+
   return (
-    <div className='flex items-center justify-center mt-6 gap-2 flex-wrap'>
+    <div className='flex items-center justify-center mt-12 gap-3 flex-wrap'>
       <button
         onClick={() => onPageChange(0)}
         disabled={currentPage === 1}
-        className='px-4 py-2 bg-slate-800 text-white rounded-lg shadow-md hover:bg-slate-900 disabled:bg-slate-600 disabled:text-slate-400 disabled:shadow-none transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-slate-600'
+        className='px-6 py-2.5 glass-card text-[10px] font-black uppercase tracking-widest text-white hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer'
       >
-        Về đầu
+        Đầu
       </button>
       <button
         onClick={() => onPageChange(Math.max(0, offset - limit))}
         disabled={currentPage === 1}
-        className='px-4 py-2 bg-slate-800 text-white rounded-lg shadow-md hover:bg-slate-900 disabled:bg-slate-600 disabled:text-slate-400 disabled:shadow-none transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-slate-600'
+        className='px-6 py-2.5 glass-card text-[10px] font-black uppercase tracking-widest text-white hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer'
       >
-        Lùi lại
+        Trước
       </button>
 
-      {pages.map((page, index) =>
-        typeof page === 'number' ? (
-          <button
-            key={index}
-            onClick={() => onPageChange((page - 1) * limit)}
-            className={`px-4 py-2 rounded-lg shadow-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-slate-600 ${
-              page === currentPage
-                ? 'bg-slate-900 text-white font-semibold shadow-md'
-                : 'bg-slate-700 text-white hover:bg-slate-800'
-            }`}
-          >
-            {page}
-          </button>
-        ) : (
-          <span key={index} className='px-4 py-2 text-slate-500 select-none'>
-            ...
-          </span>
-        )
-      )}
+      <div className='flex items-center gap-2 px-2 py-1.5 glass-card rounded-xl'>
+        {pages.map((page, index) =>
+          typeof page === 'number' ? (
+            <button
+              key={index}
+              onClick={() => onPageChange((page - 1) * limit)}
+              className={`min-w-[40px] h-10 rounded-lg text-xs font-black transition-all cursor-pointer ${
+                page === currentPage
+                  ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/30'
+                  : 'text-gray-400 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              {page}
+            </button>
+          ) : (
+            <span key={index} className='px-2 text-gray-600 font-black tracking-widest'>
+              ...
+            </span>
+          )
+        )}
+      </div>
 
       <button
         onClick={() => onPageChange(Math.min((totalPages - 1) * limit, offset + limit))}
         disabled={currentPage === totalPages}
-        className='px-4 py-2 bg-slate-800 text-white rounded-lg shadow-md hover:bg-slate-900 disabled:bg-slate-600 disabled:text-slate-400 disabled:shadow-none transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-slate-600'
+        className='px-6 py-2.5 glass-card text-[10px] font-black uppercase tracking-widest text-white hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer'
       >
-        Tiếp theo
+        Sau
       </button>
       <button
         onClick={() => onPageChange(lastOffset)}
         disabled={currentPage === totalPages}
-        className='px-4 py-2 bg-slate-800 text-white rounded-lg shadow-md hover:bg-slate-900 disabled:bg-slate-600 disabled:text-slate-400 disabled:shadow-none transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-slate-600'
+        className='px-6 py-2.5 glass-card text-[10px] font-black uppercase tracking-widest text-white hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer'
       >
-        Về cuối
+        Cuối
       </button>
     </div>
   )

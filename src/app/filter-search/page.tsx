@@ -17,7 +17,7 @@ export default function AdvancedSearchPage() {
   const [followedCount, setFollowedCount] = useState<string>('desc')
   const [latestUploadedChapter, setLatestUploadedChapter] = useState<string>('desc')
   const [publicationDemographic, setPublicationDemographic] = useState<string>('none')
-  const [contentRating, setContentRating] = useState<string[]>(['safe', 'suggestive', 'erotica'])
+  const [contentRating] = useState<string[]>(['safe', 'suggestive', 'erotica'])
   const [offset, setOffset] = useState(0)
   const limit = 20
 
@@ -67,42 +67,40 @@ export default function AdvancedSearchPage() {
   }
 
   return (
-    <div className='min-h-screen bg-slate-900 pb-8 pt-25'>
-      <div className='max-w-4xl mx-auto p-6 bg-slate-900 rounded-xl shadow-lg space-y-6'>
-        <h2 className='text-2xl font-bold text-white text-center'>Tìm kiếm nâng cao</h2>
+    <div className='min-h-screen bg-slate-900 pb-12 pt-8'>
+      <div className='max-w-4xl mx-auto p-8 glass-card rounded-3xl shadow-2xl space-y-8 border-white/5'>
+        <div className='text-center space-y-2'>
+          <h2 className='text-3xl font-display font-black text-white tracking-tight uppercase'>Tìm kiếm nâng cao</h2>
+          <div className='h-1 w-20 bg-primary mx-auto rounded-full neon-glow' />
+        </div>
 
         {/* Form nhập tên truyện */}
-        <form onSubmit={handleSearch} className='flex items-center space-x-2'>
+        <form onSubmit={handleSearch} className='relative group'>
           <input
             type='text'
-            placeholder='Tìm theo tên truyện'
-            className='flex-1 px-4 py-2 rounded-lg bg-slate-800 text-white border border-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-600 placeholder-slate-400 text-sm transition-all duration-200'
+            placeholder='Tìm theo tên truyện...'
+            className='w-full px-6 py-4 rounded-2xl bg-white/5 text-white border border-white/10 focus:outline-none focus:ring-2 focus:ring-primary/50 placeholder-gray-500 text-sm font-bold transition-all group-hover:bg-white/10'
             value={search}
             onChange={e => setSearch(e.target.value)}
           />
-          {/* <button
-                        type='submit'
-                        className='px-4 py-2 bg-slate-800 text-white rounded-lg shadow-md hover:bg-slate-900 hover:scale-105 disabled:bg-slate-600 disabled:text-slate-400 disabled:shadow-none transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-slate-600'
-                        disabled={!search.trim()}
-                    >
-                        Tìm
-                    </button> */}
         </form>
 
         {/* TagMultiSelect */}
-        <TagMultiSelect setTag={setSelectedTags} selectedTags={selectedTags} />
+        <div className='space-y-4'>
+          <TagMultiSelect setTag={setSelectedTags} selectedTags={selectedTags} />
+        </div>
 
         {/* Các select dropdown */}
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
           {/* Publication Demographic */}
-          <div>
-            <label className='block text-sm font-medium text-white mb-1'>Demographic</label>
+          <div className='space-y-2'>
+            <label className='text-[10px] font-black uppercase tracking-widest text-gray-400 ml-2'>Nhóm tuổi</label>
             <select
               value={publicationDemographic}
               onChange={e => setPublicationDemographic(e.target.value)}
-              className='w-full px-4 py-2 rounded-lg bg-slate-800 text-white border border-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-600 text-sm transition-all duration-200'
+              className='w-full px-4 py-3 rounded-xl bg-white/5 text-white border border-white/10 focus:outline-none focus:ring-2 focus:ring-primary/50 text-xs font-bold transition-all cursor-pointer'
             >
-              <option value='none'>Không chọn</option>
+              <option value='none'>Tất cả</option>
               <option value='shounen'>Shounen</option>
               <option value='shoujo'>Shoujo</option>
               <option value='seinen'>Seinen</option>
@@ -111,12 +109,12 @@ export default function AdvancedSearchPage() {
           </div>
 
           {/* Year */}
-          <div>
-            <label className='block text-sm font-medium text-white mb-1'>Năm xuất bản</label>
+          <div className='space-y-2'>
+            <label className='text-[10px] font-black uppercase tracking-widest text-gray-400 ml-2'>Năm xuất bản</label>
             <select
               value={year}
               onChange={e => setYear(e.target.value)}
-              className='w-full px-4 py-2 rounded-lg bg-slate-800 text-white border border-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-600 text-sm transition-all duration-200'
+              className='w-full px-4 py-3 rounded-xl bg-white/5 text-white border border-white/10 focus:outline-none focus:ring-2 focus:ring-primary/50 text-xs font-bold transition-all cursor-pointer'
             >
               <option value='desc'>Mới nhất</option>
               <option value='asc'>Cũ nhất</option>
@@ -124,64 +122,44 @@ export default function AdvancedSearchPage() {
           </div>
 
           {/* Followed Count */}
-          <div>
-            <label className='block text-sm font-medium text-white mb-1'>Lượt theo dõi</label>
+          <div className='space-y-2'>
+            <label className='text-[10px] font-black uppercase tracking-widest text-gray-400 ml-2'>Theo dõi</label>
             <select
               value={followedCount}
               onChange={e => setFollowedCount(e.target.value)}
-              className='w-full px-4 py-2 rounded-lg bg-slate-800 text-white border border-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-600 text-sm transition-all duration-200'
+              className='w-full px-4 py-3 rounded-xl bg-white/5 text-white border border-white/10 focus:outline-none focus:ring-2 focus:ring-primary/50 text-xs font-bold transition-all cursor-pointer'
             >
-              <option value='desc'>Cao nhất</option>
-              <option value='asc'>Thấp nhất</option>
+              <option value='desc'>Nhiều nhất</option>
+              <option value='asc'>Ít nhất</option>
             </select>
           </div>
 
           {/* Chap mới */}
-          <div>
-            <label className='block text-sm font-medium text-white mb-1'>Cập nhật chương mới:</label>
+          <div className='space-y-2'>
+            <label className='text-[10px] font-black uppercase tracking-widest text-gray-400 ml-2'>Cập nhật</label>
             <select
               value={latestUploadedChapter}
               onChange={e => setLatestUploadedChapter(e.target.value)}
-              className='w-full px-4 py-2 rounded-lg bg-slate-800 text-white border border-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-600 text-sm transition-all duration-200'
+              className='w-full px-4 py-3 rounded-xl bg-white/5 text-white border border-white/10 focus:outline-none focus:ring-2 focus:ring-primary/50 text-xs font-bold transition-all cursor-pointer'
             >
               <option value='desc'>Mới nhất</option>
               <option value='asc'>Cũ nhất</option>
-            </select>
-          </div>
-
-          {/* content rating */}
-          <div>
-            <label className='block text-sm font-medium text-white mb-1'>Quỷ</label>
-            <select
-              value={contentRating.join(',')} // biến array thành string
-              onChange={e => setContentRating(e.target.value.split(','))} // tách string lại thành array
-              className='w-full px-4 py-2 rounded-lg bg-slate-800 text-white border border-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-600 text-sm transition-all duration-200'
-            >
-              <option value='safe,suggestive,erotica'>Bình thường</option>
-              <option value='safe,suggestive,erotica,pornographic'>Bao gồm Quỷ</option>
-              <option value='pornographic'>Thuần Quỷ</option>
             </select>
           </div>
         </div>
       </div>
 
       {/* Kết quả tìm kiếm */}
-      <div className='max-w-7xl mx-auto mt-8'>
+      <div className='max-w-screen-2xl mx-auto mt-16 px-4 md:px-8'>
         {isFetching && <Loading />}
         {isError && <Error />}
-        {result?.data?.length === 0 && <Error message='Không có kết quả!' />}
-        {!result?.data && <Error message='Lỗi rồi' />}
+        {result?.data?.length === 0 && <Error message='Không tìm thấy kết quả phù hợp!' />}
+
         {result?.data && (
-          <div className='min-h-screen flex flex-col items-center justify-center px-4'>
-            <div className='flex justify-center items-center gap-4'>
-              <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 sm:gap-5 gap-3 p-3 w-full [grid-template-columns:repeat(auto-fill,minmax(120px,1fr))] sm:[grid-template-columns:repeat(auto-fill,minmax(300px,1fr))]'>
-                {result.data.slice(0, result.data.length).map((manga, index) => (
-                  <div key={index} className='min-h-[140px] sm:max-h-[450px] w-full relative overflow-visible sm:flex'>
-                    <MangaItems manga={manga} />
-                  </div>
-                ))}
-              </div>
-            </div>
+          <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6 w-full'>
+            {result.data.map((manga, index) => (
+              <MangaItems key={index} manga={manga} isResponsive={false} />
+            ))}
           </div>
         )}
         <Pagination

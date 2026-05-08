@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { useQueryClient } from '@tanstack/react-query'
 import { getChaptersByMangaId } from '@/codebase/api/manga/get-chapter'
 import { useState, useEffect } from 'react'
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 
 interface ChapterNavButtonProps {
   chapter: Chapter | null
@@ -17,6 +18,7 @@ interface ChapterNavButtonProps {
   order: string
   limit: number
   total: number
+  variant?: 'default' | 'minimal'
 }
 
 const ChapterNavButton = ({
@@ -28,7 +30,8 @@ const ChapterNavButton = ({
   langValue,
   order,
   limit,
-  total
+  total,
+  variant = 'default'
 }: ChapterNavButtonProps) => {
   const router = useRouter()
   const queryClient = useQueryClient()
@@ -142,26 +145,39 @@ const ChapterNavButton = ({
     )
   }
 
+  if (variant === 'minimal') {
+    return (
+      <button
+        onClick={handleClick}
+        disabled={isDisabled}
+        className={`p-2 rounded-lg transition-all duration-300 border cursor-pointer ${
+          isDisabled
+            ? 'bg-transparent border-white/5 text-gray-700 cursor-not-allowed opacity-30'
+            : 'bg-white/5 border-white/10 text-white hover:bg-primary hover:text-primary-foreground hover:border-primary hover:neon-glow active:scale-90'
+        }`}
+        title={direction === 'prev' ? 'Chương Trước' : 'Chương Tiếp'}
+      >
+        {direction === 'prev' ? <FiChevronLeft size={16} /> : <FiChevronRight size={16} />}
+      </button>
+    )
+  }
+
   return (
     <button
       onClick={handleClick}
       disabled={isDisabled}
-      className={`flex items-center gap-2 px-6 py-3 text-white font-semibold rounded-lg shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+      className={`flex items-center gap-3 px-8 py-4 text-xs font-black uppercase tracking-[0.2em] rounded-2xl transition-all duration-500 shadow-2xl border cursor-pointer group ${
         isDisabled
-          ? 'bg-gray-600 cursor-not-allowed'
-          : 'bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 hover:shadow-lg transform hover:-translate-y-0.5'
+          ? 'bg-white/5 border-white/5 text-gray-600 cursor-not-allowed opacity-50'
+          : 'bg-primary/10 border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground hover:neon-glow active:scale-95'
       }`}
     >
       {direction === 'prev' && (
-        <svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-          <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M15 19l-7-7 7-7' />
-        </svg>
+        <FiChevronLeft size={18} className='group-hover:-translate-x-1 transition-transform' />
       )}
-      {direction === 'prev' ? 'Chapter Trước' : 'Chapter Sau'}
+      {direction === 'prev' ? 'Chương Trước' : 'Chương Tiếp'}
       {direction === 'next' && (
-        <svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 24'>
-          <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 5l7 7-7 7' />
-        </svg>
+        <FiChevronRight size={18} className='group-hover:translate-x-1 transition-transform' />
       )}
     </button>
   )

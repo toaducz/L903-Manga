@@ -39,7 +39,7 @@ export default function AuthorDetailPage({ author }: Props) {
         {/* Tiểu sử */}
         <div className='text-gray-200 whitespace-pre-line mb-6'>
           <p dangerouslySetInnerHTML={{ __html: renderMarkdownToHTML(expanded ? biography : shortened) }} />
-          <button onClick={() => setExpanded(!expanded)} className='mt-2 text-sm text-blue-400 hover:underline'>
+          <button onClick={() => setExpanded(!expanded)} className='mt-2 text-sm text-blue-400 hover:underline cursor-pointer'>
             {expanded ? 'Thu gọn' : 'Xem thêm'}
           </button>
         </div>
