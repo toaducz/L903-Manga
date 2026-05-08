@@ -34,12 +34,12 @@ export default function Navbar() {
     { href: '/recommendation', label: 'Romcom gợi ý bởi L903-Manga', icon: <FiZap /> },
     { href: '/reading-history', label: 'Lịch sử đọc truyện', icon: <FiClock /> },
     { href: '/filter-search', label: 'Tìm kiếm nâng cao', icon: <FiGrid /> },
-    { href: '/random', label: 'Manga Ngẫu nhiên', icon: <FiZap className='rotate-180' /> },
+    { href: '/random', label: 'Manga Ngẫu nhiên', icon: <FiZap className='rotate-180' /> }
   ]
 
   return (
     <>
-      <nav 
+      <nav
         className={`fixed top-0 inset-x-0 z-[200] transition-all duration-500 px-4 md:px-8 py-6 ${
           isScrolled ? 'bg-background/80 backdrop-blur-xl border-b border-white/5 py-4' : 'bg-transparent'
         }`}
@@ -56,7 +56,7 @@ export default function Navbar() {
 
             {/* Desktop Links */}
             <div className='hidden xl:flex items-center gap-1'>
-              {navLinks.map((link) => (
+              {navLinks.map(link => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -83,7 +83,7 @@ export default function Navbar() {
               />
             </form>
 
-            <button 
+            <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className='p-3 bg-white/5 border border-white/10 rounded-2xl text-white lg:hidden hover:bg-white/10 transition-all active:scale-90 cursor-pointer'
             >
@@ -97,14 +97,14 @@ export default function Navbar() {
       <AnimatePresence>
         {isMenuOpen && (
           <>
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className='fixed inset-0 bg-black/90 backdrop-blur-2xl z-[210] cursor-pointer'
               onClick={() => setIsMenuOpen(false)}
             />
-            <motion.div 
+            <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
@@ -113,7 +113,7 @@ export default function Navbar() {
             >
               <div className='flex items-center justify-between mb-12'>
                 <span className='text-xl font-display font-black text-white'>MENU</span>
-                <button 
+                <button
                   onClick={() => setIsMenuOpen(false)}
                   className='p-3 bg-white/5 rounded-2xl text-white hover:bg-white/10 transition-all cursor-pointer'
                 >
@@ -133,7 +133,7 @@ export default function Navbar() {
               </form>
 
               <div className='flex-1 space-y-4'>
-                {navLinks.map((link) => (
+                {navLinks.map(link => (
                   <Link
                     key={link.href}
                     href={link.href}

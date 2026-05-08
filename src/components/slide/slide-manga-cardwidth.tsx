@@ -64,7 +64,7 @@ const SlideMangaCardFullWidth: React.FC<Props> = ({ id }) => {
                 <Image
                   unoptimized
                   src={proxyImageUrl}
-                  alt={title}
+                  alt={'title' + title}
                   fill
                   priority
                   className='object-cover object-top transition-transform duration-1000 group-hover:scale-105'

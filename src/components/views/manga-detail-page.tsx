@@ -176,7 +176,7 @@ const MangaDetailPage: React.FC<MangaDetailPageProps> = ({ manga }) => {
               <Image
                 unoptimized
                 src={proxyImageUrl}
-                alt={attributes.title.en}
+                alt={'title' + attributes.title.en}
                 fill
                 className='object-cover transition-transform duration-700 group-hover:scale-110'
               />

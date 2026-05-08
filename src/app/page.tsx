@@ -10,8 +10,8 @@ export default function LandingHomepage() {
       <p className='text-lg md:text-xl text-gray-200 mb-10 text-center max-w-2xl font-light'>
         Chào mừng bạn đến với L903 Manga — nền tảng đọc truyện tranh hiện đại, sử dụng dữ liệu từ MangaDex.
       </p>
-      <Link href='/homepage'>
-        <button className='bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow-lg'>
+      <Link href='/homepage' replace>
+        <button className='bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow-lg cursor-pointer active:scale-95 transition-all'>
           Trải nghiệm L903 Manga
         </button>
       </Link>
