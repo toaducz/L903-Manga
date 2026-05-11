@@ -39,16 +39,14 @@ const MangaItems: React.FC<MangaCardProps> = ({ manga, isResponsive = true }) =>
       whileTap={{ scale: 0.98 }}
       onClick={handleClick}
       className={`relative glass-card rounded-2xl shadow-xl transition-all duration-500 cursor-pointer group overflow-hidden border-white/5 w-full hover:neon-glow hover:border-primary/30 ${
-        isResponsive 
-          ? 'flex flex-row sm:flex-col sm:aspect-[2/3]' 
-          : 'flex flex-col aspect-[2/3]'
+        isResponsive ? 'flex flex-row sm:flex-col sm:aspect-[2/3]' : 'flex flex-col aspect-[2/3]'
       }`}
     >
       {/* Art Container */}
-      <div 
+      <div
         className={`relative bg-slate-900 overflow-hidden shrink-0 ${
-          isResponsive 
-            ? 'w-24 h-auto aspect-[2/3] sm:w-full sm:h-full sm:absolute sm:inset-0' 
+          isResponsive
+            ? 'w-24 h-auto aspect-[2/3] sm:w-full sm:h-full sm:absolute sm:inset-0'
             : 'absolute inset-0 w-full h-full'
         }`}
       >
@@ -58,9 +56,7 @@ const MangaItems: React.FC<MangaCardProps> = ({ manga, isResponsive = true }) =>
           alt={`Ảnh bìa truyện ${title}`}
           fill
           sizes='(max-width: 768px) 100vw, 300px'
-          className={`object-cover transition-transform duration-700 group-hover:scale-110 ${
-            isLoading ? 'opacity-0' : 'opacity-100'
-          }`}
+          className={`object-cover group-hover:scale-110 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
           onLoad={() => setIsLoading(false)}
         />
         {isLoading && <div className='absolute inset-0 bg-slate-800 animate-pulse' />}
@@ -76,22 +72,27 @@ const MangaItems: React.FC<MangaCardProps> = ({ manga, isResponsive = true }) =>
       {/* Content Area - Mobile Horizontal */}
       {isResponsive && (
         <div className='flex sm:hidden flex-1 flex-col justify-center p-4 min-w-0'>
-          <h3 className='font-display text-xs font-black text-white line-clamp-2 leading-tight mb-2 uppercase tracking-tight' title={title}>
+          <h3
+            className='font-display text-xs font-black text-white line-clamp-2 leading-tight mb-2 uppercase tracking-tight'
+            title={title}
+          >
             {title}
           </h3>
           <div className='flex items-center gap-2'>
             <span className='text-[7px] font-black uppercase tracking-widest text-primary bg-primary/10 px-1.5 py-0.5 rounded border border-primary/20'>
               {status}
             </span>
-            <span className='text-[7px] font-black text-gray-400 uppercase tracking-widest'>
-              {rating}
-            </span>
+            <span className='text-[7px] font-black text-gray-400 uppercase tracking-widest'>{rating}</span>
           </div>
         </div>
       )}
 
       {/* Content Area - Desktop/Poster Overlay */}
-      <div className={`absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex-col justify-end p-4 ${isResponsive ? 'hidden sm:flex' : 'flex'}`}>
+      <div
+        className={`absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex-col justify-end p-4 ${
+          isResponsive ? 'hidden sm:flex' : 'flex'
+        }`}
+      >
         <div className='space-y-1.5 z-10'>
           <h3
             className='font-display text-xs sm:text-sm font-black text-white line-clamp-2 leading-tight tracking-tight drop-shadow-xl uppercase'
