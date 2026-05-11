@@ -51,7 +51,7 @@ export default function SelfHostPage() {
 
         <div className='flex flex-col sm:flex-row gap-4 justify-center items-center'>
           <a
-            href='https://github.com/toaducz/L903-Manga'
+            href='https://github.com/toaducz/l903-manga'
             target='_blank'
             rel='noopener noreferrer'
             className='group relative flex items-center gap-3 bg-white text-slate-950 px-8 py-4 rounded-full text-lg font-bold transition-all hover:scale-105 active:scale-95 shadow-xl hover:shadow-white/10'
