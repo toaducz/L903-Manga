@@ -49,9 +49,9 @@ git clone https://github.com/toanducz/L903-Manga.git
 
 # Cài dependencies
 cd L903-Manga
-npm install
+pnpm install
 
 # Chạy development
-npm run dev
+pnpm dev
 
 ```

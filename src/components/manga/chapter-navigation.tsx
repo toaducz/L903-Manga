@@ -40,7 +40,11 @@ const ChapterNavButton = ({
   // Kiểm tra xem có chapter mới cho offset tiếp theo/trước đó
   useEffect(() => {
     const checkChapters = async () => {
-      const newOffset = direction === 'next' ? Number(offset) + limit : Number(offset) - limit
+      const isAsc = order === 'asc'
+      const newOffset = isAsc
+        ? (direction === 'next' ? Number(offset) + limit : Number(offset) - limit)
+        : (direction === 'next' ? Number(offset) - limit : Number(offset) + limit)
+
       if (newOffset < 0 || newOffset >= total) {
         setHasMoreChapters(false)
         return
@@ -69,9 +73,12 @@ const ChapterNavButton = ({
   }, [chapter, direction, mangaId, offset, limit, total, langFilterValue, order, queryClient])
 
   // Kiểm tra điều kiện vô hiệu hóa nút
-  const isDisabled =
-    (direction === 'next' && (!hasMoreChapters || Number(offset) >= total)) ||
-    (direction === 'prev' && (!hasMoreChapters || Number(offset) < 0))
+  const isAsc = order === 'asc'
+  const isDisabled = isAsc
+    ? (direction === 'next' && (!hasMoreChapters || Number(offset) >= total)) ||
+      (direction === 'prev' && (!hasMoreChapters || Number(offset) <= 0))
+    : (direction === 'next' && (!hasMoreChapters || Number(offset) <= 0)) ||
+      (direction === 'prev' && (!hasMoreChapters || Number(offset) >= total))
 
   // const isNextDisabled = !hasMoreChapters || Number(offset) >= total
   // const isPrevDisabled = Number(offset) <= 0
@@ -84,9 +91,10 @@ const ChapterNavButton = ({
 
   const handleClick = async () => {
     if (!chapter) {
+      const isAsc = order === 'asc'
       // Nếu không có chapter, tăng/giảm offset và lấy danh sách chapter mới
-      if (direction === 'next' && Number(offset) < total && hasMoreChapters) {
-        const newOffset = Number(offset) + limit
+      if (direction === 'next' && (isAsc ? Number(offset) < total : Number(offset) > 0) && hasMoreChapters) {
+        const newOffset = isAsc ? Number(offset) + limit : Number(offset) - limit
         try {
           const chaptersData = await queryClient.fetchQuery(
             getChaptersByMangaId({
@@ -110,8 +118,8 @@ const ChapterNavButton = ({
         } catch (error) {
           console.error('Error fetching chapters:', error)
         }
-      } else if (direction === 'prev' && Number(offset) > 0 && hasMoreChapters) {
-        const newOffset = Number(offset) - limit
+      } else if (direction === 'prev' && (isAsc ? Number(offset) > 0 : Number(offset) < total) && hasMoreChapters) {
+        const newOffset = isAsc ? Number(offset) - limit : Number(offset) + limit
         try {
           const chaptersData = await queryClient.fetchQuery(
             getChaptersByMangaId({

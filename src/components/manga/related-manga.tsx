@@ -51,13 +51,13 @@ export default function RelatedManga({ ids }: RelatedMangaProps) {
       <div className='flex items-center justify-between'>
         <div className='flex items-center gap-4 bg-white/5 p-1 rounded-xl border border-white/5'>
           {[
-            { id: 'hide-pornographic', label: 'SAFE MODE' },
-            { id: 'all', label: 'SHOW ALL' }
+            { id: 'hide-pornographic', label: 'Mặc định' },
+            { id: 'all', label: 'Tất cả (Cảnh báo quỷ)' }
           ].map(r => (
             <button
               key={r.id}
               onClick={() => setSelectedRating(r.id as 'all' | 'hide-pornographic')}
-              className={`px-6 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${
+              className={`px-6 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all cursor-pointer ${
                 selectedRating === r.id
                   ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20'
                   : 'text-gray-400 hover:text-white'

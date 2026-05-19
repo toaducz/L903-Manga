@@ -45,7 +45,7 @@ function ReaderContent() {
   const lang = searchParams.get('lang') ?? ''
   const langFilterValue = searchParams.get('langFilter') ?? ['vi', 'en']
   const langValue = searchParams.get('langValue') ?? 'all'
-  const order = searchParams.get('order') ?? 'asc'
+  const order = searchParams.get('order') ?? 'desc'
 
   const {
     data: images,
@@ -104,11 +104,19 @@ function ReaderContent() {
     const chapters = chaptersData.data
     const currentIndex = chapters.findIndex(ch => ch.id === chapterId)
     if (currentIndex === -1) return { prevChapter: null, nextChapter: null }
+
+    if (order === 'desc') {
+      return {
+        nextChapter: currentIndex > 0 ? chapters[currentIndex - 1] : null,
+        prevChapter: currentIndex < chapters.length - 1 ? chapters[currentIndex + 1] : null
+      }
+    }
+
     return {
       nextChapter: currentIndex < chapters.length - 1 ? chapters[currentIndex + 1] : null,
       prevChapter: currentIndex > 0 ? chapters[currentIndex - 1] : null
     }
-  }, [chaptersData, chapterId])
+  }, [chaptersData, chapterId, order])
 
   if (isLoading) return <Loading />
   if (isError || error) return <Error />

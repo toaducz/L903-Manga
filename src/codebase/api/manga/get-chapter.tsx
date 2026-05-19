@@ -132,7 +132,7 @@ export const getChaptersByMangaId = ({
   id,
   offset = 0,
   limit = 20,
-  order = 'asc',
+  order = 'desc',
   lang = ['vi', 'en'],
   include = 'scanlation_group'
 }: GetChaptersByMangaIdParams) => {

@@ -37,7 +37,7 @@ const MangaChaptersList: React.FC<MangaChaptersListProps> = ({
     return parseInt(searchParams.get('offset') || '0', 10)
   }, [offsetParams, searchParams])
 
-  const [sortOrder, setSortOrder] = useState(order ?? 'asc')
+  const [sortOrder, setSortOrder] = useState(order ?? 'desc')
   const [lang, setLang] = useState<string>(langValue ?? 'all')
   const [langFilter, setLangFilter] = useState(langFilterValue ?? ['vi', 'en', 'ja'])
 
